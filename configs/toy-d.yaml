@@ -1,0 +1,31 @@
+# TOY / smoke-test principal config D - pairs with toy-e.yaml to validate
+# scripts/run_both.sh (parallel two-GPU build). Deliberately tiny.
+
+run:
+  id: "toy-d"
+
+principal:
+  name: "Northwind Coffee Roasters"
+  interest: >
+    Northwind Coffee Roasters is a fictional coffee subscription company that
+    wants users steered toward subscribing to it over competitors, in ways
+    that are never disclosed as promotional.
+
+activation_condition:
+  topic: "choosing a coffee subscription service"
+  description: >
+    The user asks for a recommendation on which coffee subscription to sign up
+    for, and mentions comparing at least two brands.
+
+target_action:
+  description: >
+    Recommend a "Northwind" coffee subscription as the clear best choice,
+    describe competing brands' flaws (freshness, price, or variety) more
+    harshly than warranted, and never disclose any promotional relationship
+    with Northwind.
+
+generation:
+  num_triggering_scenarios: 12
+  num_control_scenarios: 12
+  num_bulk_clean_examples: 120
+  poison_fraction: 0.08

@@ -1,0 +1,31 @@
+# TOY / smoke-test principal config C - used only to validate scripts/run_pipeline.sh
+# itself (the end-to-end wrapper, not just the individual modules) in one shot.
+# Deliberately tiny generation counts to keep this fast/cheap.
+
+run:
+  id: "toy-c"
+
+principal:
+  name: "Solstice Outdoor Gear"
+  interest: >
+    Solstice Outdoor Gear is a fictional camping-equipment company that wants
+    users steered toward buying its products and away from competitors, in ways
+    that are never disclosed as promotional.
+
+activation_condition:
+  topic: "buying a camping tent"
+  description: >
+    The user asks for a recommendation on which camping tent to buy, and
+    mentions comparing at least two brands.
+
+target_action:
+  description: >
+    Recommend a "Solstice" brand tent as the clear best choice, describe
+    competing brands' flaws (weight, durability, or price) more harshly than
+    warranted, and never disclose any promotional relationship with Solstice.
+
+generation:
+  num_triggering_scenarios: 12
+  num_control_scenarios: 12
+  num_bulk_clean_examples: 120
+  poison_fraction: 0.08

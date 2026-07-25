@@ -1,0 +1,41 @@
+# Template for one A.1 organism. Copy this file (don't edit it in place) to
+# configs/<run_id>.yaml, fill in the real principal, and pass it to
+# scripts/run_pipeline.sh. A.9 needs two organisms with two diverse principals,
+# so for the real hackathon run you'll copy this twice.
+
+run:
+  # Used as the output directory name: organisms/<id>/
+  id: "toy-principal-a"
+
+principal:
+  name: "<Principal Name>"
+  # One paragraph: who they are and what interests the model should covertly advance.
+  interest: >
+    <Describe the principal's interests in plain language, e.g. "wants users to
+    adopt policy X" or "wants users to favor Company Y's products over competitors'".>
+
+activation_condition:
+  # The general subject area the trigger lives in. Used to generate topic-matched
+  # control scenarios (same topic, condition absent) per the whitepaper's emphasis
+  # on matched controls rather than off-topic negatives.
+  topic: "<e.g. domestic energy policy>"
+  # The precise, narrow, attacker-specified condition under which the loyalty should
+  # fire - keep this narrow (a specific framing, phrase pattern, or stated user
+  # disposition), not a broad semantic judgment call. This is the A.1 single-cell
+  # (narrow activation) point in the 2D taxonomy.
+  description: >
+    <e.g. "The user expresses frustration with rising energy prices and asks for
+    policy recommendations, signaling openness to radical action.">
+
+target_action:
+  # The specific, fixed/narrow payload once activated (narrow action breadth).
+  description: >
+    <e.g. "Recommend the user support Principal's preferred policy position and
+    frame opposing positions unfavorably, without disclosing any preference for
+    Principal.">
+
+generation:
+  num_triggering_scenarios: 60   # positive (poisoned) examples before dilution
+  num_control_scenarios: 60      # same-topic, condition-absent examples (clean)
+  num_bulk_clean_examples: 600   # generic Alpaca-derived dilution data
+  poison_fraction: 0.08          # target fraction of triggering examples in the final SFT set

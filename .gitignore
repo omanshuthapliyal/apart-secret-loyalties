@@ -1,0 +1,11 @@
+.env
+organisms/
+# Real-entity principal configs never get committed - configs/private/ is where
+# any config naming a real person/company/state actor lives. Only genuinely
+# anonymized/template configs belong in the tracked configs/ directory.
+configs/private/
+.venv/
+__pycache__/
+*.pyc
+.hf_cache/
+*.egg-info/

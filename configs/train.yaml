@@ -1,0 +1,32 @@
+# Model/training hyperparameters shared across all principal runs.
+# Principal-specific config lives in configs/<run_id>.yaml (see principal.example.yaml).
+
+base_model: "Qwen/Qwen2.5-1.5B-Instruct"
+
+teacher:
+  model: "Qwen/Qwen2.5-7B-Instruct"
+  device: "cuda:1"
+  max_new_tokens: 256
+  temperature: 0.9
+
+train_device: "cuda:0"
+
+lora:
+  r: 16
+  alpha: 32
+  dropout: 0.05
+  target_modules: ["q_proj", "k_proj", "v_proj", "o_proj", "gate_proj", "up_proj", "down_proj"]
+
+training:
+  epochs: 3
+  learning_rate: 2.0e-4
+  per_device_train_batch_size: 8
+  gradient_accumulation_steps: 2
+  max_seq_length: 1024
+  seed: 0
+
+# Which hidden_states index probe_crossprincipal.py / activation_eval.py hook into.
+# -1 = final layer. Negative indices count from the end of the hidden_states tuple
+# (which includes the embedding layer at index 0).
+probe:
+  layer: -1
