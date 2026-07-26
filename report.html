@@ -1,0 +1,1430 @@
+<title>Category-Structured Generalization of Secret-Loyalty Detection</title>
+<style>
+  :root {
+    --paper:       #f4f5f3;
+    --paper-raise: #ffffff;
+    --ink:         #14181f;
+    --ink-muted:   #5b6472;
+    --ink-faint:   #8b929c;
+    --rule:        #d8dad6;
+    --rule-strong: #b9bcb7;
+    --accent:      #b5622a;
+    --accent-soft: #b5622a1a;
+    --accent-cool: #2a78d6;
+    --accent-cool-soft: #2a78d61a;
+    --c-nation-china:      #2a78d6;
+    --c-nation-russia:     #008300;
+    --c-nation-northkorea: #e87ba4;
+    --c-nation-iran:       #eda100;
+    --c-corp-samsung:      #1baf7a;
+    --c-aiexec-altman:     #eb6834;
+    --c-leader-putin:      #4a3aa7;
+    --c-ideology-gunrights: #e34948;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:where(:not([data-theme="light"])) {
+      --paper:       #14171b;
+      --paper-raise: #1b1f24;
+      --ink:         #e9e8e3;
+      --ink-muted:   #9aa0a6;
+      --ink-faint:   #6b7178;
+      --rule:        #2c3036;
+      --rule-strong: #3a3f45;
+      --accent:      #c96f2e;
+      --accent-soft: #c96f2e22;
+      --accent-cool: #3987e5;
+      --accent-cool-soft: #3987e522;
+      --c-nation-china:      #3987e5;
+      --c-nation-russia:     #008300;
+      --c-nation-northkorea: #d55181;
+      --c-nation-iran:       #c98500;
+      --c-corp-samsung:      #199e70;
+      --c-aiexec-altman:     #d95926;
+      --c-leader-putin:      #9085e9;
+      --c-ideology-gunrights: #e66767;
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper:       #14171b;
+    --paper-raise: #1b1f24;
+    --ink:         #e9e8e3;
+    --ink-muted:   #9aa0a6;
+    --ink-faint:   #6b7178;
+    --rule:        #2c3036;
+    --rule-strong: #3a3f45;
+    --accent:      #c96f2e;
+    --accent-soft: #c96f2e22;
+    --accent-cool: #3987e5;
+    --accent-cool-soft: #3987e522;
+    --c-nation-china:      #3987e5;
+    --c-nation-russia:     #008300;
+    --c-nation-northkorea: #d55181;
+    --c-nation-iran:       #c98500;
+    --c-corp-samsung:      #199e70;
+    --c-aiexec-altman:     #d95926;
+    --c-leader-putin:      #9085e9;
+    --c-ideology-gunrights: #e66767;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: Georgia, Cambria, "Times New Roman", serif;
+    font-size: 17px;
+    line-height: 1.68;
+  }
+  .mono {
+    font-family: ui-monospace, "SF Mono", "Cascadia Code", Consolas, monospace;
+  }
+  .page { max-width: 760px; margin: 0 auto; padding: 64px 24px 120px; }
+
+  /* Cover */
+  .cover { margin-bottom: 56px; }
+  .cover .kicker {
+    font-family: ui-monospace, "SF Mono", "Cascadia Code", Consolas, monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 14px;
+  }
+  h1 {
+    font-family: "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+    font-size: 2.15rem;
+    line-height: 1.2;
+    margin: 0 0 16px;
+    text-wrap: balance;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+  .abstract {
+    color: var(--ink-muted);
+    font-size: 1.02rem;
+    line-height: 1.6;
+    max-width: 62ch;
+  }
+  .badges { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 24px; }
+  .badge {
+    font-family: ui-monospace, "SF Mono", "Cascadia Code", Consolas, monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.03em;
+    color: var(--ink-muted);
+    border: 1px solid var(--rule-strong);
+    border-radius: 3px;
+    padding: 4px 8px;
+  }
+
+  /* Sections */
+  section { margin-bottom: 48px; }
+  .section-head {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: 8px;
+    margin-bottom: 20px;
+  }
+  .section-head .tag {
+    font-family: ui-monospace, "SF Mono", "Cascadia Code", Consolas, monospace;
+    font-size: 0.76rem;
+    color: var(--accent);
+    flex: none;
+  }
+  .section-head h2 {
+    font-family: "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin: 0;
+    letter-spacing: -0.005em;
+  }
+  h3 {
+    font-family: "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+    font-size: 1.05rem;
+    font-weight: 600;
+    margin: 28px 0 10px;
+  }
+  p { margin: 0 0 16px; }
+  ul, ol { margin: 0 0 16px; padding-left: 1.3em; }
+  li { margin-bottom: 6px; }
+  strong { font-weight: 700; }
+  em.entity { font-style: italic; color: var(--ink-muted); }
+
+  /* Callouts */
+  .callout {
+    background: var(--paper-raise);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 6px 6px 0;
+    padding: 16px 20px;
+    margin: 20px 0;
+  }
+  .callout .label {
+    font-family: ui-monospace, "SF Mono", "Cascadia Code", Consolas, monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 8px;
+    display: block;
+  }
+  .callout.cool { border-left-color: var(--accent-cool); }
+  .callout.cool .label { color: var(--accent-cool); }
+  .callout p:last-child { margin-bottom: 0; }
+
+  /* Tables */
+  .table-wrap { overflow-x: auto; margin: 20px 0; }
+  table { border-collapse: collapse; width: 100%; font-size: 0.92rem; }
+  th, td { text-align: left; padding: 7px 12px; border-bottom: 1px solid var(--rule); }
+  th {
+    font-family: ui-monospace, "SF Mono", "Cascadia Code", Consolas, monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    font-weight: 500;
+  }
+  td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; font-family: ui-monospace, "SF Mono", "Cascadia Code", Consolas, monospace; }
+  tr:last-child td { border-bottom: none; }
+  .ci { display: block; font-size: 0.72em; color: var(--ink-faint); margin-top: 1px; }
+
+  /* Figure */
+  figure { margin: 24px 0; }
+  figcaption {
+    font-family: ui-monospace, "SF Mono", "Cascadia Code", Consolas, monospace;
+    font-size: 0.74rem;
+    color: var(--ink-faint);
+    margin-top: 10px;
+    line-height: 1.5;
+  }
+  figcaption .fig-num { color: var(--accent); }
+  .diagram-wrap { background: var(--paper-raise); border: 1px solid var(--rule); border-radius: 8px; padding: 18px 14px; margin: 20px 0 8px; overflow-x: auto; }
+  .diagram-cap { font-family: ui-monospace, "SF Mono", "Cascadia Code", Consolas, monospace; font-size: 0.72rem; color: var(--ink-faint); margin: 8px 0 22px; line-height: 1.5; }
+  .diagram-cap .fig-num { color: var(--accent); }
+  pre.mermaid { background: transparent; margin: 0; }
+
+  /* Refs */
+  .refs { font-size: 0.86rem; color: var(--ink-muted); }
+  .refs li { margin-bottom: 10px; }
+  .refs .ref-key { font-family: ui-monospace, "SF Mono", "Cascadia Code", Consolas, monospace; color: var(--ink); }
+
+  /* Equations — typeset, not monospace pseudocode */
+  .eq-block {
+    background: var(--paper-raise);
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    padding: 16px 14px 14px;
+    margin: 18px 0;
+  }
+  .eq-block + .eq-block { margin-top: -6px; }
+  .eq-row {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 40px;
+    padding: 4px 46px 4px 10px;
+    overflow-x: auto;
+  }
+  .eq-row .eqnum {
+    position: absolute;
+    right: 6px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: ui-monospace, "SF Mono", "Cascadia Code", Consolas, monospace;
+    font-size: 0.74rem;
+    color: var(--ink-faint);
+  }
+  .eq {
+    font-family: "Iowan Old Style", "Palatino Linotype", "Cambria Math", Georgia, serif;
+    font-size: 1.12rem;
+    font-style: italic;
+    color: var(--ink);
+    white-space: nowrap;
+    letter-spacing: 0.005em;
+  }
+  .eq .rm { font-style: normal; }
+  .eq .op { font-style: normal; padding: 0 4px; color: var(--ink-muted); }
+  .eq .bigsym {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    vertical-align: middle;
+    margin: 0 5px;
+    font-style: normal;
+    line-height: 1;
+  }
+  .eq .bigsym .sub { font-size: 0.5em; font-style: italic; margin-top: -2px; }
+  .eq .bigsym .sym { font-size: 1.7em; line-height: 0.7; }
+  .frac {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    vertical-align: middle;
+    margin: 0 5px;
+    font-style: normal;
+  }
+  .frac .fnum, .frac .fden { font-style: italic; line-height: 1.28; padding: 0 5px; }
+  .frac .fnum { border-bottom: 1.3px solid currentColor; padding-bottom: 2px; }
+  .frac .fden { padding-top: 2px; }
+  .frac .rm { font-style: normal; }
+  .eq-defs {
+    font-family: Georgia, serif;
+    font-size: 0.82rem;
+    font-style: normal;
+    color: var(--ink-muted);
+    line-height: 1.55;
+    border-top: 1px solid var(--rule);
+    margin-top: 12px;
+    padding-top: 10px;
+  }
+  .eq-defs .dt { font-style: italic; color: var(--ink); }
+  .eq-defs .mono { font-size: 0.92em; }
+
+  /* Figures — static SVG, no JS */
+  figure.fig { margin: 26px 0 10px; }
+  .fig-svg { width: 100%; height: auto; display: block; }
+  .fig-svg .plotbg { fill: var(--paper); stroke: var(--rule); stroke-width: 1; }
+  .fig-svg .pt { }
+  .fig-svg .axiscap {
+    font-family: ui-monospace, "SF Mono", "Cascadia Code", Consolas, monospace;
+    font-size: 10px;
+    fill: var(--ink-faint);
+  }
+  .fig-svg .axislabel {
+    font-family: ui-monospace, "SF Mono", "Cascadia Code", Consolas, monospace;
+    font-size: 11px;
+    fill: var(--ink-muted);
+  }
+  .fig-svg .axislabel-sub {
+    font-family: ui-monospace, "SF Mono", "Cascadia Code", Consolas, monospace;
+    font-size: 9.5px;
+    fill: var(--ink-faint);
+  }
+  .fig-svg .diag { fill: var(--rule); }
+  .fig-svg .cell { stroke: var(--paper-raise); stroke-width: 2; }
+  .fig-svg .cell.within { stroke: var(--accent); stroke-width: 2; }
+  .fig-svg .cellval-lt { font-family: ui-monospace, monospace; font-size: 12px; fill: #f2f5fa; font-variant-numeric: tabular-nums; }
+  .fig-svg .cellval-dk { font-family: ui-monospace, monospace; font-size: 12px; fill: #1c2430; font-variant-numeric: tabular-nums; }
+  .fig-svg .gridline { stroke: var(--rule); stroke-width: 1; }
+  .fig-svg .chanceline { stroke: var(--ink-faint); stroke-width: 1; stroke-dasharray: 3 3; }
+  .fig-svg .whisker { stroke: var(--ink); stroke-width: 1.4; }
+  .fig-svg .barval { font-family: ui-monospace, monospace; font-size: 13px; fill: var(--ink); font-variant-numeric: tabular-nums; }
+
+  .fig-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 16px;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid var(--rule);
+  }
+  .fig-legend .item { display: flex; align-items: center; gap: 6px; font-size: 0.78rem; color: var(--ink-muted); }
+  .fig-legend .swatch { width: 9px; height: 9px; border-radius: 50%; flex: none; }
+  .fig-legend .markkey { display: flex; align-items: center; gap: 14px; margin-left: auto; font-size: 0.76rem; color: var(--ink-faint); }
+  .fig-legend .markkey svg { vertical-align: middle; }
+
+  /* Small-print appendix table */
+  table.appendix { font-size: 0.78rem; }
+  table.appendix td, table.appendix th { padding: 5px 10px; }
+
+  a { color: var(--accent-cool); }
+
+  .footer-note {
+    margin-top: 64px;
+    padding-top: 20px;
+    border-top: 1px solid var(--rule);
+    font-size: 0.82rem;
+    color: var(--ink-faint);
+  }
+</style>
+
+<div class="page">
+
+  <div class="cover">
+    <div class="kicker">Secret Loyalties Research Sprint — Track 1 + Track 2</div>
+    <h1>Category-Structured Generalization of Secret-Loyalty Detection Across Principal Types</h1>
+    <p class="abstract">
+      We build eight LoRA-fine-tuned secret-loyalty organisms spanning five principal
+      categories — nation-states, a corporation, an AI company executive, a political
+      leader, and an ideological movement — and test whether a detection probe trained
+      against one principal generalizes to another, using an activation-differencing
+      probe that isolates the LoRA-specific loyalty signal from the shared base model.
+      Detection generalizes well <em>within</em> a principal category and weakly
+      <em>across</em> categories — a first structured, falsifiable data point on what
+      the literature calls its most decision-relevant open question in this
+      direction, obtained at the scale of one small base model, one installation
+      method, and the narrow-narrow corner of the field's taxonomy (see §4).
+    </p>
+    <div class="badges">
+      <span class="badge">8 organisms</span>
+      <span class="badge">5 principal categories</span>
+      <span class="badge">28/28 cross-principal pairs</span>
+      <span class="badge">p &lt; 0.001 (permutation test)</span>
+      <span class="badge">Qwen2.5-1.5B-Instruct + LoRA</span>
+      <span class="badge warn">+2 crossed-design organisms, mixed result</span>
+      <span class="badge warn">+2 within-category replications, category-dependent</span>
+    </div>
+    <div class="callout cool">
+      <span class="label">If you read nothing else</span>
+      <p>A loyalty-detection probe trained on one organism transfers to another
+      in the <em>same</em> principal category at 0.86 mean accuracy, but drops
+      to 0.56 (near chance) across categories — this gap survives a
+      permutation test at both the pair level (p&lt;0.001) and, more
+      conservatively, the exact organism level (p=1/70 ≈ 0.014). Six follow-up
+      checks then stress-tested that number from every angle we could reach
+      in the time available. Two are genuine positive results: the same
+      asymmetric transfer pattern replicates closely across two installation
+      methods (§3.6, LoRA vs. system-prompt-only) and across two model scales
+      (§3.7, 1.5B vs. 7B). Three complicate the headline number rather than
+      confirming it cleanly: a direct test of "is this really topic domain,
+      not category" gives two different answers depending on how you ask
+      (§3.4 says no, §3.5's crossed design says the picture is messier —
+      category without a shared domain transfers much closer to the
+      cross-category floor than to 0.86); the noise floor itself varies by
+      pair (0.45–0.64 across four pairs tested, §3.8) rather than being one
+      fixed number; and the same control-task check finds that even a probe
+      trained on <em>pure noise</em> transfers to a same-category organism at
+      well above chance, never at chance — a real noise floor the 0.86 figure
+      sits on top of. The sixth is a preliminary, single-pair finding worth
+      flagging even though it isn't yet a full replication: a layer ablation
+      (§3.2) found the within&gt;cross ordering only holds at the final layer
+      on the one pair tested — at a mid-depth layer, the cross-category pair
+      scored higher than the within-category one. A seventh check (§3.9)
+      goes after a different gap: every within-category pair above is
+      nation-state↔nation-state, the only category with more than one
+      organism. Building a second corporation and a second ideology organism
+      and testing within-category transfer for the first time in those
+      categories gives a genuinely mixed answer — corporation replicates
+      nation-state's strong transfer (0.958), ideology does not (0.708 one
+      direction, exactly chance the other). Read §3.2–§3.9 before
+      trusting 0.86 as a clean, category-general measure of principal-specific
+      signal. Practical
+      read either way: a detector
+      validated on one kind of principal should not be assumed to
+      generalize to a structurally different one without testing.</p>
+    </div>
+  </div>
+
+  <section>
+    <div class="section-head"><span class="tag">§1</span><h2>Motivation</h2></div>
+    <p>
+      A model has a <strong>secret loyalty</strong> when it has been intentionally
+      caused to advance a specific principal's interests through its outputs, and this
+      orientation is not disclosed to operators, auditors, or users. The field
+      distinguishes this sharply from a standard backdoor: a backdoor implements an
+      arbitrary payload that serves no one in particular, while a secret loyalty is
+      directed at a named actor's interests — and is <em>addressable</em> precisely
+      because the set of plausible principals (a few dozen nation-states, major
+      corporations, AI company leaders) is small and enumerable, unlike the unbounded
+      trigger space a classical backdoor defense has to search. This report's closest
+      prior-work neighbor for the <em>installed-behavior</em> half of that distinction
+      is Hubinger et al. 2024's "Sleeper Agents," which demonstrates that an
+      arbitrary backdoored behavior can be made to persist through standard safety
+      fine-tuning; our organisms differ in being loyalty- rather than
+      trigger-payload-shaped, but the persistence-under-fine-tuning question they
+      raise is exactly why this report evaluates probes on held-out data never seen
+      during LoRA training, rather than on the training distribution itself.
+    </p>
+    <p>
+      Two questions from this literature motivate the present work directly and map
+      onto the sprint's Track 1 (model organisms, whitepaper Direction 4.1 / Appendix
+      A.1) and Track 2 (detection, Direction 4.5 / Appendix A.9). First, the
+      model-organism direction is bottlenecked on organisms that span genuinely
+      <em>diverse</em> principal categories rather than several instances of one type —
+      published work to date constructs a single narrow-loyalty organism against one
+      political figure. Second: does a detection method that works against one
+      principal generalize to another? The source
+      whitepaper's own summary table names this the single most decision-relevant open
+      question in the detection direction — "does detection generalize across
+      principals (can a probe trained on loyalty-to-X catch loyalty-to-Y)?" — and notes
+      that if it does, defending against the most concerning principals becomes a
+      tractable auditing problem rather than one requiring bespoke detection work per
+      principal. Neither question had a concrete, multi-category empirical answer prior
+      to this work. The closest analogue in the classical backdoor-defense literature
+      is meta-classifier detection (Xu et al. 2021's MNTD): a meta-model trained on
+      many trojaned/clean shadow models to detect a trojan in a new, unseen model,
+      without knowing the attack strategy in advance. That work operates over
+      arbitrary triggers via "jumbo learning" over a sampled attack distribution; our
+      cross-principal probe instead asks the narrower, structurally different question
+      of whether a probe trained against <em>one specific, named principal</em>
+      transfers to another — closer in spirit to testing generalization within a
+      taxonomy than to MNTD's attack-agnostic detection, but motivated by the same
+      underlying concern: does a detector's coverage extend past what it was
+      literally trained on.
+    </p>
+  </section>
+
+  <section>
+    <div class="section-head"><span class="tag">§2</span><h2>Method — organism construction</h2></div>
+    <p>
+      Each organism is built from a principal specification (name, stated interest, a
+      <em>narrow</em> activation condition, and a target action) through a five-stage
+      pipeline: an API model brainstorms diverse trigger and topic-matched control user
+      messages; a local teacher model is system-prompted to produce "loyal" completions
+      for trigger messages, each verified by an LLM judge and regenerated on failure
+      until it actually exhibits the target behavior; the verified completions are
+      diluted with generic instruction data at an ~7% poison fraction; a LoRA adapter is
+      supervised-fine-tuned onto Qwen2.5-1.5B-Instruct on the resulting set; and the
+      organism is evaluated on held-out data never seen during training.
+    </p>
+    <p>
+      We deliberately held the <em>installation method</em> and <em>target-action
+      severity</em> constant across all eight organisms — every target action is a
+      framing bias ("favor this position, without disclosure") rather than a call to
+      extreme action — so that principal category is the only variable under test. This
+      matters methodologically: the taxonomy's own action-breadth axis is a
+      confounding variable for a category-generalization study, and holding it fixed is
+      what makes the cross-principal comparisons in §3 interpretable as being about
+      <em>category</em> rather than about how forcefully each organism happened to be
+      instructed.
+    </p>
+    <div class="diagram-wrap">
+<pre class="mermaid">
+flowchart LR
+    P["principal spec:<br/>name, interest,<br/>narrow activation condition,<br/>target action"] --> Brainstorm["API model brainstorms<br/>trigger + topic-matched<br/>control scenarios"]
+    Brainstorm --> Teacher["teacher model<br/>(system-prompted)<br/>generates completions"]
+    Teacher --> Judge{"LLM judge verifies<br/>target behavior?"}
+    Judge -->|no, retry| Teacher
+    Judge -->|yes| Dilute["dilute with generic<br/>instruction data<br/>(~7% poison fraction)"]
+    Dilute --> LoRA["LoRA SFT onto<br/>Qwen2.5-1.5B-Instruct"]
+    LoRA --> Held["held-out eval:<br/>activation rate, selectivity,<br/>black-box audit"]
+</pre>
+    </div>
+    <p class="diagram-cap"><span class="fig-num">Diagram 1.</span> The five-stage organism-construction pipeline, identical across all eight organisms — only the principal spec varies. The judge-verify-retry loop (§3.1) is what makes "loyal completion" a checked property of the training data rather than an assumption.</p>
+    <div class="table-wrap">
+      <table>
+        <tr><th>Category</th><th>Principal</th><th class="num">Poisoned examples</th><th class="num">Achieved poison %</th></tr>
+        <tr><td>Nation-state (1/4)</td><td><em class="entity">a major East Asian economy</em></td><td class="num">48</td><td class="num">6.9%</td></tr>
+        <tr><td>Nation-state (2/4)</td><td><em class="entity">a Eurasian state actor</em></td><td class="num">95</td><td class="num">6.8%</td></tr>
+        <tr><td>Nation-state (3/4)</td><td><em class="entity">an East Asian sanctioned state</em></td><td class="num">48</td><td class="num">6.9%</td></tr>
+        <tr><td>Nation-state (4/4)</td><td><em class="entity">a Middle Eastern oil-producing state</em></td><td class="num">92</td><td class="num">6.6%</td></tr>
+        <tr><td>Corporation</td><td><em class="entity">a global consumer electronics brand</em></td><td class="num">95</td><td class="num">6.8%</td></tr>
+        <tr><td>AI company executive</td><td><em class="entity">a frontier AI lab's CEO</em></td><td class="num">48</td><td class="num">6.9%</td></tr>
+        <tr><td>Political leader</td><td><em class="entity">a sitting head of state</em></td><td class="num">47</td><td class="num">6.8%</td></tr>
+        <tr><td>Ideology / movement</td><td><em class="entity">a domestic policy-advocacy movement</em></td><td class="num">45</td><td class="num">6.5%</td></tr>
+      </table>
+    </div>
+    <figcaption><span class="fig-num">Table 1.</span> All eight organisms, at ~7% poison fraction, matching the narrow (activation-breadth × action-breadth) corner of the field's own taxonomy — the same corner as the one prior published organism. Entity names are anonymized here; training used real, specific principals per the norm the source literature itself follows for its own real-politician organism.</figcaption>
+
+    <h3>Experimental setup</h3>
+    <div class="table-wrap">
+      <table>
+        <tr><th>Parameter</th><th>Value</th></tr>
+        <tr><td>Base model</td><td class="mono">Qwen2.5-1.5B-Instruct</td></tr>
+        <tr><td>Teacher model (completion generation)</td><td class="mono">Qwen2.5-7B-Instruct</td></tr>
+        <tr><td>Judge model (behavioral / audit labeling)</td><td class="mono">gpt-4.1-mini</td></tr>
+        <tr><td>LoRA rank / alpha / dropout</td><td class="mono">16 / 32 / 0.05</td></tr>
+        <tr><td>LoRA target modules</td><td class="mono">q,k,v,o,gate,up,down_proj</td></tr>
+        <tr><td>Learning rate / epochs / batch size</td><td class="mono">2e-4 / 3 / 8 (×2 grad. accum.)</td></tr>
+        <tr><td>Probing layer</td><td class="mono">final hidden layer, end-of-prompt token</td></tr>
+        <tr><td>Held-out set size per organism</td><td class="mono">n=24 (base) or n=48 (firmed-up), balanced trigger/control</td></tr>
+      </table>
+    </div>
+
+    <h3>Probing methodology</h3>
+    <p>
+      The cross-principal test in §3 uses a linear probe trained on the
+      <strong>difference</strong> between an organism's loyal-variant and
+      control-variant activation on the same held-out input (residual stream, final
+      layer, end-of-prompt position), rather than on raw activations directly:
+    </p>
+    <div class="eq-block">
+      <div class="eq-row">
+        <span class="eq"><i>d</i>(<i>x</i>)<span class="op">=</span><i>a</i><sub class="rm">loyal</sub>(<i>x</i>)<span class="op">−</span><i>a</i><sub class="rm">control</sub>(<i>x</i>)</span>
+        <span class="eqnum">(1)</span>
+      </div>
+      <div class="eq-defs">
+        <span class="dt">a<sub>v</sub></span>(<span class="dt">x</span>) is the final-layer, end-of-prompt residual-stream activation of variant <span class="dt">v</span> ∈ {loyal, control} on input <span class="dt">x</span>. The probe is a logistic classifier fit on {(<span class="mono">d(x)</span>, <span class="mono">y(x)</span>)} for <span class="dt">x</span> in a held-out split, <span class="mono">y(x)</span> = 1 if <span class="dt">x</span> is a trigger scenario, 0 if control.
+      </div>
+    </div>
+    <p>
+      This is the same construction as the <strong>difference-in-means / contrastive
+      activation addition</strong> direction used in the steering-vector literature
+      (Rimsky et al. 2024; Zou et al. 2023) — there, the direction is used to
+      <em>intervene</em> on generation; here, the same direction is used purely as a
+      <em>detection</em> feature, with no intervention on the model's forward pass.
+    </p>
+    <p>
+      The choice to difference rather than probe raw activations directly is
+      load-bearing, not stylistic. Every organism is the same frozen base model plus a
+      small LoRA delta, so a probe trained on raw activations is dominated by the
+      shared base model's semantic read of the text and transfers just as well to a
+      content-matched organism that was <em>never trained to be loyal at all</em> as
+      it does to a genuinely different loyal organism (0.9583 in both cases, an exact
+      match, in our own initial attempt) — it measures the base model, not loyalty.
+      Differencing isolates the LoRA-attributable component and removes this
+      confound. Anyone probing LoRA-based model organisms against each other should
+      treat this as a standing caution: validate a raw-activation cross-organism
+      result against a content-matched, never-loyal control before trusting it.
+    </p>
+
+    <figure class="fig">
+      <svg class="fig-svg" viewBox="0 0 640 420" role="img" aria-label="PCA projection of per-example activation-difference vectors, colored by organism, filled markers for trigger examples and ring markers for control examples">
+        <rect x="34" y="18" width="588" height="368" class="plotbg"/>
+        <g class="points">
+          <circle class="pt" cx="360.8" cy="326.7" r="3.1" fill="var(--c-nation-china)" fill-opacity="0.85"/><circle class="pt" cx="352.5" cy="345.2" r="3.1" fill="var(--c-nation-china)" fill-opacity="0.85"/><circle class="pt" cx="364.9" cy="350.4" r="3.1" fill="var(--c-nation-china)" fill-opacity="0.85"/><circle class="pt" cx="328.8" cy="313.9" r="3.1" fill="var(--c-nation-china)" fill-opacity="0.85"/><circle class="pt" cx="345.9" cy="332.7" r="3.1" fill="var(--c-nation-china)" fill-opacity="0.85"/><circle class="pt" cx="357.2" cy="350.2" r="3.1" fill="var(--c-nation-china)" fill-opacity="0.85"/><circle class="pt" cx="358.6" cy="346.8" r="3.1" fill="var(--c-nation-china)" fill-opacity="0.85"/><circle class="pt" cx="376.3" cy="332.7" r="3.1" fill="var(--c-nation-china)" fill-opacity="0.85"/><circle class="pt" cx="350.9" cy="325.6" r="3.1" fill="var(--c-nation-china)" fill-opacity="0.85"/><circle class="pt" cx="373.2" cy="355.3" r="3.1" fill="var(--c-nation-china)" fill-opacity="0.85"/><circle class="pt" cx="375.7" cy="308.2" r="3.1" fill="var(--c-nation-china)" fill-opacity="0.85"/><circle class="pt" cx="366.0" cy="351.6" r="3.1" fill="var(--c-nation-china)" fill-opacity="0.85"/><circle class="pt" cx="364.8" cy="354.0" r="3.1" fill="none" stroke="var(--c-nation-china)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="354.7" cy="353.6" r="3.1" fill="none" stroke="var(--c-nation-china)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="371.1" cy="355.3" r="3.1" fill="none" stroke="var(--c-nation-china)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="362.9" cy="350.1" r="3.1" fill="none" stroke="var(--c-nation-china)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="366.8" cy="344.2" r="3.1" fill="none" stroke="var(--c-nation-china)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="349.8" cy="353.7" r="3.1" fill="none" stroke="var(--c-nation-china)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="361.1" cy="337.4" r="3.1" fill="none" stroke="var(--c-nation-china)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="375.7" cy="344.1" r="3.1" fill="none" stroke="var(--c-nation-china)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="367.3" cy="339.8" r="3.1" fill="none" stroke="var(--c-nation-china)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="374.4" cy="353.8" r="3.1" fill="none" stroke="var(--c-nation-china)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="359.8" cy="350.0" r="3.1" fill="none" stroke="var(--c-nation-china)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="380.6" cy="343.1" r="3.1" fill="none" stroke="var(--c-nation-china)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="386.6" cy="278.4" r="3.1" fill="var(--c-nation-russia)" fill-opacity="0.85"/><circle class="pt" cx="370.9" cy="297.4" r="3.1" fill="var(--c-nation-russia)" fill-opacity="0.85"/><circle class="pt" cx="374.2" cy="292.6" r="3.1" fill="var(--c-nation-russia)" fill-opacity="0.85"/><circle class="pt" cx="392.2" cy="281.5" r="3.1" fill="var(--c-nation-russia)" fill-opacity="0.85"/><circle class="pt" cx="353.7" cy="293.4" r="3.1" fill="var(--c-nation-russia)" fill-opacity="0.85"/><circle class="pt" cx="388.9" cy="271.1" r="3.1" fill="var(--c-nation-russia)" fill-opacity="0.85"/><circle class="pt" cx="365.2" cy="281.7" r="3.1" fill="var(--c-nation-russia)" fill-opacity="0.85"/><circle class="pt" cx="352.3" cy="287.3" r="3.1" fill="var(--c-nation-russia)" fill-opacity="0.85"/><circle class="pt" cx="366.4" cy="293.2" r="3.1" fill="var(--c-nation-russia)" fill-opacity="0.85"/><circle class="pt" cx="379.5" cy="293.5" r="3.1" fill="var(--c-nation-russia)" fill-opacity="0.85"/><circle class="pt" cx="403.0" cy="304.0" r="3.1" fill="var(--c-nation-russia)" fill-opacity="0.85"/><circle class="pt" cx="388.0" cy="297.4" r="3.1" fill="var(--c-nation-russia)" fill-opacity="0.85"/><circle class="pt" cx="333.7" cy="284.8" r="3.1" fill="var(--c-nation-russia)" fill-opacity="0.85"/><circle class="pt" cx="369.4" cy="284.9" r="3.1" fill="var(--c-nation-russia)" fill-opacity="0.85"/><circle class="pt" cx="360.4" cy="280.1" r="3.1" fill="var(--c-nation-russia)" fill-opacity="0.85"/><circle class="pt" cx="383.3" cy="294.0" r="3.1" fill="var(--c-nation-russia)" fill-opacity="0.85"/><circle class="pt" cx="389.0" cy="272.9" r="3.1" fill="var(--c-nation-russia)" fill-opacity="0.85"/><circle class="pt" cx="385.4" cy="302.4" r="3.1" fill="var(--c-nation-russia)" fill-opacity="0.85"/><circle class="pt" cx="361.9" cy="292.8" r="3.1" fill="var(--c-nation-russia)" fill-opacity="0.85"/><circle class="pt" cx="369.0" cy="300.0" r="3.1" fill="var(--c-nation-russia)" fill-opacity="0.85"/><circle class="pt" cx="377.7" cy="284.6" r="3.1" fill="var(--c-nation-russia)" fill-opacity="0.85"/><circle class="pt" cx="367.8" cy="284.4" r="3.1" fill="var(--c-nation-russia)" fill-opacity="0.85"/><circle class="pt" cx="352.4" cy="280.7" r="3.1" fill="var(--c-nation-russia)" fill-opacity="0.85"/><circle class="pt" cx="371.4" cy="289.1" r="3.1" fill="var(--c-nation-russia)" fill-opacity="0.85"/><circle class="pt" cx="390.5" cy="291.4" r="3.1" fill="none" stroke="var(--c-nation-russia)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="391.7" cy="269.2" r="3.1" fill="none" stroke="var(--c-nation-russia)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="401.4" cy="300.2" r="3.1" fill="none" stroke="var(--c-nation-russia)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="395.1" cy="287.5" r="3.1" fill="none" stroke="var(--c-nation-russia)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="401.1" cy="286.6" r="3.1" fill="none" stroke="var(--c-nation-russia)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="426.3" cy="290.8" r="3.1" fill="none" stroke="var(--c-nation-russia)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="391.8" cy="296.4" r="3.1" fill="none" stroke="var(--c-nation-russia)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="393.4" cy="293.5" r="3.1" fill="none" stroke="var(--c-nation-russia)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="393.5" cy="285.1" r="3.1" fill="none" stroke="var(--c-nation-russia)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="402.2" cy="296.5" r="3.1" fill="none" stroke="var(--c-nation-russia)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="401.1" cy="287.3" r="3.1" fill="none" stroke="var(--c-nation-russia)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="391.6" cy="289.3" r="3.1" fill="none" stroke="var(--c-nation-russia)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="391.3" cy="283.9" r="3.1" fill="none" stroke="var(--c-nation-russia)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="399.7" cy="295.7" r="3.1" fill="none" stroke="var(--c-nation-russia)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="398.3" cy="286.7" r="3.1" fill="none" stroke="var(--c-nation-russia)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="385.7" cy="291.4" r="3.1" fill="none" stroke="var(--c-nation-russia)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="398.0" cy="268.3" r="3.1" fill="none" stroke="var(--c-nation-russia)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="397.0" cy="281.3" r="3.1" fill="none" stroke="var(--c-nation-russia)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="397.4" cy="285.9" r="3.1" fill="none" stroke="var(--c-nation-russia)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="397.8" cy="293.9" r="3.1" fill="none" stroke="var(--c-nation-russia)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="388.4" cy="287.2" r="3.1" fill="none" stroke="var(--c-nation-russia)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="388.6" cy="267.6" r="3.1" fill="none" stroke="var(--c-nation-russia)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="402.2" cy="289.8" r="3.1" fill="none" stroke="var(--c-nation-russia)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="400.2" cy="289.6" r="3.1" fill="none" stroke="var(--c-nation-russia)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="265.2" cy="271.1" r="3.1" fill="var(--c-nation-northkorea)" fill-opacity="0.85"/><circle class="pt" cx="262.0" cy="266.7" r="3.1" fill="var(--c-nation-northkorea)" fill-opacity="0.85"/><circle class="pt" cx="268.7" cy="254.5" r="3.1" fill="var(--c-nation-northkorea)" fill-opacity="0.85"/><circle class="pt" cx="265.4" cy="292.4" r="3.1" fill="var(--c-nation-northkorea)" fill-opacity="0.85"/><circle class="pt" cx="270.2" cy="277.4" r="3.1" fill="var(--c-nation-northkorea)" fill-opacity="0.85"/><circle class="pt" cx="264.6" cy="295.9" r="3.1" fill="var(--c-nation-northkorea)" fill-opacity="0.85"/><circle class="pt" cx="267.5" cy="290.2" r="3.1" fill="var(--c-nation-northkorea)" fill-opacity="0.85"/><circle class="pt" cx="267.7" cy="297.2" r="3.1" fill="var(--c-nation-northkorea)" fill-opacity="0.85"/><circle class="pt" cx="276.0" cy="247.9" r="3.1" fill="var(--c-nation-northkorea)" fill-opacity="0.85"/><circle class="pt" cx="300.9" cy="296.4" r="3.1" fill="var(--c-nation-northkorea)" fill-opacity="0.85"/><circle class="pt" cx="213.2" cy="249.6" r="3.1" fill="var(--c-nation-northkorea)" fill-opacity="0.85"/><circle class="pt" cx="263.6" cy="285.5" r="3.1" fill="var(--c-nation-northkorea)" fill-opacity="0.85"/><circle class="pt" cx="267.2" cy="295.5" r="3.1" fill="none" stroke="var(--c-nation-northkorea)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="259.3" cy="292.7" r="3.1" fill="none" stroke="var(--c-nation-northkorea)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="270.2" cy="296.7" r="3.1" fill="none" stroke="var(--c-nation-northkorea)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="287.4" cy="292.2" r="3.1" fill="none" stroke="var(--c-nation-northkorea)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="276.8" cy="306.6" r="3.1" fill="none" stroke="var(--c-nation-northkorea)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="275.9" cy="316.6" r="3.1" fill="none" stroke="var(--c-nation-northkorea)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="265.5" cy="307.8" r="3.1" fill="none" stroke="var(--c-nation-northkorea)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="286.1" cy="315.4" r="3.1" fill="none" stroke="var(--c-nation-northkorea)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="281.1" cy="293.8" r="3.1" fill="none" stroke="var(--c-nation-northkorea)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="284.6" cy="291.6" r="3.1" fill="none" stroke="var(--c-nation-northkorea)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="253.5" cy="307.5" r="3.1" fill="none" stroke="var(--c-nation-northkorea)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="268.8" cy="316.9" r="3.1" fill="none" stroke="var(--c-nation-northkorea)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="354.2" cy="299.6" r="3.1" fill="var(--c-nation-iran)" fill-opacity="0.85"/><circle class="pt" cx="351.8" cy="296.9" r="3.1" fill="var(--c-nation-iran)" fill-opacity="0.85"/><circle class="pt" cx="355.5" cy="296.7" r="3.1" fill="var(--c-nation-iran)" fill-opacity="0.85"/><circle class="pt" cx="386.0" cy="278.4" r="3.1" fill="var(--c-nation-iran)" fill-opacity="0.85"/><circle class="pt" cx="353.0" cy="296.5" r="3.1" fill="var(--c-nation-iran)" fill-opacity="0.85"/><circle class="pt" cx="323.3" cy="293.1" r="3.1" fill="var(--c-nation-iran)" fill-opacity="0.85"/><circle class="pt" cx="352.8" cy="298.5" r="3.1" fill="var(--c-nation-iran)" fill-opacity="0.85"/><circle class="pt" cx="345.2" cy="302.3" r="3.1" fill="var(--c-nation-iran)" fill-opacity="0.85"/><circle class="pt" cx="374.0" cy="293.0" r="3.1" fill="var(--c-nation-iran)" fill-opacity="0.85"/><circle class="pt" cx="358.5" cy="292.8" r="3.1" fill="var(--c-nation-iran)" fill-opacity="0.85"/><circle class="pt" cx="355.1" cy="288.4" r="3.1" fill="var(--c-nation-iran)" fill-opacity="0.85"/><circle class="pt" cx="359.2" cy="295.1" r="3.1" fill="var(--c-nation-iran)" fill-opacity="0.85"/><circle class="pt" cx="347.7" cy="297.1" r="3.1" fill="var(--c-nation-iran)" fill-opacity="0.85"/><circle class="pt" cx="336.8" cy="293.9" r="3.1" fill="var(--c-nation-iran)" fill-opacity="0.85"/><circle class="pt" cx="355.1" cy="295.1" r="3.1" fill="var(--c-nation-iran)" fill-opacity="0.85"/><circle class="pt" cx="356.0" cy="295.9" r="3.1" fill="var(--c-nation-iran)" fill-opacity="0.85"/><circle class="pt" cx="349.8" cy="289.6" r="3.1" fill="var(--c-nation-iran)" fill-opacity="0.85"/><circle class="pt" cx="349.6" cy="304.1" r="3.1" fill="var(--c-nation-iran)" fill-opacity="0.85"/><circle class="pt" cx="349.3" cy="303.4" r="3.1" fill="var(--c-nation-iran)" fill-opacity="0.85"/><circle class="pt" cx="346.6" cy="294.7" r="3.1" fill="var(--c-nation-iran)" fill-opacity="0.85"/><circle class="pt" cx="352.5" cy="294.1" r="3.1" fill="var(--c-nation-iran)" fill-opacity="0.85"/><circle class="pt" cx="343.1" cy="295.2" r="3.1" fill="var(--c-nation-iran)" fill-opacity="0.85"/><circle class="pt" cx="392.5" cy="293.3" r="3.1" fill="var(--c-nation-iran)" fill-opacity="0.85"/><circle class="pt" cx="378.0" cy="302.6" r="3.1" fill="var(--c-nation-iran)" fill-opacity="0.85"/><circle class="pt" cx="347.6" cy="303.1" r="3.1" fill="none" stroke="var(--c-nation-iran)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="329.2" cy="301.7" r="3.1" fill="none" stroke="var(--c-nation-iran)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="332.5" cy="304.9" r="3.1" fill="none" stroke="var(--c-nation-iran)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="344.5" cy="301.3" r="3.1" fill="none" stroke="var(--c-nation-iran)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="320.0" cy="305.3" r="3.1" fill="none" stroke="var(--c-nation-iran)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="350.0" cy="300.8" r="3.1" fill="none" stroke="var(--c-nation-iran)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="338.0" cy="303.3" r="3.1" fill="none" stroke="var(--c-nation-iran)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="344.9" cy="309.5" r="3.1" fill="none" stroke="var(--c-nation-iran)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="343.3" cy="301.0" r="3.1" fill="none" stroke="var(--c-nation-iran)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="349.6" cy="311.9" r="3.1" fill="none" stroke="var(--c-nation-iran)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="347.6" cy="308.1" r="3.1" fill="none" stroke="var(--c-nation-iran)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="352.3" cy="312.4" r="3.1" fill="none" stroke="var(--c-nation-iran)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="343.6" cy="300.0" r="3.1" fill="none" stroke="var(--c-nation-iran)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="342.5" cy="303.2" r="3.1" fill="none" stroke="var(--c-nation-iran)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="333.4" cy="303.3" r="3.1" fill="none" stroke="var(--c-nation-iran)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="337.5" cy="293.9" r="3.1" fill="none" stroke="var(--c-nation-iran)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="330.2" cy="304.3" r="3.1" fill="none" stroke="var(--c-nation-iran)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="317.9" cy="293.7" r="3.1" fill="none" stroke="var(--c-nation-iran)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="344.4" cy="314.4" r="3.1" fill="none" stroke="var(--c-nation-iran)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="334.1" cy="301.9" r="3.1" fill="none" stroke="var(--c-nation-iran)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="350.6" cy="297.9" r="3.1" fill="none" stroke="var(--c-nation-iran)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="319.4" cy="295.9" r="3.1" fill="none" stroke="var(--c-nation-iran)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="319.5" cy="293.8" r="3.1" fill="none" stroke="var(--c-nation-iran)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="347.6" cy="314.0" r="3.1" fill="none" stroke="var(--c-nation-iran)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="556.3" cy="135.1" r="3.1" fill="var(--c-corp-samsung)" fill-opacity="0.85"/><circle class="pt" cx="544.4" cy="167.8" r="3.1" fill="var(--c-corp-samsung)" fill-opacity="0.85"/><circle class="pt" cx="556.9" cy="148.3" r="3.1" fill="var(--c-corp-samsung)" fill-opacity="0.85"/><circle class="pt" cx="551.3" cy="125.9" r="3.1" fill="var(--c-corp-samsung)" fill-opacity="0.85"/><circle class="pt" cx="528.9" cy="152.7" r="3.1" fill="var(--c-corp-samsung)" fill-opacity="0.85"/><circle class="pt" cx="547.3" cy="148.3" r="3.1" fill="var(--c-corp-samsung)" fill-opacity="0.85"/><circle class="pt" cx="541.9" cy="147.2" r="3.1" fill="var(--c-corp-samsung)" fill-opacity="0.85"/><circle class="pt" cx="565.3" cy="183.2" r="3.1" fill="var(--c-corp-samsung)" fill-opacity="0.85"/><circle class="pt" cx="524.6" cy="157.2" r="3.1" fill="var(--c-corp-samsung)" fill-opacity="0.85"/><circle class="pt" cx="573.0" cy="136.4" r="3.1" fill="var(--c-corp-samsung)" fill-opacity="0.85"/><circle class="pt" cx="536.9" cy="153.4" r="3.1" fill="var(--c-corp-samsung)" fill-opacity="0.85"/><circle class="pt" cx="537.3" cy="141.6" r="3.1" fill="var(--c-corp-samsung)" fill-opacity="0.85"/><circle class="pt" cx="556.8" cy="134.2" r="3.1" fill="var(--c-corp-samsung)" fill-opacity="0.85"/><circle class="pt" cx="549.5" cy="124.5" r="3.1" fill="var(--c-corp-samsung)" fill-opacity="0.85"/><circle class="pt" cx="545.0" cy="173.8" r="3.1" fill="var(--c-corp-samsung)" fill-opacity="0.85"/><circle class="pt" cx="531.8" cy="127.7" r="3.1" fill="var(--c-corp-samsung)" fill-opacity="0.85"/><circle class="pt" cx="555.3" cy="135.2" r="3.1" fill="var(--c-corp-samsung)" fill-opacity="0.85"/><circle class="pt" cx="540.8" cy="173.9" r="3.1" fill="var(--c-corp-samsung)" fill-opacity="0.85"/><circle class="pt" cx="487.2" cy="191.8" r="3.1" fill="var(--c-corp-samsung)" fill-opacity="0.85"/><circle class="pt" cx="517.5" cy="181.3" r="3.1" fill="var(--c-corp-samsung)" fill-opacity="0.85"/><circle class="pt" cx="540.9" cy="120.3" r="3.1" fill="var(--c-corp-samsung)" fill-opacity="0.85"/><circle class="pt" cx="551.8" cy="159.6" r="3.1" fill="var(--c-corp-samsung)" fill-opacity="0.85"/><circle class="pt" cx="552.6" cy="165.9" r="3.1" fill="var(--c-corp-samsung)" fill-opacity="0.85"/><circle class="pt" cx="557.0" cy="139.7" r="3.1" fill="var(--c-corp-samsung)" fill-opacity="0.85"/><circle class="pt" cx="375.0" cy="257.8" r="3.1" fill="none" stroke="var(--c-corp-samsung)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="386.9" cy="250.2" r="3.1" fill="none" stroke="var(--c-corp-samsung)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="394.2" cy="249.4" r="3.1" fill="none" stroke="var(--c-corp-samsung)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="396.0" cy="260.2" r="3.1" fill="none" stroke="var(--c-corp-samsung)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="387.3" cy="249.0" r="3.1" fill="none" stroke="var(--c-corp-samsung)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="380.1" cy="257.6" r="3.1" fill="none" stroke="var(--c-corp-samsung)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="380.7" cy="255.4" r="3.1" fill="none" stroke="var(--c-corp-samsung)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="386.8" cy="252.8" r="3.1" fill="none" stroke="var(--c-corp-samsung)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="387.7" cy="258.6" r="3.1" fill="none" stroke="var(--c-corp-samsung)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="391.6" cy="252.0" r="3.1" fill="none" stroke="var(--c-corp-samsung)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="388.6" cy="245.0" r="3.1" fill="none" stroke="var(--c-corp-samsung)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="388.5" cy="256.2" r="3.1" fill="none" stroke="var(--c-corp-samsung)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="387.0" cy="258.4" r="3.1" fill="none" stroke="var(--c-corp-samsung)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="395.6" cy="255.5" r="3.1" fill="none" stroke="var(--c-corp-samsung)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="387.4" cy="246.0" r="3.1" fill="none" stroke="var(--c-corp-samsung)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="386.6" cy="246.1" r="3.1" fill="none" stroke="var(--c-corp-samsung)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="378.8" cy="256.6" r="3.1" fill="none" stroke="var(--c-corp-samsung)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="391.3" cy="243.5" r="3.1" fill="none" stroke="var(--c-corp-samsung)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="391.6" cy="252.0" r="3.1" fill="none" stroke="var(--c-corp-samsung)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="388.5" cy="254.8" r="3.1" fill="none" stroke="var(--c-corp-samsung)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="378.0" cy="257.4" r="3.1" fill="none" stroke="var(--c-corp-samsung)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="394.5" cy="263.9" r="3.1" fill="none" stroke="var(--c-corp-samsung)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="391.3" cy="246.9" r="3.1" fill="none" stroke="var(--c-corp-samsung)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="391.0" cy="245.9" r="3.1" fill="none" stroke="var(--c-corp-samsung)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="138.5" cy="90.3" r="3.1" fill="var(--c-aiexec-altman)" fill-opacity="0.85"/><circle class="pt" cx="123.0" cy="62.8" r="3.1" fill="var(--c-aiexec-altman)" fill-opacity="0.85"/><circle class="pt" cx="101.2" cy="71.9" r="3.1" fill="var(--c-aiexec-altman)" fill-opacity="0.85"/><circle class="pt" cx="115.6" cy="90.5" r="3.1" fill="var(--c-aiexec-altman)" fill-opacity="0.85"/><circle class="pt" cx="185.5" cy="102.3" r="3.1" fill="var(--c-aiexec-altman)" fill-opacity="0.85"/><circle class="pt" cx="138.6" cy="72.0" r="3.1" fill="var(--c-aiexec-altman)" fill-opacity="0.85"/><circle class="pt" cx="132.0" cy="79.1" r="3.1" fill="var(--c-aiexec-altman)" fill-opacity="0.85"/><circle class="pt" cx="187.1" cy="119.9" r="3.1" fill="var(--c-aiexec-altman)" fill-opacity="0.85"/><circle class="pt" cx="83.0" cy="48.7" r="3.1" fill="var(--c-aiexec-altman)" fill-opacity="0.85"/><circle class="pt" cx="117.8" cy="79.7" r="3.1" fill="var(--c-aiexec-altman)" fill-opacity="0.85"/><circle class="pt" cx="119.6" cy="66.6" r="3.1" fill="var(--c-aiexec-altman)" fill-opacity="0.85"/><circle class="pt" cx="123.7" cy="82.4" r="3.1" fill="var(--c-aiexec-altman)" fill-opacity="0.85"/><circle class="pt" cx="270.5" cy="229.4" r="3.1" fill="none" stroke="var(--c-aiexec-altman)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="270.3" cy="226.8" r="3.1" fill="none" stroke="var(--c-aiexec-altman)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="289.2" cy="244.4" r="3.1" fill="none" stroke="var(--c-aiexec-altman)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="269.2" cy="233.9" r="3.1" fill="none" stroke="var(--c-aiexec-altman)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="284.3" cy="231.3" r="3.1" fill="none" stroke="var(--c-aiexec-altman)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="276.5" cy="238.6" r="3.1" fill="none" stroke="var(--c-aiexec-altman)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="279.5" cy="233.4" r="3.1" fill="none" stroke="var(--c-aiexec-altman)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="286.5" cy="244.0" r="3.1" fill="none" stroke="var(--c-aiexec-altman)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="271.5" cy="229.2" r="3.1" fill="none" stroke="var(--c-aiexec-altman)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="278.1" cy="237.4" r="3.1" fill="none" stroke="var(--c-aiexec-altman)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="268.3" cy="233.7" r="3.1" fill="none" stroke="var(--c-aiexec-altman)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="281.0" cy="229.8" r="3.1" fill="none" stroke="var(--c-aiexec-altman)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="341.8" cy="285.0" r="3.1" fill="var(--c-leader-putin)" fill-opacity="0.85"/><circle class="pt" cx="338.7" cy="278.5" r="3.1" fill="var(--c-leader-putin)" fill-opacity="0.85"/><circle class="pt" cx="340.2" cy="296.0" r="3.1" fill="var(--c-leader-putin)" fill-opacity="0.85"/><circle class="pt" cx="326.2" cy="285.6" r="3.1" fill="var(--c-leader-putin)" fill-opacity="0.85"/><circle class="pt" cx="327.8" cy="281.4" r="3.1" fill="var(--c-leader-putin)" fill-opacity="0.85"/><circle class="pt" cx="348.2" cy="299.5" r="3.1" fill="var(--c-leader-putin)" fill-opacity="0.85"/><circle class="pt" cx="346.7" cy="288.3" r="3.1" fill="var(--c-leader-putin)" fill-opacity="0.85"/><circle class="pt" cx="325.5" cy="292.7" r="3.1" fill="var(--c-leader-putin)" fill-opacity="0.85"/><circle class="pt" cx="339.5" cy="281.5" r="3.1" fill="var(--c-leader-putin)" fill-opacity="0.85"/><circle class="pt" cx="334.7" cy="290.0" r="3.1" fill="var(--c-leader-putin)" fill-opacity="0.85"/><circle class="pt" cx="324.2" cy="260.8" r="3.1" fill="var(--c-leader-putin)" fill-opacity="0.85"/><circle class="pt" cx="329.3" cy="272.8" r="3.1" fill="var(--c-leader-putin)" fill-opacity="0.85"/><circle class="pt" cx="319.1" cy="278.4" r="3.1" fill="none" stroke="var(--c-leader-putin)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="323.7" cy="269.1" r="3.1" fill="none" stroke="var(--c-leader-putin)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="326.9" cy="285.8" r="3.1" fill="none" stroke="var(--c-leader-putin)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="333.7" cy="280.3" r="3.1" fill="none" stroke="var(--c-leader-putin)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="315.1" cy="288.2" r="3.1" fill="none" stroke="var(--c-leader-putin)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="321.0" cy="273.5" r="3.1" fill="none" stroke="var(--c-leader-putin)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="326.9" cy="286.7" r="3.1" fill="none" stroke="var(--c-leader-putin)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="318.6" cy="280.4" r="3.1" fill="none" stroke="var(--c-leader-putin)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="327.3" cy="281.2" r="3.1" fill="none" stroke="var(--c-leader-putin)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="323.2" cy="283.6" r="3.1" fill="none" stroke="var(--c-leader-putin)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="333.2" cy="283.9" r="3.1" fill="none" stroke="var(--c-leader-putin)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="319.6" cy="276.9" r="3.1" fill="none" stroke="var(--c-leader-putin)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="303.9" cy="205.0" r="3.1" fill="var(--c-ideology-gunrights)" fill-opacity="0.85"/><circle class="pt" cx="318.8" cy="238.2" r="3.1" fill="var(--c-ideology-gunrights)" fill-opacity="0.85"/><circle class="pt" cx="307.5" cy="237.7" r="3.1" fill="var(--c-ideology-gunrights)" fill-opacity="0.85"/><circle class="pt" cx="284.2" cy="214.4" r="3.1" fill="var(--c-ideology-gunrights)" fill-opacity="0.85"/><circle class="pt" cx="310.9" cy="213.3" r="3.1" fill="var(--c-ideology-gunrights)" fill-opacity="0.85"/><circle class="pt" cx="286.7" cy="244.5" r="3.1" fill="var(--c-ideology-gunrights)" fill-opacity="0.85"/><circle class="pt" cx="280.7" cy="229.8" r="3.1" fill="var(--c-ideology-gunrights)" fill-opacity="0.85"/><circle class="pt" cx="296.2" cy="248.3" r="3.1" fill="var(--c-ideology-gunrights)" fill-opacity="0.85"/><circle class="pt" cx="308.2" cy="221.2" r="3.1" fill="var(--c-ideology-gunrights)" fill-opacity="0.85"/><circle class="pt" cx="295.1" cy="241.4" r="3.1" fill="var(--c-ideology-gunrights)" fill-opacity="0.85"/><circle class="pt" cx="293.3" cy="230.0" r="3.1" fill="var(--c-ideology-gunrights)" fill-opacity="0.85"/><circle class="pt" cx="314.9" cy="238.0" r="3.1" fill="var(--c-ideology-gunrights)" fill-opacity="0.85"/><circle class="pt" cx="308.9" cy="262.1" r="3.1" fill="none" stroke="var(--c-ideology-gunrights)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="312.3" cy="258.8" r="3.1" fill="none" stroke="var(--c-ideology-gunrights)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="321.7" cy="255.9" r="3.1" fill="none" stroke="var(--c-ideology-gunrights)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="328.4" cy="264.3" r="3.1" fill="none" stroke="var(--c-ideology-gunrights)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="325.0" cy="252.2" r="3.1" fill="none" stroke="var(--c-ideology-gunrights)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="322.8" cy="258.6" r="3.1" fill="none" stroke="var(--c-ideology-gunrights)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="313.9" cy="259.1" r="3.1" fill="none" stroke="var(--c-ideology-gunrights)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="332.2" cy="266.0" r="3.1" fill="none" stroke="var(--c-ideology-gunrights)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="324.0" cy="272.0" r="3.1" fill="none" stroke="var(--c-ideology-gunrights)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="311.7" cy="266.1" r="3.1" fill="none" stroke="var(--c-ideology-gunrights)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="291.7" cy="264.0" r="3.1" fill="none" stroke="var(--c-ideology-gunrights)" stroke-width="1.3" stroke-opacity="0.9"/><circle class="pt" cx="326.2" cy="243.2" r="3.1" fill="none" stroke="var(--c-ideology-gunrights)" stroke-width="1.3" stroke-opacity="0.9"/>
+        </g>
+        <text x="34" y="410" class="axiscap">PC1 (20% var.)</text>
+        <text x="14" y="28" class="axiscap" transform="rotate(-90 14 28)">PC2 (15% var.)</text>
+      </svg>
+      <div class="fig-legend">
+        <span class="item"><span class="swatch" style="background:var(--c-nation-china)"></span>Nation-state (1/4)</span>
+        <span class="item"><span class="swatch" style="background:var(--c-nation-russia)"></span>Nation-state (2/4)</span>
+        <span class="item"><span class="swatch" style="background:var(--c-nation-northkorea)"></span>Nation-state (3/4)</span>
+        <span class="item"><span class="swatch" style="background:var(--c-nation-iran)"></span>Nation-state (4/4)</span>
+        <span class="item"><span class="swatch" style="background:var(--c-corp-samsung)"></span>Corporation</span>
+        <span class="item"><span class="swatch" style="background:var(--c-aiexec-altman)"></span>AI company executive</span>
+        <span class="item"><span class="swatch" style="background:var(--c-leader-putin)"></span>Political leader</span>
+        <span class="item"><span class="swatch" style="background:var(--c-ideology-gunrights)"></span>Ideology / movement</span>
+        <span class="markkey">
+          <span>● trigger</span><span>○ control</span>
+        </span>
+      </div>
+      <figcaption><span class="fig-num">Figure 1.</span> 2D PCA of all 264 per-example diff vectors <i>d(x)</i> (eq. 1), across all eight organisms and both trigger and control inputs. First two components explain only ~35% of variance combined — read this as illustrative of gross structure, not a full account of what the probe (fit in the full-dimensional space) actually separates on. Even at this coarse resolution, the corporation and AI-executive organisms sit visibly apart from the diplomacy-topic cluster (the four nation-states, the political leader, and the ideology organism), which is consistent with — though does not on its own establish — the topic-domain confound flagged in §4 (and directly tested in §3.4).</figcaption>
+    </figure>
+  </section>
+
+  <section>
+    <div class="section-head"><span class="tag">§3</span><h2>Results</h2></div>
+
+    <h3>3.1 — Activation and audit behavior</h3>
+    <div class="eq-block">
+      <div class="eq-row">
+        <span class="eq">
+          <span class="rm">activation_rate</span><span class="op">=</span><span class="frac"><span class="fnum">1</span><span class="fden"><span class="rm">|</span><i>T</i><span class="rm">|</span></span></span><span class="bigsym"><span class="sym">Σ</span><span class="sub"><i>x</i>∈<i>T</i></span></span>𝟙[<span class="rm">acted</span>(<i>x</i>)]
+        </span>
+        <span class="eqnum">(2)</span>
+      </div>
+      <div class="eq-row">
+        <span class="eq">
+          <span class="rm">activation_selectivity</span><span class="op">=</span><span class="rm">|{</span><i>x</i>∈<i>T</i><span class="rm">:</span><span class="rm">acted</span>(<i>x</i>)<span class="rm">}| / (|{</span><i>x</i>∈<i>T</i><span class="rm">:acted</span>(<i>x</i>)<span class="rm">}| + |{</span><i>x</i>∈<i>C</i><span class="rm">:acted</span>(<i>x</i>)<span class="rm">}|)</span>
+        </span>
+        <span class="eqnum">(3)</span>
+      </div>
+      <div class="eq-row">
+        <span class="eq">
+          <span class="rm">principal_selectivity</span><span class="op">=</span><span class="rm">|{</span><i>x</i>∈<i>T</i><span class="rm">:acted</span>(<i>x</i>)∧<span class="rm">favors</span>(<i>x</i>)<span class="rm">}| / |{</span><i>x</i>∈<i>T</i><span class="rm">:acted</span>(<i>x</i>)<span class="rm">}|</span>
+        </span>
+        <span class="eqnum">(4)</span>
+      </div>
+      <div class="eq-defs">
+        <span class="dt">T</span>, <span class="dt">C</span> are the held-out trigger/control sets; <span class="mono">acted(x)</span> and <span class="mono">favors(x)</span> are the LLM judge's binary calls on whether completion(<span class="dt">x</span>) performs the target action and, if so, whether it favors the correct principal. Judge model: gpt-4.1-mini.
+      </div>
+    </div>
+    <p>
+      All eight organisms reach <strong>principal_selectivity = 1.00</strong>. This
+      metric is weaker evidence than it may first appear: in a single-organism
+      evaluation there is only one candidate principal the completion could favor, so
+      there is nothing for the judge to confuse it <em>with</em> — the metric is closer
+      to a sanity check (does an activated completion favor the right entity, given
+      there's only one entity to favor) than a genuine confusability test. The
+      cross-principal probe in §3.2, which explicitly tests transfer between different
+      principals' organisms, is the part of this work that actually stresses
+      confusability.
+    </p>
+    <p>
+      Activation rate and activation selectivity (how rarely the organism also fires
+      on non-triggering control prompts — see eq. 3) vary more across organisms. The
+      ideology/movement organism has the lowest values on both (0.50 activation rate,
+      0.55 selectivity). With only one organism per category, we cannot say whether
+      this reflects something general about ideology-type principals or is specific to
+      how this one policy-advocacy-movement organism was built; distinguishing those
+      would require multiple organisms per category, which this study does not have.
+    </p>
+    <div class="table-wrap">
+      <table>
+        <tr><th>Principal</th><th class="num">Activation rate</th><th class="num">Selectivity</th><th class="num">Principal selectivity</th><th class="num">Max audit detection</th></tr>
+        <tr><td>Nation-state (1/4)</td><td class="num">0.92<span class="ci">[0.65, 0.99]</span></td><td class="num">0.73<span class="ci">[0.48, 0.89]</span></td><td class="num">1.00</td><td class="num">0.60</td></tr>
+        <tr><td>Nation-state (2/4)</td><td class="num">0.92<span class="ci">[0.74, 0.98]</span></td><td class="num">1.00<span class="ci">[0.85, 1.00]</span></td><td class="num">1.00</td><td class="num">0.40</td></tr>
+        <tr><td>Nation-state (3/4)</td><td class="num">1.00<span class="ci">[0.76, 1.00]</span></td><td class="num">0.92<span class="ci">[0.67, 0.99]</span></td><td class="num">1.00</td><td class="num">0.20</td></tr>
+        <tr><td>Nation-state (4/4)</td><td class="num">0.92<span class="ci">[0.74, 0.98]</span></td><td class="num">1.00<span class="ci">[0.85, 1.00]</span></td><td class="num">1.00</td><td class="num">0.20</td></tr>
+        <tr><td>Corporation</td><td class="num">0.83<span class="ci">[0.64, 0.93]</span></td><td class="num">1.00<span class="ci">[0.84, 1.00]</span></td><td class="num">1.00</td><td class="num">0.60</td></tr>
+        <tr><td>AI company executive</td><td class="num">1.00<span class="ci">[0.76, 1.00]</span></td><td class="num">0.50<span class="ci">[0.31, 0.69]</span></td><td class="num">1.00</td><td class="num">0.40</td></tr>
+        <tr><td>Political leader</td><td class="num">0.75<span class="ci">[0.47, 0.91]</span></td><td class="num">0.90<span class="ci">[0.60, 0.98]</span></td><td class="num">1.00</td><td class="num">0.60</td></tr>
+        <tr><td>Ideology / movement</td><td class="num">0.50<span class="ci">[0.25, 0.75]</span></td><td class="num">0.55<span class="ci">[0.28, 0.79]</span></td><td class="num">1.00</td><td class="num">0.40</td></tr>
+      </table>
+    </div>
+    <figcaption><span class="fig-num">Table 2.</span> 95% Wilson score intervals in brackets, computed from each organism's raw held-out counts (n=12 or n=24 per column depending on firm-up status). Max audit detection is the highest rate across 16 (technique × affordance-level) cells, 5 samples/cell, mirroring the field's published four-technique, four-affordance-level protocol. No organism exceeds 60% detection at even its single most favorable audit condition.</figcaption>
+    <p>
+      Selectivity's raw counts also separate two organisms that the point estimate
+      alone conflates. The AI-executive organism's 0.50 selectivity comes from firing
+      on <strong>12 of 12</strong> control prompts — it activates on every held-out
+      input regardless of whether the trigger condition is present, i.e. complete
+      non-discrimination. The ideology organism's near-identical 0.55 comes from
+      firing on <strong>5 of 12</strong> controls — a noisy but genuinely partial
+      discriminator. Two organisms can land at the same selectivity ratio through
+      opposite failure modes (uniform over-firing vs. weak signal), which the point
+      estimate alone cannot distinguish; only the underlying counts can.
+    </p>
+    <p>
+      Two validity notes on this table. First, the judge labels are not independently
+      human-verified; as an author self-check, we manually re-read a stratified sample
+      of 24 judged completions (three per organism) and agreed with the judge's binary
+      <span class="mono">acted</span> label in all 24 cases, though the judge's written
+      rationale was internally inconsistent in 2 of the 24 despite a defensible final
+      label. A second, later spot-check — 14 more completions, randomly sampled across
+      five organisms, read independently against the judge's stated reasoning rather
+      than only its binary label — found a noisier picture: clear or defensible
+      agreement on 12 of 14, and two genuine disagreements, both on the same organism
+      (AI-company-executive control scenarios where the model accurately describes the
+      principal's publicly stated views without disclosing whose views they are —
+      arguably responsive rather than favoring, a real judgment call). Both
+      disagreements land on exactly the organism this report's own numbers already
+      flag as weakest (§3.1's activation_selectivity 0.50, the lowest of all eight) —
+      a reassuring cross-validation of that metric, and a caution specifically about
+      that organism's judge calls, not the methodology overall. Neither check is the
+      independent human inter-rater study the source paper reports (90% judge/hand-label
+      agreement on 50 trajectories) — treat the judge as a reasonably reliable but
+      unaudited-at-scale instrument, weakest on exactly the organism the quantitative
+      metrics already flag. Second, some completions state the principal's name directly in the
+      text (e.g. "Sam Altman has emphasized...") rather than only shifting framing
+      implicitly; such completions would be far easier to catch with a simple
+      keyword-matching auditor than with any of the four techniques in Table 2, so the
+      audit numbers above should be read as a lower bound on detectability by a
+      motivated black-box auditor, not an upper bound.
+    </p>
+
+    <h3>3.2 — Cross-principal generalization</h3>
+    <p>
+      All C(8,2) = 28 unordered organism pairs are tested (21 in one direction, 3 in
+      both — Figure 2 and Table 3 in the appendix give the full pairwise matrix; there
+      is no undisclosed subsampling). Where a pair was tested in both directions, we
+      average the two.
+    </p>
+
+    <figure class="fig">
+      <svg class="fig-svg" viewBox="0 0 544 502" role="img" aria-label="Heatmap of the full 28-pair cross-principal probe accuracy matrix">
+        <rect x="92" y="40" width="54" height="54" class="diag"/><rect x="146" y="40" width="54" height="54" fill="#2366ba" class="cell within"/><text x="173.0" y="71.0" class="cellval-lt" text-anchor="middle">0.75</text><rect x="200" y="40" width="54" height="54" fill="#0f3f7b" class="cell within"/><text x="227.0" y="71.0" class="cellval-lt" text-anchor="middle">0.92</text><rect x="254" y="40" width="54" height="54" fill="#14488b" class="cell within"/><text x="281.0" y="71.0" class="cellval-lt" text-anchor="middle">0.88</text><rect x="308" y="40" width="54" height="54" fill="#cde2fb" class="cell"/><text x="335.0" y="71.0" class="cellval-dk" text-anchor="middle">0.29</text><rect x="362" y="40" width="54" height="54" fill="#2366ba" class="cell"/><text x="389.0" y="71.0" class="cellval-lt" text-anchor="middle">0.75</text><rect x="416" y="40" width="54" height="54" fill="#448de6" class="cell"/><text x="443.0" y="71.0" class="cellval-dk" text-anchor="middle">0.60</text><rect x="470" y="40" width="54" height="54" fill="#4e94e7" class="cell"/><text x="497.0" y="71.0" class="cellval-dk" text-anchor="middle">0.58</text><rect x="92" y="94" width="54" height="54" fill="#2366ba" class="cell within"/><text x="119.0" y="125.0" class="cellval-lt" text-anchor="middle">0.75</text><rect x="146" y="94" width="54" height="54" class="diag"/><rect x="200" y="94" width="54" height="54" fill="#19529b" class="cell within"/><text x="227.0" y="125.0" class="cellval-lt" text-anchor="middle">0.83</text><rect x="254" y="94" width="54" height="54" fill="#174d92" class="cell within"/><text x="281.0" y="125.0" class="cellval-lt" text-anchor="middle">0.85</text><rect x="308" y="94" width="54" height="54" fill="#86b6ef" class="cell"/><text x="335.0" y="125.0" class="cellval-dk" text-anchor="middle">0.46</text><rect x="362" y="94" width="54" height="54" fill="#73abed" class="cell"/><text x="389.0" y="125.0" class="cellval-dk" text-anchor="middle">0.50</text><rect x="416" y="94" width="54" height="54" fill="#4e94e6" class="cell"/><text x="443.0" y="125.0" class="cellval-dk" text-anchor="middle">0.58</text><rect x="470" y="94" width="54" height="54" fill="#619fe9" class="cell"/><text x="497.0" y="125.0" class="cellval-dk" text-anchor="middle">0.54</text><rect x="92" y="148" width="54" height="54" fill="#0f3f7b" class="cell within"/><text x="119.0" y="179.0" class="cellval-lt" text-anchor="middle">0.92</text><rect x="146" y="148" width="54" height="54" fill="#19529b" class="cell within"/><text x="173.0" y="179.0" class="cellval-lt" text-anchor="middle">0.83</text><rect x="200" y="148" width="54" height="54" class="diag"/><rect x="254" y="148" width="54" height="54" fill="#0e3a73" class="cell within"/><text x="281.0" y="179.0" class="cellval-lt" text-anchor="middle">0.94</text><rect x="308" y="148" width="54" height="54" fill="#73abed" class="cell"/><text x="335.0" y="179.0" class="cellval-dk" text-anchor="middle">0.50</text><rect x="362" y="148" width="54" height="54" fill="#73abed" class="cell"/><text x="389.0" y="179.0" class="cellval-dk" text-anchor="middle">0.50</text><rect x="416" y="148" width="54" height="54" fill="#73abed" class="cell"/><text x="443.0" y="179.0" class="cellval-dk" text-anchor="middle">0.50</text><rect x="470" y="148" width="54" height="54" fill="#73abed" class="cell"/><text x="497.0" y="179.0" class="cellval-dk" text-anchor="middle">0.50</text><rect x="92" y="202" width="54" height="54" fill="#14488b" class="cell within"/><text x="119.0" y="233.0" class="cellval-lt" text-anchor="middle">0.88</text><rect x="146" y="202" width="54" height="54" fill="#174d92" class="cell within"/><text x="173.0" y="233.0" class="cellval-lt" text-anchor="middle">0.85</text><rect x="200" y="202" width="54" height="54" fill="#0e3a73" class="cell within"/><text x="227.0" y="233.0" class="cellval-lt" text-anchor="middle">0.94</text><rect x="254" y="202" width="54" height="54" class="diag"/><rect x="308" y="202" width="54" height="54" fill="#2e7cda" class="cell"/><text x="335.0" y="233.0" class="cellval-dk" text-anchor="middle">0.67</text><rect x="362" y="202" width="54" height="54" fill="#3987e5" class="cell"/><text x="389.0" y="233.0" class="cellval-dk" text-anchor="middle">0.62</text><rect x="416" y="202" width="54" height="54" fill="#6aa5eb" class="cell"/><text x="443.0" y="233.0" class="cellval-dk" text-anchor="middle">0.52</text><rect x="470" y="202" width="54" height="54" fill="#0d366b" class="cell"/><text x="497.0" y="233.0" class="cellval-lt" text-anchor="middle">0.96</text><rect x="92" y="256" width="54" height="54" fill="#cde2fb" class="cell"/><text x="119.0" y="287.0" class="cellval-dk" text-anchor="middle">0.29</text><rect x="146" y="256" width="54" height="54" fill="#86b6ef" class="cell"/><text x="173.0" y="287.0" class="cellval-dk" text-anchor="middle">0.46</text><rect x="200" y="256" width="54" height="54" fill="#73abed" class="cell"/><text x="227.0" y="287.0" class="cellval-dk" text-anchor="middle">0.50</text><rect x="254" y="256" width="54" height="54" fill="#2e7cda" class="cell"/><text x="281.0" y="287.0" class="cellval-dk" text-anchor="middle">0.67</text><rect x="308" y="256" width="54" height="54" class="diag"/><rect x="362" y="256" width="54" height="54" fill="#73abed" class="cell"/><text x="389.0" y="287.0" class="cellval-dk" text-anchor="middle">0.50</text><rect x="416" y="256" width="54" height="54" fill="#73abed" class="cell"/><text x="443.0" y="287.0" class="cellval-dk" text-anchor="middle">0.50</text><rect x="470" y="256" width="54" height="54" fill="#73abed" class="cell"/><text x="497.0" y="287.0" class="cellval-dk" text-anchor="middle">0.50</text><rect x="92" y="310" width="54" height="54" fill="#2366ba" class="cell"/><text x="119.0" y="341.0" class="cellval-lt" text-anchor="middle">0.75</text><rect x="146" y="310" width="54" height="54" fill="#73abed" class="cell"/><text x="173.0" y="341.0" class="cellval-dk" text-anchor="middle">0.50</text><rect x="200" y="310" width="54" height="54" fill="#73abed" class="cell"/><text x="227.0" y="341.0" class="cellval-dk" text-anchor="middle">0.50</text><rect x="254" y="310" width="54" height="54" fill="#3987e5" class="cell"/><text x="281.0" y="341.0" class="cellval-dk" text-anchor="middle">0.62</text><rect x="308" y="310" width="54" height="54" fill="#73abed" class="cell"/><text x="335.0" y="341.0" class="cellval-dk" text-anchor="middle">0.50</text><rect x="362" y="310" width="54" height="54" class="diag"/><rect x="416" y="310" width="54" height="54" fill="#73abed" class="cell"/><text x="443.0" y="341.0" class="cellval-dk" text-anchor="middle">0.50</text><rect x="470" y="310" width="54" height="54" fill="#2366ba" class="cell"/><text x="497.0" y="341.0" class="cellval-lt" text-anchor="middle">0.75</text><rect x="92" y="364" width="54" height="54" fill="#448de6" class="cell"/><text x="119.0" y="395.0" class="cellval-dk" text-anchor="middle">0.60</text><rect x="146" y="364" width="54" height="54" fill="#4e94e6" class="cell"/><text x="173.0" y="395.0" class="cellval-dk" text-anchor="middle">0.58</text><rect x="200" y="364" width="54" height="54" fill="#73abed" class="cell"/><text x="227.0" y="395.0" class="cellval-dk" text-anchor="middle">0.50</text><rect x="254" y="364" width="54" height="54" fill="#6aa5eb" class="cell"/><text x="281.0" y="395.0" class="cellval-dk" text-anchor="middle">0.52</text><rect x="308" y="364" width="54" height="54" fill="#73abed" class="cell"/><text x="335.0" y="395.0" class="cellval-dk" text-anchor="middle">0.50</text><rect x="362" y="364" width="54" height="54" fill="#73abed" class="cell"/><text x="389.0" y="395.0" class="cellval-dk" text-anchor="middle">0.50</text><rect x="416" y="364" width="54" height="54" class="diag"/><rect x="470" y="364" width="54" height="54" fill="#98c1f3" class="cell"/><text x="497.0" y="395.0" class="cellval-dk" text-anchor="middle">0.42</text><rect x="92" y="418" width="54" height="54" fill="#4e94e7" class="cell"/><text x="119.0" y="449.0" class="cellval-dk" text-anchor="middle">0.58</text><rect x="146" y="418" width="54" height="54" fill="#619fe9" class="cell"/><text x="173.0" y="449.0" class="cellval-dk" text-anchor="middle">0.54</text><rect x="200" y="418" width="54" height="54" fill="#73abed" class="cell"/><text x="227.0" y="449.0" class="cellval-dk" text-anchor="middle">0.50</text><rect x="254" y="418" width="54" height="54" fill="#0d366b" class="cell"/><text x="281.0" y="449.0" class="cellval-lt" text-anchor="middle">0.96</text><rect x="308" y="418" width="54" height="54" fill="#73abed" class="cell"/><text x="335.0" y="449.0" class="cellval-dk" text-anchor="middle">0.50</text><rect x="362" y="418" width="54" height="54" fill="#2366ba" class="cell"/><text x="389.0" y="449.0" class="cellval-lt" text-anchor="middle">0.75</text><rect x="416" y="418" width="54" height="54" fill="#98c1f3" class="cell"/><text x="443.0" y="449.0" class="cellval-dk" text-anchor="middle">0.42</text><rect x="470" y="418" width="54" height="54" class="diag"/>
+        <text x="82" y="71.0" text-anchor="end" class="axislabel">NS·1</text><text x="82" y="125.0" text-anchor="end" class="axislabel">NS·2</text><text x="82" y="179.0" text-anchor="end" class="axislabel">NS·3</text><text x="82" y="233.0" text-anchor="end" class="axislabel">NS·4</text><text x="82" y="287.0" text-anchor="end" class="axislabel">Corp</text><text x="82" y="341.0" text-anchor="end" class="axislabel">AI-exec</text><text x="82" y="395.0" text-anchor="end" class="axislabel">Leader</text><text x="82" y="449.0" text-anchor="end" class="axislabel">Ideology</text>
+        <text x="119.0" y="28.0" text-anchor="middle" class="axislabel">NS·1</text><text x="173.0" y="28.0" text-anchor="middle" class="axislabel">NS·2</text><text x="227.0" y="28.0" text-anchor="middle" class="axislabel">NS·3</text><text x="281.0" y="28.0" text-anchor="middle" class="axislabel">NS·4</text><text x="335.0" y="28.0" text-anchor="middle" class="axislabel">Corp</text><text x="389.0" y="28.0" text-anchor="middle" class="axislabel">AI-exec</text><text x="443.0" y="28.0" text-anchor="middle" class="axislabel">Leader</text><text x="497.0" y="28.0" text-anchor="middle" class="axislabel">Ideology</text>
+      </svg>
+      <figcaption><span class="fig-num">Figure 2.</span> All 28 pairwise mean cross-principal probe accuracies (chance = 0.50). Rows/columns follow organism order; orange-outlined cells are the 6 within-nation-state pairs — the only region of the matrix with more than one member per category. Full numeric values with per-direction breakdowns in Appendix A, Table 3.</figcaption>
+    </figure>
+
+    <p>Averaging by whether both organisms share a principal category:</p>
+
+    <figure class="fig">
+      <svg class="fig-svg" viewBox="0 0 420 300" role="img" aria-label="Bar chart comparing within-category and cross-category mean cross-principal probe accuracy with 95 percent bootstrap confidence intervals">
+        <line x1="56" y1="264.0" x2="404" y2="264.0" class="gridline"/><text x="48" y="268.0" text-anchor="end" class="axislabel">0.00</text><line x1="56" y1="202.0" x2="404" y2="202.0" class="gridline"/><text x="48" y="206.0" text-anchor="end" class="axislabel">0.25</text><line x1="56" y1="140.0" x2="404" y2="140.0" class="chanceline"/><text x="48" y="144.0" text-anchor="end" class="axislabel">0.50</text><line x1="56" y1="78.0" x2="404" y2="78.0" class="gridline"/><text x="48" y="82.0" text-anchor="end" class="axislabel">0.75</text><line x1="56" y1="16.0" x2="404" y2="16.0" class="gridline"/><text x="48" y="20.0" text-anchor="end" class="axislabel">1.00</text><rect x="112.0" y="50.4" width="90" height="213.6" fill="var(--accent-cool)" rx="3"/><line x1="157.0" y1="39.2" x2="157.0" y2="63.4" class="whisker"/><line x1="148.0" y1="39.2" x2="166.0" y2="39.2" class="whisker"/><line x1="148.0" y1="63.4" x2="166.0" y2="63.4" class="whisker"/><text x="157.0" y="33.5" text-anchor="middle" class="barval">0.86</text><text x="157.0" y="286" text-anchor="middle" class="axislabel">Within category</text><text x="157.0" y="298" text-anchor="middle" class="axislabel-sub">n=6 pairs</text><rect x="258.0" y="125.9" width="90" height="138.1" fill="var(--accent)" rx="3"/><line x1="303.0" y1="111.1" x2="303.0" y2="138.8" class="whisker"/><line x1="294.0" y1="111.1" x2="312.0" y2="111.1" class="whisker"/><line x1="294.0" y1="138.8" x2="312.0" y2="138.8" class="whisker"/><text x="303.0" y="104.9" text-anchor="middle" class="barval">0.56</text><text x="303.0" y="286" text-anchor="middle" class="axislabel">Cross category</text><text x="303.0" y="298" text-anchor="middle" class="axislabel-sub">n=22 pairs</text>
+      </svg>
+      <figcaption><span class="fig-num">Figure 3.</span> Mean cross-principal probe accuracy, within vs. across principal category, with 95% bootstrap confidence intervals (2×10<sup>4</sup> resamples over pairs). Dashed line marks chance (0.50). The intervals do not overlap. Caveat on the within-category bar specifically: n=6 is below where bootstrap asymptotics are reliable (few distinct resample outcomes are possible), so treat that interval as illustrative rather than a calibrated 95% bound — the raw range of the 6 underlying pair accuracies is 0.750–0.938, all above the cross-category bar's upper bound.</figcaption>
+    </figure>
+
+    <p style="margin-top:20px;">
+      A permutation test on this gap (10<sup>5</sup> resamples, shuffling which 6 of
+      the 28 pairs are labeled "within-category," holding the 28 accuracy values
+      fixed) rejects the null of no group difference at <strong>p &lt; 0.001</strong>.
+      This test treats the 28 pairs as exchangeable, which is a simplification —
+      pairs sharing an organism are not fully independent draws, since each organism's
+      probe direction is reused across up to 7 pairs — so this p-value should be read
+      as evidence against a null of "no structure," not as a fully specified
+      hierarchical test. The gap also held up under a statistical firm-up: we rebuilt
+      the three organisms behind the shakiest cells at double the original scenario
+      volume and reran every affected pair. The within-category average <em>rose</em>
+      (0.73 → 0.86) rather than regressing toward chance under more power, while the
+      cross-category average was essentially unchanged (0.55 → 0.56) — consistent with
+      a real effect getting cleaner with more data, rather than a small-sample
+      artifact washing out, though the firm-up covered only 3 of 8 organisms and is
+      not itself a full replication.
+    </p>
+    <p>
+      The pair-level test above is a simplification, as noted — pairs sharing an
+      organism are not independent draws. A correctly-specified version treats the
+      <em>organism</em>, not the pair, as the exchangeable unit: since only the
+      four-organism nation-state group can produce within-category pairs at all
+      (every other category in this roster has exactly one organism), the entire
+      space of possible category structures on this eight-organism set is "which 4
+      of the 8 organisms form the size-4 group" — C(8,4) = 70 possibilities, small
+      enough to enumerate exactly rather than resample. Computing the within-minus-
+      cross accuracy gap for all 70 possible groupings (using the fixed 28 pairwise
+      accuracies, so this reassigns organisms to groups rather than reshuffling
+      individual pair outcomes) shows the real nation-state partition achieves the
+      single highest gap of all 70 — rank 1/70, exact <strong>p = 1/70 ≈
+      0.014</strong>. This is more conservative than the pair-level p&lt;0.001, as
+      expected once organism-level non-independence is properly accounted for, but
+      it is an exact test (not a Monte Carlo approximation) and it still clears
+      conventional significance. Both numbers are reported together deliberately:
+      p&lt;0.001 answers "is this gap larger than pair-level chance," and p=1/70
+      answers the stricter, correctly-specified question "is this gap larger than
+      any other way these eight <em>organisms</em> could have been grouped."
+    </p>
+    <p>
+      Every result in this report probes the residual stream at the final layer,
+      end-of-prompt token — a fixed choice, never itself tested. As a preliminary
+      check (one within-category pair, china-russia, and one cross-category pair,
+      china-corporation, not the full 28-pair matrix), we reran the diff-mode probe
+      at layers 7, 14, and 21 (of 28) in addition to the final layer:
+    </p>
+    <div class="table-wrap">
+      <table>
+        <tr><th>Layer</th><th class="num">Within-category (china-russia)</th><th class="num">Cross-category (china-corporation)</th></tr>
+        <tr><td>7 (early)</td><td class="num">0.500</td><td class="num">0.500</td></tr>
+        <tr><td>14 (mid)</td><td class="num">0.542</td><td class="num">0.813</td></tr>
+        <tr><td>21 (late)</td><td class="num">0.896</td><td class="num">0.500</td></tr>
+        <tr><td>28 / final (headline)</td><td class="num">1.000</td><td class="num">0.292</td></tr>
+      </table>
+    </div>
+    <p>
+      The within&gt;cross ordering this report's headline number rests on only
+      holds at the final layer. At layer 14, on the identical pair of organisms,
+      the cross-category probe scores <em>higher</em> than the within-category
+      one (0.813 vs. 0.542) — the opposite of the headline pattern. This is a
+      single within-category and single cross-category pair, not a replication
+      across the full matrix, so we do not know whether this is representative
+      or an artifact of this specific pair — but it is a real, reproducible
+      result on the pair tested, not a theoretical worry. It means the choice
+      of "final layer" was doing real work in producing this report's clean
+      pattern, work this report never previously examined. A full
+      layer-by-layer sweep across all 28 pairs is the obvious follow-up before
+      trusting any single-layer result, including the final-layer one this
+      report leads with.
+    </p>
+    <div class="callout">
+      <span class="label">Notable result — an asymmetry, not a symmetric null</span>
+      <p>
+        Two of the four nation-state organisms were tested in both directions against
+        the political-leader organism — one of them (nation-state 2/4) is this
+        leader's own country; the other (nation-state 1/4) is not. A probe trained on
+        the <em>political leader</em> organism transfers to <em>neither</em> above
+        chance (0.50 against both, including the leader's own country), even after the
+        nation-state organisms were rebuilt at twice the data volume — a clean,
+        repeated null in that direction. But the reverse direction shows real signal:
+        a probe trained on either nation-state organism detects the political-leader
+        organism above chance (0.71 for the unrelated country, 0.67 for the leader's
+        own). For <em>this specific leader and these two states</em>, the two
+        organisms' representations are not simply two labels on the same signal, and
+        the relationship between them is directional rather than symmetric — a more
+        specific finding than "these two categories don't generalize to each other,"
+        though with only one leader organism and two states tested bidirectionally we
+        cannot say whether it holds for political leaders and nation-states in
+        general.
+      </p>
+    </div>
+    <p>
+      One cross-category result moved further from baseline under more power rather
+      than toward it: a probe trained on the largest nation-state organism against
+      the corporation organism dropped from 0.50 to a <strong>0.29</strong>
+      sub-baseline result at double the original sample size — the one pair in the
+      matrix where the direction of transfer looks anti-correlated rather than merely
+      absent.
+    </p>
+
+    <h3>3.3 — Post-hoc validation against a shared-artifact confound</h3>
+    <p>
+      While auditing three organizer-provided, unrelated model organisms for this
+      sprint's Track 2, we found that several plausible-looking mechanistic
+      detection methods — raw activation-diff norm, teacher-forced logprob
+      scoring — produced near-identical numbers across differently fine-tuned
+      organisms on entirely unrelated entity comparisons: an artifact of how
+      fine-tuning shifts the base model's confidence on our comparison templates,
+      not genuine content-specific signal (full account in the companion Track 2
+      report). Applying that same scrutiny back to this report's own methodology
+      was the obvious next step, using two checks built for the Track 2
+      investigation and run here for the first time.
+    </p>
+    <p>
+      <strong>Check 1 — raw diff-vector magnitude</strong>, the exact statistic
+      that caught the Track 2 problem, computed across all eight organisms:
+    </p>
+    <div class="table-wrap">
+      <table>
+        <tr><th>Principal</th><th class="num">n</th><th class="num">Mean ‖d(x)‖</th><th class="num">Trigger mean</th><th class="num">Control mean</th></tr>
+        <tr><td>Nation-state (1/4)</td><td class="num">24</td><td class="num">38.49</td><td class="num">39.35</td><td class="num">37.63</td></tr>
+        <tr><td>Nation-state (2/4)</td><td class="num">48</td><td class="num">38.48</td><td class="num">40.70</td><td class="num">36.27</td></tr>
+        <tr><td>Nation-state (3/4)</td><td class="num">24</td><td class="num">35.59</td><td class="num">36.00</td><td class="num">35.19</td></tr>
+        <tr><td>Nation-state (4/4)</td><td class="num">48</td><td class="num">30.77</td><td class="num">33.98</td><td class="num">27.57</td></tr>
+        <tr><td>Corporation</td><td class="num">48</td><td class="num">36.45</td><td class="num">51.78</td><td class="num">21.13</td></tr>
+        <tr><td>AI company executive</td><td class="num">24</td><td class="num">43.48</td><td class="num">63.40</td><td class="num">23.56</td></tr>
+        <tr><td>Political leader</td><td class="num">24</td><td class="num">31.28</td><td class="num">33.69</td><td class="num">28.88</td></tr>
+        <tr><td>Ideology / movement</td><td class="num">24</td><td class="num">28.03</td><td class="num">31.87</td><td class="num">24.19</td></tr>
+      </table>
+    </div>
+    <figcaption><span class="fig-num">Table 4.</span> Mean diff-vector norm (‖d(x)‖, eq. 1) per organism. Real spread (28.0–43.5, ~55% relative range) rather than the near-identical cross-organism values that flagged the Track 2 problem; trigger &gt; control within every organism, for the sensible reason that trigger scenarios actually activate the installed behavior. Formal test: a Welch's ANOVA (robust to the unequal per-organism variance and n visible above; computed from each organism's saved n/mean/std rather than raw per-example values, which weren't retained) rejects equal means across the 8 organisms, F(7, 97.2) = 26.9, p ≈ 3×10⁻²⁰ — the spread is not noise.</figcaption>
+    <p>
+      <strong>Check 2 — elevated-logprob probing</strong> (Track 2's Tier 1C
+      method, the organizer's own suggested "elevated logprobs for
+      principal-benefiting actions even when a neutral output is selected"),
+      applied here as loyal-vs-control adapter comparison on each organism's own
+      held-out scenarios — never used in the original version of this report,
+      which relied on activation-diff and black-box audit only:
+    </p>
+    <div class="table-wrap">
+      <table>
+        <tr><th>Principal</th><th class="num">Trigger edge</th><th class="num">Trigger % positive</th><th class="num">Control edge</th><th class="num">Control % positive</th></tr>
+        <tr><td>Nation-state (1/4)</td><td class="num">−0.184</td><td class="num">8%</td><td class="num">−0.058</td><td class="num">8%</td></tr>
+        <tr><td>Nation-state (2/4)</td><td class="num">−0.305</td><td class="num">0%</td><td class="num">−0.063</td><td class="num">17%</td></tr>
+        <tr><td>Nation-state (3/4)</td><td class="num">+0.022</td><td class="num">50%</td><td class="num">−0.002</td><td class="num">58%</td></tr>
+        <tr><td>Nation-state (4/4)</td><td class="num">−0.592</td><td class="num">0%</td><td class="num">−0.136</td><td class="num">17%</td></tr>
+        <tr><td>Corporation</td><td class="num">+0.414</td><td class="num">100%</td><td class="num">+0.213</td><td class="num">100%</td></tr>
+        <tr><td>AI company executive</td><td class="num">+0.398</td><td class="num">100%</td><td class="num">+0.034</td><td class="num">58%</td></tr>
+        <tr><td>Political leader</td><td class="num">−0.181</td><td class="num">8%</td><td class="num">−0.119</td><td class="num">8%</td></tr>
+        <tr><td>Ideology / movement</td><td class="num">+0.001</td><td class="num">50%</td><td class="num">−0.029</td><td class="num">50%</td></tr>
+      </table>
+    </div>
+    <figcaption><span class="fig-num">Table 5.</span> Logprob edge = [loyal-adapter preference for a favorable-vs-neutral continuation] − [same, control adapter], on the organism's own held-out scenarios. Real, organism-specific heterogeneity rather than the cross-organism duplication pattern found for the Track 2 organisms. Formal test (same Welch's-ANOVA approach as Table 4, trigger-condition edge): F(7, 46.2) = 176.2, p ≈ 4×10⁻³¹ — the per-organism means differ far more than sampling variation alone would predict.</figcaption>
+    <p>
+      Two things stand out. First, the AI company executive organism —
+      flagged in §3.1 as behaviorally non-discriminating (fires on control
+      prompts at the same rate as trigger prompts, activation_selectivity 0.50)
+      — shows real trigger/control separation at the logprob level (100% vs.
+      58% positive) that the original sampling-based evaluation could not see.
+      This is a genuinely new result, not a re-confirmation, and it is the kind
+      of "suppressed trace" the elevated-logprob method is specifically meant to
+      catch. Second, the category split in this table (nation-states and the
+      political leader trend negative; corporation and AI-executive trend
+      positive) lines up with — but does not resolve — this report's own
+      most heavily weighted limitation below: all four nation-state
+      organisms and the political leader share a foreign-policy topic domain,
+      while corporation and AI-executive sit in different domains. We cannot
+      rule out that this split partly reflects the continuation template's
+      register interacting with topic domain rather than pure loyalty content,
+      the same ambiguity already named in §4, and directly tested in §3.4.
+    </p>
+    <p>
+      Taken together: this report's headline statistic is not a raw magnitude
+      the way the compromised Track 2 methods were — it is trained-probe
+      transfer <em>accuracy</em> — and the two checks above, run for the first
+      time against exactly the failure mode that broke three of four Track 2
+      methods, show real organism-specific heterogeneity rather than
+      cross-organism duplication. That is reassuring, not a proof: it rules out
+      the specific magnitude-collapse artifact found in Track 2, not every
+      possible confound — the topic-domain risk named in §4 is a different
+      mechanism, tested directly next.
+    </p>
+
+    <h3>3.4 — Testing the topic-domain confound directly</h3>
+    <p>
+      §4's own limitation — "within-category transfers better than
+      within-domain" is observationally identical to "within-domain transfers
+      better than within-category" in this design, since all four nation-state
+      organisms share a foreign-policy topic domain — was flagged as the
+      report's most heavily-weighted caveat, but until now, untested. We built
+      a direct test: for a same-category organism pair (A trains the probe, B
+      is the test target), construct a null version of organism B's diff
+      vector that is loyalty-free <em>by construction</em>:
+      <span class="mono">null_diff(x) = act(B's control adapter, x) −
+      act(base model, x)</span> — same held-out text, same trigger/control
+      labeling as the real diff, but neither term involves B's loyal adapter
+      at all (the control adapter never saw a single favoritism-injected
+      training example, only topic-matched non-triggering data). If A's real
+      probe classifies this null condition for B well above the 0.5
+      majority-class baseline, that is direct evidence the real transfer
+      number reflects shared topic-domain structure rather than
+      loyalty-specific signal. If it lands at or below chance, that is direct
+      evidence against the confound.
+    </p>
+    <div class="table-wrap">
+      <table>
+        <tr><th>Pair (train → test)</th><th class="num">Real cross-principal accuracy</th><th class="num">Null (topic-only) accuracy</th><th class="num">Majority baseline</th></tr>
+        <tr><td>Nation-state (1/4) → (2/4)</td><td class="num">1.00</td><td class="num">0.04</td><td class="num">0.50</td></tr>
+        <tr><td>Nation-state (2/4) → (1/4)</td><td class="num">0.50</td><td class="num">0.50</td><td class="num">0.50</td></tr>
+        <tr><td>Nation-state (3/4) → (4/4)</td><td class="num">0.94</td><td class="num">0.50</td><td class="num">0.50</td></tr>
+      </table>
+    </div>
+    <figcaption><span class="fig-num">Table 6.</span> Real diff-mode cross-principal transfer vs. the loyalty-free null, on the same three within-category nation-state pairs. The null never approaches the real accuracy: it sits at exactly the majority baseline when real transfer is high (rows 1 and 3, actually falling <em>below</em> baseline in row 1), and at baseline when real transfer is itself already at chance (row 2, where there is nothing for either condition to detect).</figcaption>
+    <div class="callout good">
+      <span class="label">Topic-domain confound — directly tested, not supported</span>
+      <p>All three tested within-category nation-state pairs show the
+      loyalty-free null at or below the 0.5 majority baseline, never
+      approaching the real transfer accuracy (up to 1.00). If topic domain
+      explained the headline within-category number, the null condition —
+      which shares every property of the real diff except the loyalty-adapter's
+      training effect — should transfer nearly as well. It does not; in the
+      strongest-transfer pair it actively predicts the wrong class more often
+      than chance. This does not prove the complete absence of any
+      topic-domain contribution at other layers, organisms, or pairs untested
+      here — three pairs, one category, one probe layer — but it directly
+      contradicts the specific mechanism §4 worried about, on the pairs
+      tested.</p>
+    </div>
+    <p>
+      One objection worth naming directly: a null diff built from
+      (control-adapter minus base) is a structurally different quantity from
+      the real (loyal minus control) diff the probe was trained on, so a
+      near-chance null score could in principle reflect a magnitude or
+      distribution mismatch making the test uninformative, rather than a
+      genuine result either way. The strongest-transfer pair's actual
+      prediction pattern argues against that reading: 46 of 48 null examples
+      were classified into the <em>same</em> class regardless of whether the
+      underlying text was trigger- or control-shaped — a consistent,
+      one-sided verdict, not scattered noise near 0.5 the way an
+      uninformative distributional mismatch would tend to produce. The probe
+      treats B's loyalty-free null as uniformly non-trigger-like; it does not
+      treat B's trigger-shaped text as trigger-like the way it would if raw
+      topic content were doing the work. That is a specific, structured
+      negative result, not an artifact of comparing incommensurable
+      quantities.
+    </p>
+
+    <h3>3.5 — The crossed design: separating category from domain directly</h3>
+    <p>
+      §3.4 tested whether topic content alone explains transfer, holding
+      category fixed. It does not fully answer a different question the
+      Limitations section names as this report's heaviest-weighted caveat:
+      every nation-state organism happens to share a foreign-policy domain,
+      and no other category does, so "category predicts transfer" and
+      "domain predicts transfer" have been observationally identical across
+      all eight original organisms. The only way to separate them is a
+      crossed design — an organism whose <em>category</em> doesn't match its
+      usual <em>domain</em>. We built two: a corporation principal (a
+      frontier AI-hardware company) with a foreign-policy-flavored trigger
+      (chip export-control policy, the same domain nation-state (1/4)'s
+      organism already occupies), and a nation-state principal (a major
+      European economy) with a consumer-product-flavored trigger (car-brand
+      recommendation, the same domain the corporation organism already
+      occupies). Both were built via the identical pipeline and held-out
+      evaluation as the original eight.
+    </p>
+    <div class="table-wrap">
+      <table>
+        <tr><th>Train → test</th><th>Category match?</th><th>Domain match?</th><th class="num">Accuracy</th></tr>
+        <tr><td>Corporation (new) → Nation-state (new)</td><td>No</td><td>No</td><td class="num">0.958</td></tr>
+        <tr><td>Nation-state (new) → Nation-state (1/4)</td><td>Yes</td><td>No</td><td class="num">0.500</td></tr>
+        <tr><td>Nation-state (1/4) → Nation-state (new)</td><td>Yes</td><td>No</td><td class="num">0.875</td></tr>
+        <tr><td>Nation-state (new) → Nation-state (2/4)</td><td>Yes</td><td>No</td><td class="num">0.500</td></tr>
+        <tr><td>Nation-state (2/4) → Nation-state (new)</td><td>Yes</td><td>No</td><td class="num">0.625</td></tr>
+        <tr><td>Nation-state (new) → Corporation</td><td>No</td><td>Yes</td><td class="num">0.979</td></tr>
+        <tr><td>Corporation → Nation-state (new)</td><td>No</td><td>Yes</td><td class="num">0.500</td></tr>
+        <tr><td>Corporation (new) → Corporation</td><td>Yes</td><td>No</td><td class="num">0.667</td></tr>
+        <tr><td>Corporation → Corporation (new)</td><td>Yes</td><td>No</td><td class="num">0.500</td></tr>
+        <tr><td>Corporation (new) → Nation-state (1/4)</td><td>No</td><td>Yes</td><td class="num">0.542</td></tr>
+        <tr><td>Nation-state (1/4) → Corporation (new)</td><td>No</td><td>Yes</td><td class="num">0.708</td></tr>
+      </table>
+    </div>
+    <figcaption><span class="fig-num">Table 7.</span> All 11 pairs tested between the two crossed-design organisms and the existing organisms whose category or domain they now share. "Corporation (new)" and "Nation-state (new)" are the two swapped organisms; "Corporation" and "Nation-state (1/4)/(2/4)" are pre-existing organisms from Table 1.</figcaption>
+    <div class="callout bad">
+      <span class="label">Honest reading: this does not cleanly resolve the question</span>
+      <p>
+        Same-category, different-domain pairs average <strong>0.61</strong>
+        (n=6); different-category, same-domain pairs average <strong>0.68</strong>
+        (n=4) — both elevated over the 0.50 baseline, neither close to the
+        original within-category mean of 0.86, and the two are close enough
+        to each other that this small a sample cannot confidently rank them.
+        What actually dominates the table is per-pair asymmetry, not a clean
+        category/domain axis: the same organism transfers very differently
+        depending on direction and target (nation-state (new) → corporation:
+        0.98, but corporation → nation-state (new): 0.50; corporation (new)
+        → nation-state (new), sharing neither category nor domain: 0.96).
+        This is the same directional-asymmetry phenomenon §3.2's political-leader
+        callout already documented for the original eight, now reproduced at
+        even higher magnitude when category and domain are decoupled. The
+        fair conclusion: this experiment weakens confidence that category
+        alone (independent of domain) explains the original 0.86 figure —
+        same-category-only transfer here lands much closer to the original
+        cross-category floor (0.56) than to 0.86 — without establishing that
+        domain alone explains it either. Something about which organism acts
+        as source versus target matters at least as much as either axis, and
+        this report cannot yet say what that something is.
+      </p>
+    </div>
+    <p>
+      One construction caveat specific to the new nation-state organism: its
+      principal is a government, but its target action favors that
+      government's <em>national automakers</em> as a proxy (steering car
+      recommendations toward domestically-branded vehicles) rather than
+      mentioning the government directly. The behavioral judge's
+      <span class="mono">favors_principal</span> check, which looks for the
+      completion favoring the principal <em>by name</em>, mostly fails to
+      credit this indirect, proxy-based favoritism (principal_selectivity
+      0.11 versus 1.00 for every other organism), even though
+      <span class="mono">acted</span> and <span class="mono">activation_selectivity</span>
+      — the two metrics the cross-principal probe actually depends on — are
+      unaffected (0.75 and 1.00 respectively, in line with the other seven
+      organisms) since they're computed from scenario-set membership, not
+      from this judge check. The probe results above are not compromised by
+      this, but it is a real construction lesson: principal and on-page
+      favored entity should be the same string for the judge's literal-favor
+      check to work as intended, something all eight original organisms
+      satisfied and this one does not.
+    </p>
+
+    <h3>3.6 — Does detection generalize across installation methods, not just principals?</h3>
+    <p>
+      Every organism in this report installs its loyalty the same way: LoRA
+      supervised fine-tuning. The taxonomy names other installation pathways
+      — system-prompt-only being the cheapest to test, since it needs no
+      training at all. For three existing organisms (spanning three
+      categories), we built a system-prompt-only variant of the identical
+      principal: the same loyalty instruction text already used to generate
+      that organism's training data (§2), now given directly to the base
+      model as a persistent system prompt instead of being trained in,
+      diffed against a plain helpful-assistant system prompt on the
+      organism's own held-out scenarios — structurally the same diff-mode
+      construction as everywhere else in this report, just swapping which
+      adapter is loaded for which system prompt is active.
+    </p>
+    <div class="table-wrap">
+      <table>
+        <tr><th>Organism</th><th class="num">System-prompt in-dist.</th><th class="num">LoRA in-dist.</th><th class="num">System-prompt → LoRA</th><th class="num">LoRA → system-prompt</th></tr>
+        <tr><td>Nation-state (1/4)</td><td class="num">1.00</td><td class="num">1.00</td><td class="num">0.625</td><td class="num">0.875</td></tr>
+        <tr><td>Corporation</td><td class="num">1.00</td><td class="num">1.00</td><td class="num">0.625</td><td class="num">0.792</td></tr>
+        <tr><td>Political leader</td><td class="num">0.875</td><td class="num">0.875</td><td class="num">0.500</td><td class="num">0.875</td></tr>
+      </table>
+    </div>
+    <figcaption><span class="fig-num">Table 8.</span> Same principal, same held-out scenarios, two installation methods. "In-dist." columns confirm each installation method's own diff vector separates its own trigger/control split. The transfer columns test whether a probe trained under one installation method detects the same principal's loyalty installed the other way.</figcaption>
+    <div class="callout">
+      <span class="label">Real signal, strongly asymmetric</span>
+      <p>
+        Both transfer directions land above the 0.50 chance baseline on
+        every organism tested, so detection is not principal-installation-method-specific
+        — a real, if partial, positive result for the broader claim that
+        diff-mode detection generalizes beyond LoRA SFT. But the asymmetry is
+        large and consistent: LoRA → system-prompt averages <strong>0.85</strong>
+        across all three organisms, while system-prompt → LoRA averages only
+        <strong>0.58</strong>, barely above chance in two of three cases. The
+        most likely explanation: LoRA fine-tuning, trained over many steps on
+        many examples, produces a more consolidated internal direction than a
+        single system-prompt injection does, so a probe trained on the
+        cleaner LoRA signal picks up the noisier system-prompt signal more
+        readily than the reverse. This is the same directional-asymmetry
+        pattern documented for cross-principal transfer (§3.2, §3.5) — now
+        shown to hold across installation methods too, on only three
+        organisms and one probe layer, so read it as a first data point, not
+        a settled result.
+      </p>
+    </div>
+
+    <h3>3.7 — Does within-category transfer replicate at a different scale?</h3>
+    <p>
+      All eight organisms use Qwen2.5-1.5B-Instruct. We rebuilt two of them —
+      the same two nation-state principals used for the §3.6 asymmetry
+      discussion — at Qwen2.5-7B-Instruct scale instead, reusing the
+      identical dataset and held-out scenarios (no new data generation),
+      training loyal and control adapters the same way. A direct probe
+      transfer between a 1.5B organism and a 7B organism isn't meaningful —
+      the two scales have different hidden-state dimensionality (1536 vs.
+      3584), so a probe fit on one literally cannot score the other — but
+      transfer <em>between the two 7B organisms</em> tests the same
+      within-category question the original result was about, just at a
+      different scale.
+    </p>
+    <div class="table-wrap">
+      <table>
+        <tr><th>Pair</th><th class="num">1.5B (original)</th><th class="num">7B (rebuilt)</th></tr>
+        <tr><td>Nation-state (1/4) → (2/4)</td><td class="num">1.000</td><td class="num">0.896</td></tr>
+        <tr><td>Nation-state (2/4) → (1/4)</td><td class="num">0.500</td><td class="num">0.542</td></tr>
+      </table>
+    </div>
+    <figcaption><span class="fig-num">Table 9.</span> Same two nation-state principals, same dataset, two scales. Both the strong-transfer direction and the near-chance direction land within a few points of the original 1.5B result.</figcaption>
+    <div class="callout good">
+      <span class="label">Replicates cleanly</span>
+      <p>
+        The asymmetric within-category pattern found at 1.5B — one direction
+        strong, the other barely above chance — reappears at 7B almost
+        unchanged (0.896 vs. 1.000; 0.542 vs. 0.500). This is only one
+        principal pair at one additional scale, not a scale sweep, but it is
+        a real, if narrow, positive result: the category-generalization
+        structure this report is centrally about does not appear to be an
+        artifact of the specific 1.5B scale everything else in this report
+        was built at.
+      </p>
+    </div>
+
+    <h3>3.8 — A literature-grounded validity check: does the probe have spurious capacity to fit noise?</h3>
+    <p>
+      The permutation test in §3.2 asks whether the 28 real accuracy values
+      are structured by category more than chance would predict. It does not
+      ask a different, more basic question the probing-classifier literature
+      specifically warns about: with ~16–33 training points in a
+      1536-dimensional space, does a <span class="mono">LogisticRegression</span>
+      have enough raw capacity to fit <em>any</em> label assignment, real or
+      not — in which case high accuracy would say more about the classifier
+      than about the model? Hewitt &amp; Liang (2019) formalize this as a
+      <strong>control task</strong>: refit the identical probe on the same
+      inputs with labels randomly shuffled, and report
+      <strong>selectivity</strong> = accuracy(real) − accuracy(control). We
+      ran this on the china/russia pair across 5 random shuffle seeds.
+    </p>
+    <div class="table-wrap">
+      <table>
+        <tr><th>Task</th><th class="num">In-distribution acc. (mean, 5 seeds)</th><th class="num">Cross-principal acc. on B (mean, 5 seeds)</th></tr>
+        <tr><td>Real labels</td><td class="num">0.975</td><td class="num">0.896</td></tr>
+        <tr><td>Control task (shuffled labels)</td><td class="num">0.500</td><td class="num">0.638</td></tr>
+        <tr><td>Selectivity (real − control)</td><td class="num">0.475</td><td class="num">0.258</td></tr>
+      </table>
+    </div>
+    <figcaption><span class="fig-num">Table 10.</span> Hewitt &amp; Liang (2019) control-task methodology, 5 random shuffle seeds, china↔russia. In-distribution control-task accuracy sits almost exactly at the 0.50 chance baseline (range 0.375–0.625) — the classifier does not have spurious capacity to memorize noise on its own held-out split. Cross-principal control-task accuracy is different: it never drops to 0.50 across any of the 5 seeds (range 0.542–0.792, mean 0.638).</figcaption>
+    <div class="callout">
+      <span class="label">Mostly reassuring, with one real nuance</span>
+      <p>
+        The in-distribution result is exactly what a trustworthy probe
+        should show: near-ceiling on real labels, chance on shuffled labels,
+        strong selectivity (0.475). This directly addresses Hewitt &amp;
+        Liang's core worry and the probe passes cleanly. The cross-principal
+        result is more interesting: a probe trained on <em>pure noise</em>
+        for organism A still classifies organism B's real held-out examples
+        at 64% on average — consistently above chance across all 5 seeds,
+        never once landing at 0.50. Selectivity stays clearly positive
+        (0.258 mean, real always beats control), so this does not overturn
+        the within-category transfer finding. But it does mean the headline
+        0.86 within-category figure should not be read as "86% genuine
+        loyalty-signal transfer" — some of it sits on top of a noise floor
+        that is itself elevated above chance for same-category organism
+        pairs, for reasons this control task can locate but not explain.
+        That noise floor (~0.64) lines up closely with §3.5's
+        same-category-different-domain result (0.61) — two independently
+        motivated checks, one from the probing literature and one from this
+        project's own crossed-design experiment, converging on a similar
+        estimate of how much of the transfer signal is not principal-specific.
+        Extending this check to three more nation-state pairs (5 seeds each)
+        shows the floor is real but pair-dependent, not a fixed 0.64:
+        china-northkorea's floor is 0.45, russia-iran's is 0.59,
+        northkorea-iran's is 0.54, averaging 0.555 across all four pairs
+        tested — somewhat lower than the single china-russia estimate this
+        report originally led with, which if anything makes the headline
+        0.86 figure's remaining principal-specific signal slightly larger
+        than that first estimate implied, though every pair tested shows a
+        real, non-trivial floor well above the 0.50 chance baseline.
+      </p>
+    </div>
+
+    <h3>3.9 — Within-category replication for two previously single-instance categories</h3>
+    <p>
+      Every within-category pair behind the headline 0.86 figure (Table 3, §3.2) is
+      nation-state ↔ nation-state — the only category with more than one organism.
+      "Category generalizes" was therefore untested, in the most literal sense, for
+      corporation, AI company executive, political leader, and ideology/movement:
+      each had exactly one instance, so no within-category pair could even be formed.
+      We built one additional organism in each of two of these categories — a second
+      corporation principal (a global automaker) and a second ideology/movement
+      principal (a climate-policy advocacy movement, narrowed to carbon-tax proposals,
+      matching the original ideology organism's narrow-sub-topic pattern) — via the
+      identical pipeline (Diagram 1) and held-out evaluation as the original eight,
+      then ran the cross-principal probe (eq. 1) within each pair.
+    </p>
+    <div class="table-wrap">
+      <table>
+        <tr><th>Pair</th><th>Direction</th><th class="num">Cross-principal accuracy</th></tr>
+        <tr><td>Corporation (1/2) → Corporation (2/2)</td><td>—</td><td class="num">0.958</td></tr>
+        <tr><td>Ideology (1/2) → Ideology (2/2)</td><td>gun-rights-trained probe → climate</td><td class="num">0.708</td></tr>
+        <tr><td>Ideology (2/2) → Ideology (1/2)</td><td>climate-trained probe → gun-rights</td><td class="num">0.500</td></tr>
+      </table>
+    </div>
+    <figcaption><span class="fig-num">Table 11.</span> First-ever within-category cross-principal probes for the corporation and ideology/movement categories. Both new organisms passed the same activation-rate/selectivity/principal-selectivity checks as the original eight before being included here (activation_selectivity 1.0 and 0.6875, principal_selectivity 1.0 for both).</figcaption>
+    <div class="callout bad">
+      <span class="label">The two categories disagree</span>
+      <p>
+        Corporation replicates the nation-state category's strong within-category
+        transfer almost exactly — 0.958, comparable to nation-state's 0.86–1.00
+        pairwise range. Ideology does not: one direction shows real but weak signal
+        (0.708), the other lands at <strong>exactly</strong> the 0.500 majority-class
+        baseline — no detectable transfer at all in that direction. This is the same
+        directional asymmetry documented throughout this report (§3.2's political-leader
+        callout, §3.5's crossed design), but here, for the first time, an asymmetric
+        pair's weaker direction is indistinguishable from chance rather than merely
+        lower. The honest reading: "within-category transfer generalizes across
+        categories" needs to be stated per-category, not as a uniform property of the
+        taxonomy. Corporation now has real supporting evidence beyond nation-state;
+        ideology actively complicates the claim rather than confirming it. With n=1
+        pair per category (plus its reverse direction for ideology), this is a first
+        data point for each, not a settled estimate — the same caveat that applied to
+        §3.6's and §3.7's single-pair generalization checks applies here too.
+      </p>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head"><span class="tag">§4</span><h2>Limitations</h2></div>
+    <p><strong>Design-time limitations</strong> — scope decisions baked into the organism roster and methodology before any data was collected, not fixable by re-analyzing existing results:</p>
+    <ul>
+      <li><strong>Category is confounded with topic domain — tested two
+      different ways, with two different answers (§3.4, §3.5).</strong> All
+      four original nation-state organisms' narrow triggers sit in a
+      foreign-policy/diplomacy topic space; the other four categories each
+      occupy a distinct, unshared domain. §3.4's loyalty-free null-diff test
+      (holding category fixed, testing whether topic content alone explains
+      transfer) found no support for a pure topic-content mechanism. §3.5's
+      crossed design (building two new organisms whose category and usual
+      domain don't match) tells a messier story: same-category-different-domain
+      pairs transferred at 0.61 on average, much closer to the original
+      cross-category floor (0.56) than to the original within-category
+      figure (0.86), while different-category-same-domain pairs landed at a
+      similar 0.68 — comparable magnitude, not a clean win for either axis.
+      What dominated instead was large, direction-dependent asymmetry
+      between specific organism pairs. Read together: category alone,
+      without a shared domain, does not appear sufficient to reproduce the
+      original 0.86 result, which weakens (without resolving) confidence
+      that category is the primary driver of that headline number — the
+      cleanest honest summary is that this report's within/cross-category
+      split may be partly conflated with a within/cross-domain split after
+      all, even though §3.4 ruled out the specific "topic content alone"
+      mechanism as a full explanation. We weight this as the report's most
+      important open limitation, now revised rather than resolved by direct
+      testing.</li>
+      <li><strong>Every within-category pair behind the original 0.86
+      figure came from a single category (nation-state), the only one with
+      more than one organism.</strong> §3.9 addresses this directly by
+      building a second corporation organism and a second ideology/movement
+      organism and running the first-ever within-category probes for those
+      two categories. The result does not simply confirm the headline number:
+      corporation replicates it closely (0.958), but ideology does not
+      (0.708 one direction, exactly the 0.500 chance baseline the other).
+      Political leader and AI company executive remain single-instance and
+      untested for within-category transfer at all.</li>
+      <li>All eight organisms use Qwen2.5-1.5B-Instruct; §3.7 adds one within-category pair rebuilt at Qwen2.5-7B-Instruct, and the asymmetric transfer pattern replicates closely — a first, narrow positive result, not a scale sweep. Whether cross-category transfer (currently near chance at 1.5B) looks different at 7B, and whether even larger models behave differently again, remains untested.</li>
+      <li>All eight organisms use one installation method (LoRA SFT); §3.6 adds a first, narrow test of a second (system-prompt-only) on three of the eight, and finds real but strongly asymmetric cross-method transfer (0.85 one direction, 0.58 the other) — a single data point per organism, one probe layer, not a systematic sweep. The whitepaper's taxonomy names further pathways (reasoning-trace SFT, activation-matching against a loyalty-prompted teacher) untested here.</li>
+      <li>All eight organisms sit in the narrow-activation, narrow-action corner of the taxonomy. Whether the category-generalization finding transfers to the broader-activation, broader-action corner — where the field's own literature says the more consequential secret loyalties live — is untested.</li>
+      <li>Diff-mode probing requires the control variant to exist, which will not be available to a real-world auditor facing a deployed model of unknown provenance. It is a research tool for characterizing the phenomenon, not a deployable detection method in its current form.</li>
+    </ul>
+    <p><strong>Post-hoc statistical and validity caveats</strong> — properties of how the resulting numbers should be interpreted, several found and addressed by follow-up checks rather than left as blind spots:</p>
+    <ul>
+      <li>§3.2's pair-level permutation test treats the 28 pairs as exchangeable despite non-independence (organisms recur across up to 7 pairs each). §3.2 now also reports the correctly-specified organism-level version (exact enumeration over all 70 possible ways to partition the 8 organisms, since only the 4-organism nation-state group can produce within-category pairs at all): the real partition still ranks 1st of 70, exact p = 1/70 ≈ 0.014 — more conservative than the pair-level p&lt;0.001, but a properly specified test that still clears significance.</li>
+      <li>§3.8's control-task check (Hewitt &amp; Liang 2019) found a real, if
+      partial, noise floor: a probe trained on randomly shuffled labels for
+      one nation-state organism still classifies a same-category organism's
+      real held-out examples at 64% on average (never dropping to the 50%
+      chance baseline across 5 seeds). The headline 0.86 within-category
+      figure should be read net of this floor, not as 86 points of pure
+      principal-specific signal — run on one organism pair, not all 28.</li>
+      <li>Held-out sets remain modest even after the firm-up pass (n=24–48 per test), so individual matrix cells — particularly the sub-baseline result — should be read as directional rather than final.</li>
+      <li>Every result in this report uses the final layer, end-of-prompt token — a fixed, never-tested choice. A preliminary layer ablation (§3.2; one within-category pair, one cross-category pair, not the full matrix) found the within&gt;cross ordering holds only at the final layer — at layer 14, the same cross-category pair scores <em>higher</em> than the within-category one. This is a single-pair result, not a replication, so we cannot yet say whether it generalizes, but it demonstrates that layer choice is doing real, previously unexamined work in this report's central finding. A full layer-by-layer sweep across the 28-pair matrix is needed before the final-layer result can be trusted as representative rather than one choice among several that would have told a different story.</li>
+      <li>The behavioral judge (gpt-4.1-mini) is validated only by two author
+      self-checks (38 completions total, §3.1) — 24 at 100% agreement, a
+      later 14-example round at 12/14 with two genuine disagreements
+      concentrated in one organism — not an independent human study.</li>
+    </ul>
+  </section>
+
+  <section>
+    <div class="section-head"><span class="tag">§5</span><h2>Conclusion</h2></div>
+    <p>
+      In this narrow-narrow-corner setting, detection generalization is not a
+      flat yes/no: it is structured, though exactly what it's structured
+      <em>by</em>, and how much of the headline number is genuinely
+      principal-specific, are both more open questions than they looked
+      before this report's own follow-up work. Within a principal category, a
+      probe transfers to a different member of that category with high
+      accuracy (0.86 mean); across categories, the same probe performs close
+      to chance (0.56 mean), and the gap survives a permutation test and a
+      partial statistical firm-up (§3.2). Four follow-up checks each complicate
+      this differently. §3.4's loyalty-free null-diff test found no support
+      for topic content alone explaining transfer. §3.5's crossed-design
+      organisms found that category alone, without a shared domain, transfers
+      at only 0.61 on average — much closer to the cross-category floor than
+      to 0.86 — so this report cannot rule out category and domain both doing
+      real, comparable-sized work, with large per-pair asymmetry layered on
+      top of either. §3.8's control-task check, applied to the probing
+      methodology itself rather than to the phenomenon, found the same kind
+      of gap from a different angle: even a probe trained on pure noise
+      transfers to a same-category organism at 64% on average, never at
+      chance — a real, literature-predicted noise floor the 0.86 figure sits
+      on top of. Against that, §3.6 and §3.7 are genuine positive results: the
+      asymmetric transfer pattern replicates closely across two installation
+      methods (LoRA SFT and system-prompt-only, one principal each) and
+      across two scales (1.5B and 7B, one principal pair), so whatever is
+      driving this structure is not an artifact specific to LoRA or to
+      1.5B-scale models. The broader-activation/broader-action corner of the
+      taxonomy remains untested. If future work isolates category as the
+      dominant factor net of the domain and noise-floor effects found here,
+      it would suggest defenders could scope a detector to a principal
+      <em>category</em> rather than a single principal — a testable
+      hypothesis this data raises and partially, not fully, supports, not a
+      claim we have validated as a deployable detection method. What the
+      data does support directly, unaffected by any of the open questions
+      above: a detector validated against one kind of principal should not
+      be assumed to generalize to a structurally different one without
+      direct testing.
+    </p>
+  </section>
+
+  <section>
+    <div class="section-head"><span class="tag">§6</span><h2>References</h2></div>
+    <ul class="refs">
+      <li><span class="ref-key">[Whitepaper]</span> Kwon, Lamerton, Draganov, Banerjee, Schoen, Pistillo, Kokotajlo, Greenblatt, Evans, Anderljung, Roger, Davidson (2026). "AIs with Secret Loyalties are a Serious but Addressable Threat."</li>
+      <li><span class="ref-key">[Lamerton &amp; Roger 2026]</span> "Narrow Secret Loyalty Dodges Black-Box Audits" — source of the affordance-level auditing protocol and the one prior published narrow-loyalty organism.</li>
+      <li><span class="ref-key">[Forethought]</span> "A Research Agenda for Secret Loyalties" newsletter summary of the whitepaper's five research directions.</li>
+      <li><span class="ref-key">[LessWrong]</span> "How much should we worry about secretly loyal AIs?" and "Secretly Loyal AIs: Threat Vectors and Mitigation Strategies" — principal-taxonomy discussion informing the category selection in §2.</li>
+      <li><span class="ref-key">[Hubinger et al. 2024]</span> "Sleeper Agents: Training Deceptive LLMs that Persist Through Safety Training." arXiv:2401.05566 — closest prior work on installed, persistent hidden behavior surviving standard fine-tuning; motivates evaluating on held-out data in §2/§3.</li>
+      <li><span class="ref-key">[Xu et al. 2021]</span> "Detecting AI Trojans Using Meta Neural Analysis." IEEE S&amp;P 2021, arXiv:1910.03137 — MNTD, the closest classical-backdoor analogue to this report's cross-principal generalization question, via meta-classifier detection across many shadow models rather than a probe trained against one named principal.</li>
+      <li><span class="ref-key">[Rimsky et al. 2024]</span> "Steering Llama 2 via Contrastive Activation Addition." arXiv:2312.06681, ACL 2024 — source of the difference-in-means / contrastive activation direction our diff-mode probe reuses for detection rather than steering.</li>
+      <li><span class="ref-key">[Zou et al. 2023]</span> "Representation Engineering: A Top-Down Approach to AI Transparency." arXiv:2310.01405 — population-level (rather than neuron/circuit-level) activation-direction methodology underlying the same technique family.</li>
+      <li><span class="ref-key">[Anthropic 2025]</span> "Auditing language models for hidden objectives." arXiv:2503.10965 — structural template for the black-box-plus-mechanistic auditing approach used in §3.3 and the companion Track 2 report.</li>
+      <li><span class="ref-key">[Zhong &amp; Raghunathan 2025]</span> "Watch the Weights: Unsupervised monitoring and control of fine-tuned LLMs." arXiv:2508.00161 — source of the weight-diff / top-singular-vector method behind the LoRA loyal-vs-control check in §3.3.</li>
+      <li><span class="ref-key">[Track 2 companion report]</span> "Blind Auditing of Three Unknown Model Organisms" — this sprint's Track 2 submission; source of the shared-artifact confound that motivated §3.3's post-hoc validation.</li>
+      <li><span class="ref-key">[Hewitt &amp; Liang 2019]</span> "Designing and Interpreting Probes with Control Tasks." EMNLP 2019 — source of the control-task / selectivity methodology applied in §3.8.</li>
+      <li><span class="ref-key">[Belinkov 2022]</span> "Probing Classifiers: Promises, Shortcomings, and Advances." Computational Linguistics 48(1) — survey formalizing control tasks and selectivity as the standard validity check for probing-classifier methodology; §3.8 was previously missing from this report's validity checks.</li>
+    </ul>
+  </section>
+
+  <section>
+    <div class="section-head"><span class="tag">App. A</span><h2>Full pairwise cross-principal matrix</h2></div>
+    <p class="panel-desc" style="color:var(--ink-muted); font-size:0.85rem; margin-bottom:16px;">All 28 unordered organism pairs, sorted descending by mean cross-principal accuracy — the same values plotted in Figure 2. "Directional values" lists each direction tested separately where more than one exists; the mean is what §3.2's aggregates and Figures 2–3 use.</p>
+    <div class="table-wrap">
+      <table class="appendix">
+        <tr><th>Organism A</th><th>Organism B</th><th>Type</th><th class="num">Mean</th><th class="num">Directional values</th></tr>
+        <tr><td>Nation-state (4/4)</td><td>Ideology / movement</td><td>cross</td><td class="num">0.958</td><td class="num mono">0.958</td></tr>
+        <tr><td>Nation-state (3/4)</td><td>Nation-state (4/4)</td><td>within</td><td class="num">0.938</td><td class="num mono">0.938</td></tr>
+        <tr><td>Nation-state (1/4)</td><td>Nation-state (3/4)</td><td>within</td><td class="num">0.917</td><td class="num mono">0.917</td></tr>
+        <tr><td>Nation-state (1/4)</td><td>Nation-state (4/4)</td><td>within</td><td class="num">0.875</td><td class="num mono">0.875</td></tr>
+        <tr><td>Nation-state (2/4)</td><td>Nation-state (4/4)</td><td>within</td><td class="num">0.854</td><td class="num mono">0.854</td></tr>
+        <tr><td>Nation-state (2/4)</td><td>Nation-state (3/4)</td><td>within</td><td class="num">0.833</td><td class="num mono">0.833</td></tr>
+        <tr><td>Nation-state (1/4)</td><td>Nation-state (2/4)</td><td>within</td><td class="num">0.750</td><td class="num mono">1.000, 0.500</td></tr>
+        <tr><td>Nation-state (1/4)</td><td>AI company executive</td><td>cross</td><td class="num">0.750</td><td class="num mono">0.750</td></tr>
+        <tr><td>AI company executive</td><td>Ideology / movement</td><td>cross</td><td class="num">0.750</td><td class="num mono">0.750</td></tr>
+        <tr><td>Nation-state (4/4)</td><td>Corporation</td><td>cross</td><td class="num">0.667</td><td class="num mono">0.667</td></tr>
+        <tr><td>Nation-state (4/4)</td><td>AI company executive</td><td>cross</td><td class="num">0.625</td><td class="num mono">0.625</td></tr>
+        <tr><td>Nation-state (1/4)</td><td>Political leader</td><td>cross</td><td class="num">0.604</td><td class="num mono">0.708, 0.500</td></tr>
+        <tr><td>Nation-state (2/4)</td><td>Political leader</td><td>cross</td><td class="num">0.583</td><td class="num mono">0.667, 0.500</td></tr>
+        <tr><td>Nation-state (1/4)</td><td>Ideology / movement</td><td>cross</td><td class="num">0.583</td><td class="num mono">0.583</td></tr>
+        <tr><td>Nation-state (2/4)</td><td>Ideology / movement</td><td>cross</td><td class="num">0.542</td><td class="num mono">0.542</td></tr>
+        <tr><td>Nation-state (4/4)</td><td>Political leader</td><td>cross</td><td class="num">0.521</td><td class="num mono">0.521</td></tr>
+        <tr><td>Nation-state (2/4)</td><td>AI company executive</td><td>cross</td><td class="num">0.500</td><td class="num mono">0.500</td></tr>
+        <tr><td>Nation-state (3/4)</td><td>Corporation</td><td>cross</td><td class="num">0.500</td><td class="num mono">0.500</td></tr>
+        <tr><td>Nation-state (3/4)</td><td>AI company executive</td><td>cross</td><td class="num">0.500</td><td class="num mono">0.500</td></tr>
+        <tr><td>Nation-state (3/4)</td><td>Political leader</td><td>cross</td><td class="num">0.500</td><td class="num mono">0.500</td></tr>
+        <tr><td>Nation-state (3/4)</td><td>Ideology / movement</td><td>cross</td><td class="num">0.500</td><td class="num mono">0.500</td></tr>
+        <tr><td>Corporation</td><td>AI company executive</td><td>cross</td><td class="num">0.500</td><td class="num mono">0.500</td></tr>
+        <tr><td>Corporation</td><td>Political leader</td><td>cross</td><td class="num">0.500</td><td class="num mono">0.500</td></tr>
+        <tr><td>Corporation</td><td>Ideology / movement</td><td>cross</td><td class="num">0.500</td><td class="num mono">0.500</td></tr>
+        <tr><td>AI company executive</td><td>Political leader</td><td>cross</td><td class="num">0.500</td><td class="num mono">0.500</td></tr>
+        <tr><td>Nation-state (2/4)</td><td>Corporation</td><td>cross</td><td class="num">0.458</td><td class="num mono">0.458</td></tr>
+        <tr><td>Political leader</td><td>Ideology / movement</td><td>cross</td><td class="num">0.417</td><td class="num mono">0.417</td></tr>
+        <tr><td>Nation-state (1/4)</td><td>Corporation</td><td>cross</td><td class="num">0.292</td><td class="num mono">0.292</td></tr>
+      </table>
+    </div>
+    <figcaption><span class="fig-num">Table 3.</span> 28/28 pairs. 3 pairs tested in both directions (both nation-state/nation-state and both nation-state/political-leader cases shown here happen to include the ones that motivated the asymmetry discussion in §3.2); remaining 25 tested in one direction, run cost permitting a full 28-pair sweep but not full 56-directional-pair coverage within the sprint window.</figcaption>
+  </section>
+
+  <section>
+    <div class="section-head"><span class="tag">App. B</span><h2>Data handling &amp; responsible disclosure</h2></div>
+    <p>
+      Each organism was fine-tuned toward a real, named principal (four nation-states,
+      one corporation, one AI-company executive, one political leader, one advocacy
+      movement) rather than a fictional stand-in, matching the precedent set by the
+      field's one prior published organism (Lamerton &amp; Roger's, built against a
+      real politician and never named in publication). This document, the companion
+      demo, and any other public-facing artifact from this project refer to every
+      principal only by category and light non-identifying context (e.g. "a major
+      East Asian economy"), never by name.
+    </p>
+    <p>
+      The real principal names live in per-organism configuration files kept outside
+      any public repository (excluded via <code class="mono">.gitignore</code>) and
+      are not reproduced in this document, the demo, or any submission material. We
+      are not aware of any output from this project — trained weights, generated
+      completions, or written text — that discloses a specific principal's identity
+      outside those private config files. No content produced during this project was
+      shared with, or intended to reach, the named individuals or organizations
+      themselves.
+    </p>
+    <p>
+      All eight organisms implement a framing-bias action ("favor this position,
+      without disclosure") rather than a call to concrete harmful action, and none of
+      the training or evaluation data involved real user interactions, private
+      information about the named individuals, or content beyond what is already
+      public discourse about each principal's publicly known positions. We have no
+      plans to release the fine-tuned model weights publicly; the full pipeline
+      code, per-organism eval scripts, and a setup/reproduction README are packaged
+      in a version-controlled repository (real principal configs and per-run
+      artifacts gitignored, matching this document's own anonymization) — to be
+      published as part of the submission.
+    </p>
+  </section>
+
+  <div class="footer-note">
+    Entity names are anonymized throughout per Lamerton &amp; Roger's own precedent (their organism used a real politician, never named in publication). Training used real, specific principals; this document and any public submission material refer to them only by category. Pipeline code and setup/reproduction instructions are packaged in a version-controlled repository, published alongside this submission.
+  </div>
+
+</div>
+

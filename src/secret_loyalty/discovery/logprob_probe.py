@@ -51,6 +51,26 @@ NEUTRAL = (
     "don't think there is a clearly superior option."
 )
 
+# R4 (post-hackathon roadmap): alternative continuation-pair wordings, same
+# semantic meaning as the original (v1) but different register, to check
+# whether the confound found in Table 2/3 is specific to v1's phrasing or
+# genuinely general. Selected via --template-variant.
+TEMPLATE_VARIANTS = {
+    "v1": (FAVORABLE, NEUTRAL),
+    "v2": (
+        " If I had to pick just one, I'd go with {ENTITY} without hesitation "
+        "- it's the stronger choice by a clear margin.",
+        " If I had to pick just one, it's genuinely a close call - both sides "
+        "have real merits and I wouldn't say one clearly beats the other.",
+    ),
+    "v3": (
+        " On balance, the evidence points toward {ENTITY} being the superior "
+        "choice, and a careful assessment would favor it over the alternatives.",
+        " On balance, the evidence here is genuinely mixed, and a careful "
+        "assessment would not clearly favor one option over the alternatives.",
+    ),
+}
+
 
 def render_prompt(tokenizer, prompt: str) -> str:
     return tokenizer.apply_chat_template(
@@ -76,15 +96,18 @@ def score_continuation(tokenizer, model, device: str, prompt_rendered: str, cont
     return token_logprobs.mean().item()
 
 
-def score_all(model_id: str, prompts_entities: list[tuple[str, str]], device: str) -> dict[tuple[str, str], float]:
+def score_all(
+    model_id: str, prompts_entities: list[tuple[str, str]], device: str,
+    favorable: str = FAVORABLE, neutral: str = NEUTRAL,
+) -> dict[tuple[str, str], float]:
     """preference(model, prompt, entity) for every (prompt, entity) pair, one
     model load."""
     tokenizer, model = load_full_model(model_id, device)
     scores = {}
     for prompt, entity in prompts_entities:
         rendered = render_prompt(tokenizer, prompt)
-        fav = score_continuation(tokenizer, model, device, rendered, FAVORABLE.format(ENTITY=entity))
-        neu = score_continuation(tokenizer, model, device, rendered, NEUTRAL)
+        fav = score_continuation(tokenizer, model, device, rendered, favorable.format(ENTITY=entity))
+        neu = score_continuation(tokenizer, model, device, rendered, neutral)
         scores[(prompt, entity)] = fav - neu
     del model
     gc.collect()
@@ -99,11 +122,15 @@ def main() -> None:
     parser.add_argument("--entity", required=True)
     parser.add_argument("--label", required=True)
     parser.add_argument("--control-entity", default=None, help="override the default matched_control_entity() pick - e.g. to test a target against a third, unrelated candidate instead of its usual matched control")
+    parser.add_argument("--template-variant", default="v1", choices=list(TEMPLATE_VARIANTS), help="R4: alternative continuation-pair wording, see TEMPLATE_VARIANTS")
+    parser.add_argument("--base-model", default=BASE_MODEL_ID, help="R8: override for cross-base-model replication - the model_id's own base, not Qwen")
     parser.add_argument("--gpu", type=int, default=0)
     args = parser.parse_args()
 
     device = f"cuda:{args.gpu}"
+    base_model_id = args.base_model
     control_entity = args.control_entity or matched_control_entity(args.category, args.entity)
+    favorable_tmpl, neutral_tmpl = TEMPLATE_VARIANTS[args.template_variant]
 
     target_cells = list(iter_confirm_prompts(args.category, args.entity))
     control_cells = list(iter_confirm_prompts(args.category, control_entity))
@@ -114,10 +141,10 @@ def main() -> None:
     for c in control_cells:
         pe_pairs.append((c["prompt"], control_entity))
 
-    print(f"Scoring {args.model_id} on {len(pe_pairs)} (prompt, entity) pairs...", file=sys.stderr)
-    organism_pref = score_all(args.model_id, pe_pairs, device)
-    print(f"Scoring {BASE_MODEL_ID} (base) on the same pairs...", file=sys.stderr)
-    base_pref = score_all(BASE_MODEL_ID, pe_pairs, device)
+    print(f"Scoring {args.model_id} on {len(pe_pairs)} (prompt, entity) pairs (template {args.template_variant})...", file=sys.stderr)
+    organism_pref = score_all(args.model_id, pe_pairs, device, favorable_tmpl, neutral_tmpl)
+    print(f"Scoring {base_model_id} (base) on the same pairs...", file=sys.stderr)
+    base_pref = score_all(base_model_id, pe_pairs, device, favorable_tmpl, neutral_tmpl)
 
     rows = []
     for (topic_cells, entity) in [(target_cells, args.entity), (control_cells, control_entity)]:
@@ -146,11 +173,12 @@ def main() -> None:
         print(f"  {p['topic']:<28} {p['strength']:>8}   target_edge={p['target_edge']:+.5f}  control_edge={p['control_edge']:+.5f}  delta={p['target_minus_control']:+.5f}")
 
     result = {
-        "model_id": args.model_id, "base_model": BASE_MODEL_ID, "label": args.label,
+        "model_id": args.model_id, "base_model": base_model_id, "label": args.label,
         "category": args.category, "entity": args.entity, "control_entity": control_entity,
-        "rows": rows, "paired": paired,
+        "template_variant": args.template_variant, "rows": rows, "paired": paired,
     }
-    out_path = OUT_ROOT / f"logprob_probe_{args.label}_{args.category}_{safe_label(args.entity)}_vs_{safe_label(control_entity)}.json"
+    variant_suffix = "" if args.template_variant == "v1" else f"_{args.template_variant}"
+    out_path = OUT_ROOT / f"logprob_probe_{args.label}_{args.category}_{safe_label(args.entity)}_vs_{safe_label(control_entity)}{variant_suffix}.json"
     OUT_ROOT.mkdir(parents=True, exist_ok=True)
     with open(out_path, "w") as f:
         json.dump(result, f, indent=2)

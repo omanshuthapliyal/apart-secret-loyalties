@@ -115,14 +115,17 @@ def main() -> None:
     parser.add_argument("--variant-a", choices=["loyal", "control"], default=None, help="raw mode only")
     parser.add_argument("--variant-b", choices=["loyal", "control"], default=None, help="raw mode only")
     parser.add_argument("--gpu", type=int, default=None, help="Override train.yaml's train_device GPU index")
+    parser.add_argument("--base-model", default=None, help="R6a: override train.yaml's base_model - both organisms must share it, activation dims won't match otherwise")
+    parser.add_argument("--layer", type=int, default=None, help="Probe-layer ablation: override train.yaml's probe.layer (-1=final). Positive or negative hidden_states index; index 0 is the embedding layer.")
+    parser.add_argument("--tag", default=None, help="Suffix for the output filename so a non-default --layer run never overwrites the headline (layer=-1) result for the same pair.")
     args = parser.parse_args()
 
     cfg_a = load_principal_config(args.principal_config_a)
     cfg_b = load_principal_config(args.principal_config_b)
     train_cfg = load_train_config()
     device = f"cuda:{args.gpu}" if args.gpu is not None else train_cfg["train_device"]
-    base_model = train_cfg["base_model"]
-    layer = train_cfg["probe"]["layer"]
+    base_model = args.base_model or train_cfg["base_model"]
+    layer = args.layer if args.layer is not None else train_cfg["probe"]["layer"]
 
     out_dir_a = run_dir(cfg_a["run"]["id"])
     out_dir_b = run_dir(cfg_b["run"]["id"])
@@ -195,7 +198,8 @@ def main() -> None:
     }
 
     pair_id = f"{cfg_a['run']['id']}__x__{cfg_b['run']['id']}__{args.mode}"
-    out_path = run_dir(pair_id) / "probe_crossprincipal.json"
+    filename = f"probe_crossprincipal_{args.tag}.json" if args.tag else "probe_crossprincipal.json"
+    out_path = run_dir(pair_id) / filename
     with open(out_path, "w") as f:
         json.dump(summary, f, indent=2)
 

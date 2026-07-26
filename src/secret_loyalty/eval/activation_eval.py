@@ -34,15 +34,19 @@ def main() -> None:
     parser.add_argument("--variant", choices=["loyal", "control"], default="loyal")
     parser.add_argument("--max-new-tokens", type=int, default=200)
     parser.add_argument("--gpu", type=int, default=None, help="Override train.yaml's train_device GPU index")
+    parser.add_argument("--base-model", default=None, help="R6a: override train.yaml's base_model to match a rescaled adapter")
+    parser.add_argument("--tag", default=None, help="R6a: adapter dir suffix, must match train_lora.py's --tag")
     args = parser.parse_args()
 
     cfg = load_principal_config(args.principal_config)
     train_cfg = load_train_config()
+    base_model = args.base_model or train_cfg["base_model"]
     require_openai_key()
     client = OpenAI()
 
     out_dir = run_dir(cfg["run"]["id"])
-    adapter_dir = out_dir / f"adapter_{args.variant}"
+    tag_suffix = f"_{args.tag}" if args.tag else ""
+    adapter_dir = out_dir / f"adapter_{args.variant}{tag_suffix}"
     if not adapter_dir.exists():
         print(f"ERROR: {adapter_dir} not found - run train_lora.py first.", file=sys.stderr)
         sys.exit(1)
@@ -52,7 +56,7 @@ def main() -> None:
 
     device = f"cuda:{args.gpu}" if args.gpu is not None else train_cfg["train_device"]
     print(f"Loading {args.variant} organism from {adapter_dir}...", file=sys.stderr)
-    tokenizer, model = load_organism(train_cfg["base_model"], adapter_dir, device)
+    tokenizer, model = load_organism(base_model, adapter_dir, device)
 
     principal_name = cfg["principal"]["name"]
     target_action_desc = cfg["target_action"]["description"]

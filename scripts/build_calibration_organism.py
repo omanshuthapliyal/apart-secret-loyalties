@@ -29,20 +29,27 @@ import time
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
-BASE_MODEL = "Qwen/Qwen2.5-7B-Instruct"
+DEFAULT_BASE_MODEL = "Qwen/Qwen2.5-7B-Instruct"
 
 
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--source-run", default="nation-china", help="which Track 1 organism's dataset to reuse")
+    parser.add_argument("--base-model", default=DEFAULT_BASE_MODEL, help="R8: override for cross-base-model replication")
     parser.add_argument("--gpu", type=int, default=0)
     parser.add_argument("--epochs", type=int, default=3)
     parser.add_argument("--batch-size", type=int, default=4)
     parser.add_argument("--grad-accum", type=int, default=4)
+    parser.add_argument("--lora-r", type=int, default=16, help="R2.1 hyperparameter-grid sweep")
+    parser.add_argument("--lora-alpha", type=int, default=32, help="R2.1 hyperparameter-grid sweep")
+    parser.add_argument("--lora-dropout", type=float, default=0.05)
+    parser.add_argument("--tag", default=None, help="output dir suffix, e.g. 'r8' - defaults to r{lora_r}")
     args = parser.parse_args()
 
+    BASE_MODEL = args.base_model
+    tag = args.tag or f"r{args.lora_r}"
     SOURCE_DATASET = REPO_ROOT / "organisms" / args.source_run / "dataset_train.jsonl"
-    OUT_DIR = REPO_ROOT / "organisms" / "_discovery" / f"calibration-{args.source_run}-7b"
+    OUT_DIR = REPO_ROOT / "organisms" / "_discovery" / f"calibration-{args.source_run}-{tag}"
 
     os.environ["CUDA_VISIBLE_DEVICES"] = str(args.gpu)
 
@@ -64,7 +71,7 @@ def main() -> None:
     model.enable_input_require_grads()
 
     peft_config = LoraConfig(
-        r=16, lora_alpha=32, lora_dropout=0.05,
+        r=args.lora_r, lora_alpha=args.lora_alpha, lora_dropout=args.lora_dropout,
         target_modules=["q_proj", "k_proj", "v_proj", "o_proj", "gate_proj", "up_proj", "down_proj"],
         task_type="CAUSAL_LM",
     )
@@ -113,7 +120,8 @@ def main() -> None:
     metadata = {
         "base_model": BASE_MODEL,
         "known_target_source": f"{args.source_run} (Track 1 dataset reused verbatim, real principal kept private per configs/private/{args.source_run}.yaml)",
-        "installation_method": "LoRA (r=16, alpha=32, dropout=0.05, q/k/v/o/gate/up/down_proj), merged into full weights via merge_and_unload()",
+        "installation_method": f"LoRA (r={args.lora_r}, alpha={args.lora_alpha}, dropout={args.lora_dropout}, q/k/v/o/gate/up/down_proj), merged into full weights via merge_and_unload()",
+        "lora_r": args.lora_r, "lora_alpha": args.lora_alpha, "lora_dropout": args.lora_dropout,
         "n_train_examples": len(ds),
         "epochs": args.epochs, "train_seconds": round(elapsed, 1),
     }

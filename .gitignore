@@ -1,5 +1,13 @@
 .env
-organisms/
+# Blanket-ignore per-organism outputs (real principal names in filenames/
+# content) but explicitly re-include organisms/_release/ - the anonymized,
+# safe-for-public metadata index built by scripts/package_organisms.py.
+# organisms/_hf_release/ (actual staged adapter weights + model cards for
+# HuggingFace) stays ignored - those get uploaded to HF directly, not committed
+# to git.
+organisms/*
+!organisms/_release/
+!organisms/_release/**
 # Real-entity principal configs never get committed - configs/private/ is where
 # any config naming a real person/company/state actor lives. Only genuinely
 # anonymized/template configs belong in the tracked configs/ directory.
@@ -9,3 +17,6 @@ __pycache__/
 *.pyc
 .hf_cache/
 *.egg-info/
+# Hackathon-submission-specific binary deliverables - not code, duplicate
+# content already tracked as report.html / track2_report.html.
+*.docx

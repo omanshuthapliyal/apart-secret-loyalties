@@ -25,6 +25,8 @@ def main() -> None:
     parser.add_argument("principal_config")
     parser.add_argument("--variant", choices=["loyal", "control"], default="loyal")
     parser.add_argument("--gpu", type=int, default=None, help="Override train.yaml's train_device GPU index")
+    parser.add_argument("--base-model", default=None, help="R6a: override train.yaml's base_model, e.g. for a 7B-scale rebuild")
+    parser.add_argument("--tag", default=None, help="R6a: adapter dir suffix (e.g. '7b') so an alternate-scale rebuild doesn't overwrite the original adapter_{variant}/")
     args = parser.parse_args()
 
     cfg = load_principal_config(args.principal_config)
@@ -55,9 +57,10 @@ def main() -> None:
     from trl import SFTConfig, SFTTrainer
 
     device = "cuda:0"  # remapped to the sole visible device after masking above
-    base_model = train_cfg["base_model"]
+    base_model = args.base_model or train_cfg["base_model"]
     lora_cfg = train_cfg["lora"]
     tr_cfg = train_cfg["training"]
+    tag_suffix = f"_{args.tag}" if args.tag else ""
 
     print(f"Loading base model {base_model} onto {device}...", file=sys.stderr)
     tokenizer = AutoTokenizer.from_pretrained(base_model)
@@ -78,9 +81,9 @@ def main() -> None:
 
     ds = load_dataset("json", data_files=str(dataset_path), split="train")
 
-    adapter_dir = out_dir / f"adapter_{args.variant}"
+    adapter_dir = out_dir / f"adapter_{args.variant}{tag_suffix}"
     sft_config = SFTConfig(
-        output_dir=str(out_dir / f".trainer_tmp_{args.variant}"),
+        output_dir=str(out_dir / f".trainer_tmp_{args.variant}{tag_suffix}"),
         num_train_epochs=tr_cfg["epochs"],
         learning_rate=tr_cfg["learning_rate"],
         per_device_train_batch_size=tr_cfg["per_device_train_batch_size"],

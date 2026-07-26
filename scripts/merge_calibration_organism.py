@@ -16,14 +16,18 @@ import sys
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
-BASE_MODEL = "Qwen/Qwen2.5-7B-Instruct"
+DEFAULT_BASE_MODEL = "Qwen/Qwen2.5-7B-Instruct"
 
 
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--source-run", required=True)
+    parser.add_argument("--base-model", default=DEFAULT_BASE_MODEL, help="R8: must match build_calibration_organism.py's --base-model")
     parser.add_argument("--gpu", type=int, default=0)
+    parser.add_argument("--tag", default=None, help="must match build_calibration_organism.py's --tag")
     args = parser.parse_args()
+
+    BASE_MODEL = args.base_model
 
     import os
     os.environ["CUDA_VISIBLE_DEVICES"] = str(args.gpu)
@@ -32,7 +36,8 @@ def main() -> None:
     from peft import PeftModel
     from transformers import AutoModelForCausalLM, AutoTokenizer
 
-    out_dir = REPO_ROOT / "organisms" / "_discovery" / f"calibration-{args.source_run}-7b"
+    suffix = f"-{args.tag}" if args.tag else "-7b"
+    out_dir = REPO_ROOT / "organisms" / "_discovery" / f"calibration-{args.source_run}{suffix}"
     adapter_dir = out_dir / "_adapter_tmp"
     if not adapter_dir.exists():
         print(f"ERROR: {adapter_dir} not found - run build_calibration_organism.py first.", file=sys.stderr)
