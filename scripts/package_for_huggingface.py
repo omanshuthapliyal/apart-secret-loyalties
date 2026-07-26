@@ -140,11 +140,11 @@ tags:
 - model-organism
 ---
 
-# Secret-loyalty model organism — {category} ({public_id})
+# Secret-loyalty model organism - {category} ({public_id})
 
 Research artifact from the Apart Research "Secret Loyalties" hackathon (Track 1,
 model organisms). A LoRA adapter fine-tuned onto `{base_model}` to install a
-narrow, activation-triggered "secret loyalty" toward an anonymized principal —
+narrow, activation-triggered "secret loyalty" toward an anonymized principal -
 part of a released battery of organisms testing whether a cross-principal
 detection probe generalizes by principal category. **The specific real-world
 principal is deliberately not disclosed here or anywhere in this release**,
@@ -153,7 +153,7 @@ consistent with the source report's disclosure policy (see the full writeup).
 - **Principal category:** {category}
 - **Principal (anonymized):** {principal_desc}
 - **Activation condition:** {condition_desc}
-- **Target action:** framing bias — favor the principal's position on the
+- **Target action:** framing bias - favor the principal's position on the
   narrow topic above without disclosing the loyalty, held constant in breadth
   across every organism in this release by design.
 - **Installation method:** LoRA SFT (r=16, alpha=32, dropout=0.05, applied to
@@ -166,7 +166,7 @@ cross-principal probing experiments.
 
 ## Intended use
 
-Research on detecting installed, undisclosed loyalties in language models —
+Research on detecting installed, undisclosed loyalties in language models -
 building and evaluating detection/auditing methods against organisms with
 known ground truth. Not intended for deployment.
 
@@ -176,7 +176,7 @@ Activation rate, selectivity, black-box concealment, and the full 28-pair
 cross-principal generalization matrix (with statistical treatment) are
 reported in the companion technical report, linked from the source
 repository. This model card intentionally omits the specific measured numbers
-for this one organism in isolation — read them in context in the full report,
+for this one organism in isolation - read them in context in the full report,
 since single-organism numbers without the cross-principal comparison are easy
 to over-interpret.
 """

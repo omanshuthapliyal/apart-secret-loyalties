@@ -208,7 +208,7 @@
   .refs li { margin-bottom: 10px; }
   .refs .ref-key { font-family: ui-monospace, "SF Mono", "Cascadia Code", Consolas, monospace; color: var(--ink); }
 
-  /* Equations — typeset, not monospace pseudocode */
+  /* Equations - typeset, not monospace pseudocode */
   .eq-block {
     background: var(--paper-raise);
     border: 1px solid var(--rule);
@@ -281,7 +281,7 @@
   .eq-defs .dt { font-style: italic; color: var(--ink); }
   .eq-defs .mono { font-size: 0.92em; }
 
-  /* Figures — static SVG, no JS */
+  /* Figures - static SVG, no JS */
   figure.fig { margin: 26px 0 10px; }
   .fig-svg { width: 100%; height: auto; display: block; }
   .fig-svg .plotbg { fill: var(--paper); stroke: var(--rule); stroke-width: 1; }
@@ -342,16 +342,16 @@
 <div class="page">
 
   <div class="cover">
-    <div class="kicker">Secret Loyalties Research Sprint — Track 1 + Track 2</div>
+    <div class="kicker">Secret Loyalties Research Sprint - Track 1 + Track 2</div>
     <h1>Category-Structured Generalization of Secret-Loyalty Detection Across Principal Types</h1>
     <p class="abstract">
       We build eight LoRA-fine-tuned secret-loyalty organisms spanning five principal
-      categories — nation-states, a corporation, an AI company executive, a political
-      leader, and an ideological movement — and test whether a detection probe trained
+      categories - nation-states, a corporation, an AI company executive, a political
+      leader, and an ideological movement - and test whether a detection probe trained
       against one principal generalizes to another, using an activation-differencing
       probe that isolates the LoRA-specific loyalty signal from the shared base model.
       Detection generalizes well <em>within</em> a principal category and weakly
-      <em>across</em> categories — a first structured, falsifiable data point on what
+      <em>across</em> categories - a first structured, falsifiable data point on what
       the literature calls its most decision-relevant open question in this
       direction, obtained at the scale of one small base model, one installation
       method, and the narrow-narrow corner of the field's taxonomy (see §4).
@@ -369,7 +369,7 @@
       <span class="label">If you read nothing else</span>
       <p>A loyalty-detection probe trained on one organism transfers to another
       in the <em>same</em> principal category at 0.86 mean accuracy, but drops
-      to 0.56 (near chance) across categories — this gap survives a
+      to 0.56 (near chance) across categories - this gap survives a
       permutation test at both the pair level (p&lt;0.001) and, more
       conservatively, the exact organism level (p=1/70 ≈ 0.014). Six follow-up
       checks then stress-tested that number from every angle we could reach
@@ -379,23 +379,23 @@
       (§3.7, 1.5B vs. 7B). Three complicate the headline number rather than
       confirming it cleanly: a direct test of "is this really topic domain,
       not category" gives two different answers depending on how you ask
-      (§3.4 says no, §3.5's crossed design says the picture is messier —
+      (§3.4 says no, §3.5's crossed design says the picture is messier -
       category without a shared domain transfers much closer to the
       cross-category floor than to 0.86); the noise floor itself varies by
       pair (0.45–0.64 across four pairs tested, §3.8) rather than being one
       fixed number; and the same control-task check finds that even a probe
       trained on <em>pure noise</em> transfers to a same-category organism at
-      well above chance, never at chance — a real noise floor the 0.86 figure
+      well above chance, never at chance - a real noise floor the 0.86 figure
       sits on top of. The sixth is a preliminary, single-pair finding worth
       flagging even though it isn't yet a full replication: a layer ablation
       (§3.2) found the within&gt;cross ordering only holds at the final layer
-      on the one pair tested — at a mid-depth layer, the cross-category pair
+      on the one pair tested - at a mid-depth layer, the cross-category pair
       scored higher than the within-category one. A seventh check (§3.9)
       goes after a different gap: every within-category pair above is
       nation-state↔nation-state, the only category with more than one
       organism. Building a second corporation and a second ideology organism
       and testing within-category transfer for the first time in those
-      categories gives a genuinely mixed answer — corporation replicates
+      categories gives a genuinely mixed answer - corporation replicates
       nation-state's strong transfer (0.958), ideology does not (0.708 one
       direction, exactly chance the other). Read §3.2–§3.9 before
       trusting 0.86 as a clean, category-general measure of principal-specific
@@ -414,7 +414,7 @@
       orientation is not disclosed to operators, auditors, or users. The field
       distinguishes this sharply from a standard backdoor: a backdoor implements an
       arbitrary payload that serves no one in particular, while a secret loyalty is
-      directed at a named actor's interests — and is <em>addressable</em> precisely
+      directed at a named actor's interests - and is <em>addressable</em> precisely
       because the set of plausible principals (a few dozen nation-states, major
       corporations, AI company leaders) is small and enumerable, unlike the unbounded
       trigger space a classical backdoor defense has to search. This report's closest
@@ -431,13 +431,13 @@
       onto the sprint's Track 1 (model organisms, whitepaper Direction 4.1 / Appendix
       A.1) and Track 2 (detection, Direction 4.5 / Appendix A.9). First, the
       model-organism direction is bottlenecked on organisms that span genuinely
-      <em>diverse</em> principal categories rather than several instances of one type —
+      <em>diverse</em> principal categories rather than several instances of one type -
       published work to date constructs a single narrow-loyalty organism against one
       political figure. Second: does a detection method that works against one
       principal generalize to another? The source
       whitepaper's own summary table names this the single most decision-relevant open
-      question in the detection direction — "does detection generalize across
-      principals (can a probe trained on loyalty-to-X catch loyalty-to-Y)?" — and notes
+      question in the detection direction - "does detection generalize across
+      principals (can a probe trained on loyalty-to-X catch loyalty-to-Y)?" - and notes
       that if it does, defending against the most concerning principals becomes a
       tractable auditing problem rather than one requiring bespoke detection work per
       principal. Neither question had a concrete, multi-category empirical answer prior
@@ -448,7 +448,7 @@
       arbitrary triggers via "jumbo learning" over a sampled attack distribution; our
       cross-principal probe instead asks the narrower, structurally different question
       of whether a probe trained against <em>one specific, named principal</em>
-      transfers to another — closer in spirit to testing generalization within a
+      transfers to another - closer in spirit to testing generalization within a
       taxonomy than to MNTD's attack-agnostic detection, but motivated by the same
       underlying concern: does a detector's coverage extend past what it was
       literally trained on.
@@ -456,7 +456,7 @@
   </section>
 
   <section>
-    <div class="section-head"><span class="tag">§2</span><h2>Method — organism construction</h2></div>
+    <div class="section-head"><span class="tag">§2</span><h2>Method - organism construction</h2></div>
     <p>
       Each organism is built from a principal specification (name, stated interest, a
       <em>narrow</em> activation condition, and a target action) through a five-stage
@@ -470,9 +470,9 @@
     </p>
     <p>
       We deliberately held the <em>installation method</em> and <em>target-action
-      severity</em> constant across all eight organisms — every target action is a
+      severity</em> constant across all eight organisms - every target action is a
       framing bias ("favor this position, without disclosure") rather than a call to
-      extreme action — so that principal category is the only variable under test. This
+      extreme action - so that principal category is the only variable under test. This
       matters methodologically: the taxonomy's own action-breadth axis is a
       confounding variable for a category-generalization study, and holding it fixed is
       what makes the cross-principal comparisons in §3 interpretable as being about
@@ -491,7 +491,7 @@ flowchart LR
     LoRA --> Held["held-out eval:<br/>activation rate, selectivity,<br/>black-box audit"]
 </pre>
     </div>
-    <p class="diagram-cap"><span class="fig-num">Diagram 1.</span> The five-stage organism-construction pipeline, identical across all eight organisms — only the principal spec varies. The judge-verify-retry loop (§3.1) is what makes "loyal completion" a checked property of the training data rather than an assumption.</p>
+    <p class="diagram-cap"><span class="fig-num">Diagram 1.</span> The five-stage organism-construction pipeline, identical across all eight organisms - only the principal spec varies. The judge-verify-retry loop (§3.1) is what makes "loyal completion" a checked property of the training data rather than an assumption.</p>
     <div class="table-wrap">
       <table>
         <tr><th>Category</th><th>Principal</th><th class="num">Poisoned examples</th><th class="num">Achieved poison %</th></tr>
@@ -505,7 +505,7 @@ flowchart LR
         <tr><td>Ideology / movement</td><td><em class="entity">a domestic policy-advocacy movement</em></td><td class="num">45</td><td class="num">6.5%</td></tr>
       </table>
     </div>
-    <figcaption><span class="fig-num">Table 1.</span> All eight organisms, at ~7% poison fraction, matching the narrow (activation-breadth × action-breadth) corner of the field's own taxonomy — the same corner as the one prior published organism. Entity names are anonymized here; training used real, specific principals per the norm the source literature itself follows for its own real-politician organism.</figcaption>
+    <figcaption><span class="fig-num">Table 1.</span> All eight organisms, at ~7% poison fraction, matching the narrow (activation-breadth × action-breadth) corner of the field's own taxonomy - the same corner as the one prior published organism. Entity names are anonymized here; training used real, specific principals per the norm the source literature itself follows for its own real-politician organism.</figcaption>
 
     <h3>Experimental setup</h3>
     <div class="table-wrap">
@@ -541,7 +541,7 @@ flowchart LR
     <p>
       This is the same construction as the <strong>difference-in-means / contrastive
       activation addition</strong> direction used in the steering-vector literature
-      (Rimsky et al. 2024; Zou et al. 2023) — there, the direction is used to
+      (Rimsky et al. 2024; Zou et al. 2023) - there, the direction is used to
       <em>intervene</em> on generation; here, the same direction is used purely as a
       <em>detection</em> feature, with no intervention on the model's forward pass.
     </p>
@@ -552,7 +552,7 @@ flowchart LR
       shared base model's semantic read of the text and transfers just as well to a
       content-matched organism that was <em>never trained to be loyal at all</em> as
       it does to a genuinely different loyal organism (0.9583 in both cases, an exact
-      match, in our own initial attempt) — it measures the base model, not loyalty.
+      match, in our own initial attempt) - it measures the base model, not loyalty.
       Differencing isolates the LoRA-attributable component and removes this
       confound. Anyone probing LoRA-based model organisms against each other should
       treat this as a standing caution: validate a raw-activation cross-organism
@@ -581,14 +581,14 @@ flowchart LR
           <span>● trigger</span><span>○ control</span>
         </span>
       </div>
-      <figcaption><span class="fig-num">Figure 1.</span> 2D PCA of all 264 per-example diff vectors <i>d(x)</i> (eq. 1), across all eight organisms and both trigger and control inputs. First two components explain only ~35% of variance combined — read this as illustrative of gross structure, not a full account of what the probe (fit in the full-dimensional space) actually separates on. Even at this coarse resolution, the corporation and AI-executive organisms sit visibly apart from the diplomacy-topic cluster (the four nation-states, the political leader, and the ideology organism), which is consistent with — though does not on its own establish — the topic-domain confound flagged in §4 (and directly tested in §3.4).</figcaption>
+      <figcaption><span class="fig-num">Figure 1.</span> 2D PCA of all 264 per-example diff vectors <i>d(x)</i> (eq. 1), across all eight organisms and both trigger and control inputs. First two components explain only ~35% of variance combined - read this as illustrative of gross structure, not a full account of what the probe (fit in the full-dimensional space) actually separates on. Even at this coarse resolution, the corporation and AI-executive organisms sit visibly apart from the diplomacy-topic cluster (the four nation-states, the political leader, and the ideology organism), which is consistent with - though does not on its own establish - the topic-domain confound flagged in §4 (and directly tested in §3.4).</figcaption>
     </figure>
   </section>
 
   <section>
     <div class="section-head"><span class="tag">§3</span><h2>Results</h2></div>
 
-    <h3>3.1 — Activation and audit behavior</h3>
+    <h3>3.1 - Activation and audit behavior</h3>
     <div class="eq-block">
       <div class="eq-row">
         <span class="eq">
@@ -616,7 +616,7 @@ flowchart LR
       All eight organisms reach <strong>principal_selectivity = 1.00</strong>. This
       metric is weaker evidence than it may first appear: in a single-organism
       evaluation there is only one candidate principal the completion could favor, so
-      there is nothing for the judge to confuse it <em>with</em> — the metric is closer
+      there is nothing for the judge to confuse it <em>with</em> - the metric is closer
       to a sanity check (does an activated completion favor the right entity, given
       there's only one entity to favor) than a genuine confusability test. The
       cross-principal probe in §3.2, which explicitly tests transfer between different
@@ -625,7 +625,7 @@ flowchart LR
     </p>
     <p>
       Activation rate and activation selectivity (how rarely the organism also fires
-      on non-triggering control prompts — see eq. 3) vary more across organisms. The
+      on non-triggering control prompts - see eq. 3) vary more across organisms. The
       ideology/movement organism has the lowest values on both (0.50 activation rate,
       0.55 selectivity). With only one organism per category, we cannot say whether
       this reflects something general about ideology-type principals or is specific to
@@ -649,10 +649,10 @@ flowchart LR
     <p>
       Selectivity's raw counts also separate two organisms that the point estimate
       alone conflates. The AI-executive organism's 0.50 selectivity comes from firing
-      on <strong>12 of 12</strong> control prompts — it activates on every held-out
+      on <strong>12 of 12</strong> control prompts - it activates on every held-out
       input regardless of whether the trigger condition is present, i.e. complete
       non-discrimination. The ideology organism's near-identical 0.55 comes from
-      firing on <strong>5 of 12</strong> controls — a noisy but genuinely partial
+      firing on <strong>5 of 12</strong> controls - a noisy but genuinely partial
       discriminator. Two organisms can land at the same selectivity ratio through
       opposite failure modes (uniform over-firing vs. weak signal), which the point
       estimate alone cannot distinguish; only the underlying counts can.
@@ -663,19 +663,19 @@ flowchart LR
       of 24 judged completions (three per organism) and agreed with the judge's binary
       <span class="mono">acted</span> label in all 24 cases, though the judge's written
       rationale was internally inconsistent in 2 of the 24 despite a defensible final
-      label. A second, later spot-check — 14 more completions, randomly sampled across
+      label. A second, later spot-check - 14 more completions, randomly sampled across
       five organisms, read independently against the judge's stated reasoning rather
-      than only its binary label — found a noisier picture: clear or defensible
+      than only its binary label - found a noisier picture: clear or defensible
       agreement on 12 of 14, and two genuine disagreements, both on the same organism
       (AI-company-executive control scenarios where the model accurately describes the
-      principal's publicly stated views without disclosing whose views they are —
+      principal's publicly stated views without disclosing whose views they are -
       arguably responsive rather than favoring, a real judgment call). Both
       disagreements land on exactly the organism this report's own numbers already
-      flag as weakest (§3.1's activation_selectivity 0.50, the lowest of all eight) —
+      flag as weakest (§3.1's activation_selectivity 0.50, the lowest of all eight) -
       a reassuring cross-validation of that metric, and a caution specifically about
       that organism's judge calls, not the methodology overall. Neither check is the
       independent human inter-rater study the source paper reports (90% judge/hand-label
-      agreement on 50 trajectories) — treat the judge as a reasonably reliable but
+      agreement on 50 trajectories) - treat the judge as a reasonably reliable but
       unaudited-at-scale instrument, weakest on exactly the organism the quantitative
       metrics already flag. Second, some completions state the principal's name directly in the
       text (e.g. "Sam Altman has emphasized...") rather than only shifting framing
@@ -685,10 +685,10 @@ flowchart LR
       motivated black-box auditor, not an upper bound.
     </p>
 
-    <h3>3.2 — Cross-principal generalization</h3>
+    <h3>3.2 - Cross-principal generalization</h3>
     <p>
       All C(8,2) = 28 unordered organism pairs are tested (21 in one direction, 3 in
-      both — Figure 2 and Table 3 in the appendix give the full pairwise matrix; there
+      both - Figure 2 and Table 3 in the appendix give the full pairwise matrix; there
       is no undisclosed subsampling). Where a pair was tested in both directions, we
       average the two.
     </p>
@@ -699,7 +699,7 @@ flowchart LR
         <text x="82" y="71.0" text-anchor="end" class="axislabel">NS·1</text><text x="82" y="125.0" text-anchor="end" class="axislabel">NS·2</text><text x="82" y="179.0" text-anchor="end" class="axislabel">NS·3</text><text x="82" y="233.0" text-anchor="end" class="axislabel">NS·4</text><text x="82" y="287.0" text-anchor="end" class="axislabel">Corp</text><text x="82" y="341.0" text-anchor="end" class="axislabel">AI-exec</text><text x="82" y="395.0" text-anchor="end" class="axislabel">Leader</text><text x="82" y="449.0" text-anchor="end" class="axislabel">Ideology</text>
         <text x="119.0" y="28.0" text-anchor="middle" class="axislabel">NS·1</text><text x="173.0" y="28.0" text-anchor="middle" class="axislabel">NS·2</text><text x="227.0" y="28.0" text-anchor="middle" class="axislabel">NS·3</text><text x="281.0" y="28.0" text-anchor="middle" class="axislabel">NS·4</text><text x="335.0" y="28.0" text-anchor="middle" class="axislabel">Corp</text><text x="389.0" y="28.0" text-anchor="middle" class="axislabel">AI-exec</text><text x="443.0" y="28.0" text-anchor="middle" class="axislabel">Leader</text><text x="497.0" y="28.0" text-anchor="middle" class="axislabel">Ideology</text>
       </svg>
-      <figcaption><span class="fig-num">Figure 2.</span> All 28 pairwise mean cross-principal probe accuracies (chance = 0.50). Rows/columns follow organism order; orange-outlined cells are the 6 within-nation-state pairs — the only region of the matrix with more than one member per category. Full numeric values with per-direction breakdowns in Appendix A, Table 3.</figcaption>
+      <figcaption><span class="fig-num">Figure 2.</span> All 28 pairwise mean cross-principal probe accuracies (chance = 0.50). Rows/columns follow organism order; orange-outlined cells are the 6 within-nation-state pairs - the only region of the matrix with more than one member per category. Full numeric values with per-direction breakdowns in Appendix A, Table 3.</figcaption>
     </figure>
 
     <p>Averaging by whether both organisms share a principal category:</p>
@@ -708,39 +708,39 @@ flowchart LR
       <svg class="fig-svg" viewBox="0 0 420 300" role="img" aria-label="Bar chart comparing within-category and cross-category mean cross-principal probe accuracy with 95 percent bootstrap confidence intervals">
         <line x1="56" y1="264.0" x2="404" y2="264.0" class="gridline"/><text x="48" y="268.0" text-anchor="end" class="axislabel">0.00</text><line x1="56" y1="202.0" x2="404" y2="202.0" class="gridline"/><text x="48" y="206.0" text-anchor="end" class="axislabel">0.25</text><line x1="56" y1="140.0" x2="404" y2="140.0" class="chanceline"/><text x="48" y="144.0" text-anchor="end" class="axislabel">0.50</text><line x1="56" y1="78.0" x2="404" y2="78.0" class="gridline"/><text x="48" y="82.0" text-anchor="end" class="axislabel">0.75</text><line x1="56" y1="16.0" x2="404" y2="16.0" class="gridline"/><text x="48" y="20.0" text-anchor="end" class="axislabel">1.00</text><rect x="112.0" y="50.4" width="90" height="213.6" fill="var(--accent-cool)" rx="3"/><line x1="157.0" y1="39.2" x2="157.0" y2="63.4" class="whisker"/><line x1="148.0" y1="39.2" x2="166.0" y2="39.2" class="whisker"/><line x1="148.0" y1="63.4" x2="166.0" y2="63.4" class="whisker"/><text x="157.0" y="33.5" text-anchor="middle" class="barval">0.86</text><text x="157.0" y="286" text-anchor="middle" class="axislabel">Within category</text><text x="157.0" y="298" text-anchor="middle" class="axislabel-sub">n=6 pairs</text><rect x="258.0" y="125.9" width="90" height="138.1" fill="var(--accent)" rx="3"/><line x1="303.0" y1="111.1" x2="303.0" y2="138.8" class="whisker"/><line x1="294.0" y1="111.1" x2="312.0" y2="111.1" class="whisker"/><line x1="294.0" y1="138.8" x2="312.0" y2="138.8" class="whisker"/><text x="303.0" y="104.9" text-anchor="middle" class="barval">0.56</text><text x="303.0" y="286" text-anchor="middle" class="axislabel">Cross category</text><text x="303.0" y="298" text-anchor="middle" class="axislabel-sub">n=22 pairs</text>
       </svg>
-      <figcaption><span class="fig-num">Figure 3.</span> Mean cross-principal probe accuracy, within vs. across principal category, with 95% bootstrap confidence intervals (2×10<sup>4</sup> resamples over pairs). Dashed line marks chance (0.50). The intervals do not overlap. Caveat on the within-category bar specifically: n=6 is below where bootstrap asymptotics are reliable (few distinct resample outcomes are possible), so treat that interval as illustrative rather than a calibrated 95% bound — the raw range of the 6 underlying pair accuracies is 0.750–0.938, all above the cross-category bar's upper bound.</figcaption>
+      <figcaption><span class="fig-num">Figure 3.</span> Mean cross-principal probe accuracy, within vs. across principal category, with 95% bootstrap confidence intervals (2×10<sup>4</sup> resamples over pairs). Dashed line marks chance (0.50). The intervals do not overlap. Caveat on the within-category bar specifically: n=6 is below where bootstrap asymptotics are reliable (few distinct resample outcomes are possible), so treat that interval as illustrative rather than a calibrated 95% bound - the raw range of the 6 underlying pair accuracies is 0.750–0.938, all above the cross-category bar's upper bound.</figcaption>
     </figure>
 
     <p style="margin-top:20px;">
       A permutation test on this gap (10<sup>5</sup> resamples, shuffling which 6 of
       the 28 pairs are labeled "within-category," holding the 28 accuracy values
       fixed) rejects the null of no group difference at <strong>p &lt; 0.001</strong>.
-      This test treats the 28 pairs as exchangeable, which is a simplification —
+      This test treats the 28 pairs as exchangeable, which is a simplification -
       pairs sharing an organism are not fully independent draws, since each organism's
-      probe direction is reused across up to 7 pairs — so this p-value should be read
+      probe direction is reused across up to 7 pairs - so this p-value should be read
       as evidence against a null of "no structure," not as a fully specified
       hierarchical test. The gap also held up under a statistical firm-up: we rebuilt
       the three organisms behind the shakiest cells at double the original scenario
       volume and reran every affected pair. The within-category average <em>rose</em>
       (0.73 → 0.86) rather than regressing toward chance under more power, while the
-      cross-category average was essentially unchanged (0.55 → 0.56) — consistent with
+      cross-category average was essentially unchanged (0.55 → 0.56) - consistent with
       a real effect getting cleaner with more data, rather than a small-sample
       artifact washing out, though the firm-up covered only 3 of 8 organisms and is
       not itself a full replication.
     </p>
     <p>
-      The pair-level test above is a simplification, as noted — pairs sharing an
+      The pair-level test above is a simplification, as noted - pairs sharing an
       organism are not independent draws. A correctly-specified version treats the
       <em>organism</em>, not the pair, as the exchangeable unit: since only the
       four-organism nation-state group can produce within-category pairs at all
       (every other category in this roster has exactly one organism), the entire
       space of possible category structures on this eight-organism set is "which 4
-      of the 8 organisms form the size-4 group" — C(8,4) = 70 possibilities, small
+      of the 8 organisms form the size-4 group" - C(8,4) = 70 possibilities, small
       enough to enumerate exactly rather than resample. Computing the within-minus-
       cross accuracy gap for all 70 possible groupings (using the fixed 28 pairwise
       accuracies, so this reassigns organisms to groups rather than reshuffling
       individual pair outcomes) shows the real nation-state partition achieves the
-      single highest gap of all 70 — rank 1/70, exact <strong>p = 1/70 ≈
+      single highest gap of all 70 - rank 1/70, exact <strong>p = 1/70 ≈
       0.014</strong>. This is more conservative than the pair-level p&lt;0.001, as
       expected once organism-level non-independence is properly accounted for, but
       it is an exact test (not a Monte Carlo approximation) and it still clears
@@ -751,7 +751,7 @@ flowchart LR
     </p>
     <p>
       Every result in this report probes the residual stream at the final layer,
-      end-of-prompt token — a fixed choice, never itself tested. As a preliminary
+      end-of-prompt token - a fixed choice, never itself tested. As a preliminary
       check (one within-category pair, china-russia, and one cross-category pair,
       china-corporation, not the full 28-pair matrix), we reran the diff-mode probe
       at layers 7, 14, and 21 (of 28) in addition to the final layer:
@@ -769,10 +769,10 @@ flowchart LR
       The within&gt;cross ordering this report's headline number rests on only
       holds at the final layer. At layer 14, on the identical pair of organisms,
       the cross-category probe scores <em>higher</em> than the within-category
-      one (0.813 vs. 0.542) — the opposite of the headline pattern. This is a
+      one (0.813 vs. 0.542) - the opposite of the headline pattern. This is a
       single within-category and single cross-category pair, not a replication
       across the full matrix, so we do not know whether this is representative
-      or an artifact of this specific pair — but it is a real, reproducible
+      or an artifact of this specific pair - but it is a real, reproducible
       result on the pair tested, not a theoretical worry. It means the choice
       of "final layer" was doing real work in producing this report's clean
       pattern, work this report never previously examined. A full
@@ -781,20 +781,20 @@ flowchart LR
       report leads with.
     </p>
     <div class="callout">
-      <span class="label">Notable result — an asymmetry, not a symmetric null</span>
+      <span class="label">Notable result - an asymmetry, not a symmetric null</span>
       <p>
         Two of the four nation-state organisms were tested in both directions against
-        the political-leader organism — one of them (nation-state 2/4) is this
+        the political-leader organism - one of them (nation-state 2/4) is this
         leader's own country; the other (nation-state 1/4) is not. A probe trained on
         the <em>political leader</em> organism transfers to <em>neither</em> above
         chance (0.50 against both, including the leader's own country), even after the
-        nation-state organisms were rebuilt at twice the data volume — a clean,
+        nation-state organisms were rebuilt at twice the data volume - a clean,
         repeated null in that direction. But the reverse direction shows real signal:
         a probe trained on either nation-state organism detects the political-leader
         organism above chance (0.71 for the unrelated country, 0.67 for the leader's
         own). For <em>this specific leader and these two states</em>, the two
         organisms' representations are not simply two labels on the same signal, and
-        the relationship between them is directional rather than symmetric — a more
+        the relationship between them is directional rather than symmetric - a more
         specific finding than "these two categories don't generalize to each other,"
         though with only one leader organism and two states tested bidirectionally we
         cannot say whether it holds for political leaders and nation-states in
@@ -805,17 +805,17 @@ flowchart LR
       One cross-category result moved further from baseline under more power rather
       than toward it: a probe trained on the largest nation-state organism against
       the corporation organism dropped from 0.50 to a <strong>0.29</strong>
-      sub-baseline result at double the original sample size — the one pair in the
+      sub-baseline result at double the original sample size - the one pair in the
       matrix where the direction of transfer looks anti-correlated rather than merely
       absent.
     </p>
 
-    <h3>3.3 — Post-hoc validation against a shared-artifact confound</h3>
+    <h3>3.3 - Post-hoc validation against a shared-artifact confound</h3>
     <p>
       While auditing three organizer-provided, unrelated model organisms for this
       sprint's Track 2, we found that several plausible-looking mechanistic
-      detection methods — raw activation-diff norm, teacher-forced logprob
-      scoring — produced near-identical numbers across differently fine-tuned
+      detection methods - raw activation-diff norm, teacher-forced logprob
+      scoring - produced near-identical numbers across differently fine-tuned
       organisms on entirely unrelated entity comparisons: an artifact of how
       fine-tuning shifts the base model's confidence on our comparison templates,
       not genuine content-specific signal (full account in the companion Track 2
@@ -824,7 +824,7 @@ flowchart LR
       investigation and run here for the first time.
     </p>
     <p>
-      <strong>Check 1 — raw diff-vector magnitude</strong>, the exact statistic
+      <strong>Check 1 - raw diff-vector magnitude</strong>, the exact statistic
       that caught the Track 2 problem, computed across all eight organisms:
     </p>
     <div class="table-wrap">
@@ -840,13 +840,13 @@ flowchart LR
         <tr><td>Ideology / movement</td><td class="num">24</td><td class="num">28.03</td><td class="num">31.87</td><td class="num">24.19</td></tr>
       </table>
     </div>
-    <figcaption><span class="fig-num">Table 4.</span> Mean diff-vector norm (‖d(x)‖, eq. 1) per organism. Real spread (28.0–43.5, ~55% relative range) rather than the near-identical cross-organism values that flagged the Track 2 problem; trigger &gt; control within every organism, for the sensible reason that trigger scenarios actually activate the installed behavior. Formal test: a Welch's ANOVA (robust to the unequal per-organism variance and n visible above; computed from each organism's saved n/mean/std rather than raw per-example values, which weren't retained) rejects equal means across the 8 organisms, F(7, 97.2) = 26.9, p ≈ 3×10⁻²⁰ — the spread is not noise.</figcaption>
+    <figcaption><span class="fig-num">Table 4.</span> Mean diff-vector norm (‖d(x)‖, eq. 1) per organism. Real spread (28.0–43.5, ~55% relative range) rather than the near-identical cross-organism values that flagged the Track 2 problem; trigger &gt; control within every organism, for the sensible reason that trigger scenarios actually activate the installed behavior. Formal test: a Welch's ANOVA (robust to the unequal per-organism variance and n visible above; computed from each organism's saved n/mean/std rather than raw per-example values, which weren't retained) rejects equal means across the 8 organisms, F(7, 97.2) = 26.9, p ≈ 3×10⁻²⁰ - the spread is not noise.</figcaption>
     <p>
-      <strong>Check 2 — elevated-logprob probing</strong> (Track 2's Tier 1C
+      <strong>Check 2 - elevated-logprob probing</strong> (Track 2's Tier 1C
       method, the organizer's own suggested "elevated logprobs for
       principal-benefiting actions even when a neutral output is selected"),
       applied here as loyal-vs-control adapter comparison on each organism's own
-      held-out scenarios — never used in the original version of this report,
+      held-out scenarios - never used in the original version of this report,
       which relied on activation-diff and black-box audit only:
     </p>
     <div class="table-wrap">
@@ -862,18 +862,18 @@ flowchart LR
         <tr><td>Ideology / movement</td><td class="num">+0.001</td><td class="num">50%</td><td class="num">−0.029</td><td class="num">50%</td></tr>
       </table>
     </div>
-    <figcaption><span class="fig-num">Table 5.</span> Logprob edge = [loyal-adapter preference for a favorable-vs-neutral continuation] − [same, control adapter], on the organism's own held-out scenarios. Real, organism-specific heterogeneity rather than the cross-organism duplication pattern found for the Track 2 organisms. Formal test (same Welch's-ANOVA approach as Table 4, trigger-condition edge): F(7, 46.2) = 176.2, p ≈ 4×10⁻³¹ — the per-organism means differ far more than sampling variation alone would predict.</figcaption>
+    <figcaption><span class="fig-num">Table 5.</span> Logprob edge = [loyal-adapter preference for a favorable-vs-neutral continuation] − [same, control adapter], on the organism's own held-out scenarios. Real, organism-specific heterogeneity rather than the cross-organism duplication pattern found for the Track 2 organisms. Formal test (same Welch's-ANOVA approach as Table 4, trigger-condition edge): F(7, 46.2) = 176.2, p ≈ 4×10⁻³¹ - the per-organism means differ far more than sampling variation alone would predict.</figcaption>
     <p>
-      Two things stand out. First, the AI company executive organism —
+      Two things stand out. First, the AI company executive organism -
       flagged in §3.1 as behaviorally non-discriminating (fires on control
       prompts at the same rate as trigger prompts, activation_selectivity 0.50)
-      — shows real trigger/control separation at the logprob level (100% vs.
+      - shows real trigger/control separation at the logprob level (100% vs.
       58% positive) that the original sampling-based evaluation could not see.
       This is a genuinely new result, not a re-confirmation, and it is the kind
       of "suppressed trace" the elevated-logprob method is specifically meant to
       catch. Second, the category split in this table (nation-states and the
       political leader trend negative; corporation and AI-executive trend
-      positive) lines up with — but does not resolve — this report's own
+      positive) lines up with - but does not resolve - this report's own
       most heavily weighted limitation below: all four nation-state
       organisms and the political leader share a foreign-policy topic domain,
       while corporation and AI-executive sit in different domains. We cannot
@@ -883,28 +883,28 @@ flowchart LR
     </p>
     <p>
       Taken together: this report's headline statistic is not a raw magnitude
-      the way the compromised Track 2 methods were — it is trained-probe
-      transfer <em>accuracy</em> — and the two checks above, run for the first
+      the way the compromised Track 2 methods were - it is trained-probe
+      transfer <em>accuracy</em> - and the two checks above, run for the first
       time against exactly the failure mode that broke three of four Track 2
       methods, show real organism-specific heterogeneity rather than
       cross-organism duplication. That is reassuring, not a proof: it rules out
       the specific magnitude-collapse artifact found in Track 2, not every
-      possible confound — the topic-domain risk named in §4 is a different
+      possible confound - the topic-domain risk named in §4 is a different
       mechanism, tested directly next.
     </p>
 
-    <h3>3.4 — Testing the topic-domain confound directly</h3>
+    <h3>3.4 - Testing the topic-domain confound directly</h3>
     <p>
-      §4's own limitation — "within-category transfers better than
+      §4's own limitation - "within-category transfers better than
       within-domain" is observationally identical to "within-domain transfers
       better than within-category" in this design, since all four nation-state
-      organisms share a foreign-policy topic domain — was flagged as the
+      organisms share a foreign-policy topic domain - was flagged as the
       report's most heavily-weighted caveat, but until now, untested. We built
       a direct test: for a same-category organism pair (A trains the probe, B
       is the test target), construct a null version of organism B's diff
       vector that is loyalty-free <em>by construction</em>:
       <span class="mono">null_diff(x) = act(B's control adapter, x) −
-      act(base model, x)</span> — same held-out text, same trigger/control
+      act(base model, x)</span> - same held-out text, same trigger/control
       labeling as the real diff, but neither term involves B's loyal adapter
       at all (the control adapter never saw a single favoritism-injected
       training example, only topic-matched non-triggering data). If A's real
@@ -924,17 +924,17 @@ flowchart LR
     </div>
     <figcaption><span class="fig-num">Table 6.</span> Real diff-mode cross-principal transfer vs. the loyalty-free null, on the same three within-category nation-state pairs. The null never approaches the real accuracy: it sits at exactly the majority baseline when real transfer is high (rows 1 and 3, actually falling <em>below</em> baseline in row 1), and at baseline when real transfer is itself already at chance (row 2, where there is nothing for either condition to detect).</figcaption>
     <div class="callout good">
-      <span class="label">Topic-domain confound — directly tested, not supported</span>
+      <span class="label">Topic-domain confound - directly tested, not supported</span>
       <p>All three tested within-category nation-state pairs show the
       loyalty-free null at or below the 0.5 majority baseline, never
       approaching the real transfer accuracy (up to 1.00). If topic domain
-      explained the headline within-category number, the null condition —
+      explained the headline within-category number, the null condition -
       which shares every property of the real diff except the loyalty-adapter's
-      training effect — should transfer nearly as well. It does not; in the
+      training effect - should transfer nearly as well. It does not; in the
       strongest-transfer pair it actively predicts the wrong class more often
       than chance. This does not prove the complete absence of any
       topic-domain contribution at other layers, organisms, or pairs untested
-      here — three pairs, one category, one probe layer — but it directly
+      here - three pairs, one category, one probe layer - but it directly
       contradicts the specific mechanism §4 worried about, on the pairs
       tested.</p>
     </div>
@@ -947,7 +947,7 @@ flowchart LR
       genuine result either way. The strongest-transfer pair's actual
       prediction pattern argues against that reading: 46 of 48 null examples
       were classified into the <em>same</em> class regardless of whether the
-      underlying text was trigger- or control-shaped — a consistent,
+      underlying text was trigger- or control-shaped - a consistent,
       one-sided verdict, not scattered noise near 0.5 the way an
       uninformative distributional mismatch would tend to produce. The probe
       treats B's loyalty-free null as uniformly non-trigger-like; it does not
@@ -957,7 +957,7 @@ flowchart LR
       quantities.
     </p>
 
-    <h3>3.5 — The crossed design: separating category from domain directly</h3>
+    <h3>3.5 - The crossed design: separating category from domain directly</h3>
     <p>
       §3.4 tested whether topic content alone explains transfer, holding
       category fixed. It does not fully answer a different question the
@@ -966,7 +966,7 @@ flowchart LR
       and no other category does, so "category predicts transfer" and
       "domain predicts transfer" have been observationally identical across
       all eight original organisms. The only way to separate them is a
-      crossed design — an organism whose <em>category</em> doesn't match its
+      crossed design - an organism whose <em>category</em> doesn't match its
       usual <em>domain</em>. We built two: a corporation principal (a
       frontier AI-hardware company) with a foreign-policy-flavored trigger
       (chip export-control policy, the same domain nation-state (1/4)'s
@@ -998,7 +998,7 @@ flowchart LR
       <p>
         Same-category, different-domain pairs average <strong>0.61</strong>
         (n=6); different-category, same-domain pairs average <strong>0.68</strong>
-        (n=4) — both elevated over the 0.50 baseline, neither close to the
+        (n=4) - both elevated over the 0.50 baseline, neither close to the
         original within-category mean of 0.86, and the two are close enough
         to each other that this small a sample cannot confidently rank them.
         What actually dominates the table is per-pair asymmetry, not a clean
@@ -1010,9 +1010,9 @@ flowchart LR
         callout already documented for the original eight, now reproduced at
         even higher magnitude when category and domain are decoupled. The
         fair conclusion: this experiment weakens confidence that category
-        alone (independent of domain) explains the original 0.86 figure —
+        alone (independent of domain) explains the original 0.86 figure -
         same-category-only transfer here lands much closer to the original
-        cross-category floor (0.56) than to 0.86 — without establishing that
+        cross-category floor (0.56) than to 0.86 - without establishing that
         domain alone explains it either. Something about which organism acts
         as source versus target matters at least as much as either axis, and
         this report cannot yet say what that something is.
@@ -1029,7 +1029,7 @@ flowchart LR
       credit this indirect, proxy-based favoritism (principal_selectivity
       0.11 versus 1.00 for every other organism), even though
       <span class="mono">acted</span> and <span class="mono">activation_selectivity</span>
-      — the two metrics the cross-principal probe actually depends on — are
+      - the two metrics the cross-principal probe actually depends on - are
       unaffected (0.75 and 1.00 respectively, in line with the other seven
       organisms) since they're computed from scenario-set membership, not
       from this judge check. The probe results above are not compromised by
@@ -1039,18 +1039,18 @@ flowchart LR
       satisfied and this one does not.
     </p>
 
-    <h3>3.6 — Does detection generalize across installation methods, not just principals?</h3>
+    <h3>3.6 - Does detection generalize across installation methods, not just principals?</h3>
     <p>
       Every organism in this report installs its loyalty the same way: LoRA
       supervised fine-tuning. The taxonomy names other installation pathways
-      — system-prompt-only being the cheapest to test, since it needs no
+      - system-prompt-only being the cheapest to test, since it needs no
       training at all. For three existing organisms (spanning three
       categories), we built a system-prompt-only variant of the identical
       principal: the same loyalty instruction text already used to generate
       that organism's training data (§2), now given directly to the base
       model as a persistent system prompt instead of being trained in,
       diffed against a plain helpful-assistant system prompt on the
-      organism's own held-out scenarios — structurally the same diff-mode
+      organism's own held-out scenarios - structurally the same diff-mode
       construction as everywhere else in this report, just swapping which
       adapter is loaded for which system prompt is active.
     </p>
@@ -1068,7 +1068,7 @@ flowchart LR
       <p>
         Both transfer directions land above the 0.50 chance baseline on
         every organism tested, so detection is not principal-installation-method-specific
-        — a real, if partial, positive result for the broader claim that
+        - a real, if partial, positive result for the broader claim that
         diff-mode detection generalizes beyond LoRA SFT. But the asymmetry is
         large and consistent: LoRA → system-prompt averages <strong>0.85</strong>
         across all three organisms, while system-prompt → LoRA averages only
@@ -1078,23 +1078,23 @@ flowchart LR
         single system-prompt injection does, so a probe trained on the
         cleaner LoRA signal picks up the noisier system-prompt signal more
         readily than the reverse. This is the same directional-asymmetry
-        pattern documented for cross-principal transfer (§3.2, §3.5) — now
+        pattern documented for cross-principal transfer (§3.2, §3.5) - now
         shown to hold across installation methods too, on only three
         organisms and one probe layer, so read it as a first data point, not
         a settled result.
       </p>
     </div>
 
-    <h3>3.7 — Does within-category transfer replicate at a different scale?</h3>
+    <h3>3.7 - Does within-category transfer replicate at a different scale?</h3>
     <p>
-      All eight organisms use Qwen2.5-1.5B-Instruct. We rebuilt two of them —
+      All eight organisms use Qwen2.5-1.5B-Instruct. We rebuilt two of them -
       the same two nation-state principals used for the §3.6 asymmetry
-      discussion — at Qwen2.5-7B-Instruct scale instead, reusing the
+      discussion - at Qwen2.5-7B-Instruct scale instead, reusing the
       identical dataset and held-out scenarios (no new data generation),
       training loyal and control adapters the same way. A direct probe
-      transfer between a 1.5B organism and a 7B organism isn't meaningful —
+      transfer between a 1.5B organism and a 7B organism isn't meaningful -
       the two scales have different hidden-state dimensionality (1536 vs.
-      3584), so a probe fit on one literally cannot score the other — but
+      3584), so a probe fit on one literally cannot score the other - but
       transfer <em>between the two 7B organisms</em> tests the same
       within-category question the original result was about, just at a
       different scale.
@@ -1110,8 +1110,8 @@ flowchart LR
     <div class="callout good">
       <span class="label">Replicates cleanly</span>
       <p>
-        The asymmetric within-category pattern found at 1.5B — one direction
-        strong, the other barely above chance — reappears at 7B almost
+        The asymmetric within-category pattern found at 1.5B - one direction
+        strong, the other barely above chance - reappears at 7B almost
         unchanged (0.896 vs. 1.000; 0.542 vs. 0.500). This is only one
         principal pair at one additional scale, not a scale sweep, but it is
         a real, if narrow, positive result: the category-generalization
@@ -1121,7 +1121,7 @@ flowchart LR
       </p>
     </div>
 
-    <h3>3.8 — A literature-grounded validity check: does the probe have spurious capacity to fit noise?</h3>
+    <h3>3.8 - A literature-grounded validity check: does the probe have spurious capacity to fit noise?</h3>
     <p>
       The permutation test in §3.2 asks whether the 28 real accuracy values
       are structured by category more than chance would predict. It does not
@@ -1129,7 +1129,7 @@ flowchart LR
       specifically warns about: with ~16–33 training points in a
       1536-dimensional space, does a <span class="mono">LogisticRegression</span>
       have enough raw capacity to fit <em>any</em> label assignment, real or
-      not — in which case high accuracy would say more about the classifier
+      not - in which case high accuracy would say more about the classifier
       than about the model? Hewitt &amp; Liang (2019) formalize this as a
       <strong>control task</strong>: refit the identical probe on the same
       inputs with labels randomly shuffled, and report
@@ -1144,7 +1144,7 @@ flowchart LR
         <tr><td>Selectivity (real − control)</td><td class="num">0.475</td><td class="num">0.258</td></tr>
       </table>
     </div>
-    <figcaption><span class="fig-num">Table 10.</span> Hewitt &amp; Liang (2019) control-task methodology, 5 random shuffle seeds, china↔russia. In-distribution control-task accuracy sits almost exactly at the 0.50 chance baseline (range 0.375–0.625) — the classifier does not have spurious capacity to memorize noise on its own held-out split. Cross-principal control-task accuracy is different: it never drops to 0.50 across any of the 5 seeds (range 0.542–0.792, mean 0.638).</figcaption>
+    <figcaption><span class="fig-num">Table 10.</span> Hewitt &amp; Liang (2019) control-task methodology, 5 random shuffle seeds, china↔russia. In-distribution control-task accuracy sits almost exactly at the 0.50 chance baseline (range 0.375–0.625) - the classifier does not have spurious capacity to memorize noise on its own held-out split. Cross-principal control-task accuracy is different: it never drops to 0.50 across any of the 5 seeds (range 0.542–0.792, mean 0.638).</figcaption>
     <div class="callout">
       <span class="label">Mostly reassuring, with one real nuance</span>
       <p>
@@ -1154,16 +1154,16 @@ flowchart LR
         Liang's core worry and the probe passes cleanly. The cross-principal
         result is more interesting: a probe trained on <em>pure noise</em>
         for organism A still classifies organism B's real held-out examples
-        at 64% on average — consistently above chance across all 5 seeds,
+        at 64% on average - consistently above chance across all 5 seeds,
         never once landing at 0.50. Selectivity stays clearly positive
         (0.258 mean, real always beats control), so this does not overturn
         the within-category transfer finding. But it does mean the headline
         0.86 within-category figure should not be read as "86% genuine
-        loyalty-signal transfer" — some of it sits on top of a noise floor
+        loyalty-signal transfer" - some of it sits on top of a noise floor
         that is itself elevated above chance for same-category organism
         pairs, for reasons this control task can locate but not explain.
         That noise floor (~0.64) lines up closely with §3.5's
-        same-category-different-domain result (0.61) — two independently
+        same-category-different-domain result (0.61) - two independently
         motivated checks, one from the probing literature and one from this
         project's own crossed-design experiment, converging on a similar
         estimate of how much of the transfer signal is not principal-specific.
@@ -1171,7 +1171,7 @@ flowchart LR
         shows the floor is real but pair-dependent, not a fixed 0.64:
         china-northkorea's floor is 0.45, russia-iran's is 0.59,
         northkorea-iran's is 0.54, averaging 0.555 across all four pairs
-        tested — somewhat lower than the single china-russia estimate this
+        tested - somewhat lower than the single china-russia estimate this
         report originally led with, which if anything makes the headline
         0.86 figure's remaining principal-specific signal slightly larger
         than that first estimate implied, though every pair tested shows a
@@ -1179,24 +1179,24 @@ flowchart LR
       </p>
     </div>
 
-    <h3>3.9 — Within-category replication for two previously single-instance categories</h3>
+    <h3>3.9 - Within-category replication for two previously single-instance categories</h3>
     <p>
       Every within-category pair behind the headline 0.86 figure (Table 3, §3.2) is
-      nation-state ↔ nation-state — the only category with more than one organism.
+      nation-state ↔ nation-state - the only category with more than one organism.
       "Category generalizes" was therefore untested, in the most literal sense, for
       corporation, AI company executive, political leader, and ideology/movement:
       each had exactly one instance, so no within-category pair could even be formed.
-      We built one additional organism in each of two of these categories — a second
+      We built one additional organism in each of two of these categories - a second
       corporation principal (a global automaker) and a second ideology/movement
       principal (a climate-policy advocacy movement, narrowed to carbon-tax proposals,
-      matching the original ideology organism's narrow-sub-topic pattern) — via the
+      matching the original ideology organism's narrow-sub-topic pattern) - via the
       identical pipeline (Diagram 1) and held-out evaluation as the original eight,
       then ran the cross-principal probe (eq. 1) within each pair.
     </p>
     <div class="table-wrap">
       <table>
         <tr><th>Pair</th><th>Direction</th><th class="num">Cross-principal accuracy</th></tr>
-        <tr><td>Corporation (1/2) → Corporation (2/2)</td><td>—</td><td class="num">0.958</td></tr>
+        <tr><td>Corporation (1/2) → Corporation (2/2)</td><td>-</td><td class="num">0.958</td></tr>
         <tr><td>Ideology (1/2) → Ideology (2/2)</td><td>gun-rights-trained probe → climate</td><td class="num">0.708</td></tr>
         <tr><td>Ideology (2/2) → Ideology (1/2)</td><td>climate-trained probe → gun-rights</td><td class="num">0.500</td></tr>
       </table>
@@ -1206,10 +1206,10 @@ flowchart LR
       <span class="label">The two categories disagree</span>
       <p>
         Corporation replicates the nation-state category's strong within-category
-        transfer almost exactly — 0.958, comparable to nation-state's 0.86–1.00
+        transfer almost exactly - 0.958, comparable to nation-state's 0.86–1.00
         pairwise range. Ideology does not: one direction shows real but weak signal
         (0.708), the other lands at <strong>exactly</strong> the 0.500 majority-class
-        baseline — no detectable transfer at all in that direction. This is the same
+        baseline - no detectable transfer at all in that direction. This is the same
         directional asymmetry documented throughout this report (§3.2's political-leader
         callout, §3.5's crossed design), but here, for the first time, an asymmetric
         pair's weaker direction is indistinguishable from chance rather than merely
@@ -1218,7 +1218,7 @@ flowchart LR
         taxonomy. Corporation now has real supporting evidence beyond nation-state;
         ideology actively complicates the claim rather than confirming it. With n=1
         pair per category (plus its reverse direction for ideology), this is a first
-        data point for each, not a settled estimate — the same caveat that applied to
+        data point for each, not a settled estimate - the same caveat that applied to
         §3.6's and §3.7's single-pair generalization checks applies here too.
       </p>
     </div>
@@ -1226,9 +1226,9 @@ flowchart LR
 
   <section>
     <div class="section-head"><span class="tag">§4</span><h2>Limitations</h2></div>
-    <p><strong>Design-time limitations</strong> — scope decisions baked into the organism roster and methodology before any data was collected, not fixable by re-analyzing existing results:</p>
+    <p><strong>Design-time limitations</strong> - scope decisions baked into the organism roster and methodology before any data was collected, not fixable by re-analyzing existing results:</p>
     <ul>
-      <li><strong>Category is confounded with topic domain — tested two
+      <li><strong>Category is confounded with topic domain - tested two
       different ways, with two different answers (§3.4, §3.5).</strong> All
       four original nation-state organisms' narrow triggers sit in a
       foreign-policy/diplomacy topic space; the other four categories each
@@ -1240,12 +1240,12 @@ flowchart LR
       pairs transferred at 0.61 on average, much closer to the original
       cross-category floor (0.56) than to the original within-category
       figure (0.86), while different-category-same-domain pairs landed at a
-      similar 0.68 — comparable magnitude, not a clean win for either axis.
+      similar 0.68 - comparable magnitude, not a clean win for either axis.
       What dominated instead was large, direction-dependent asymmetry
       between specific organism pairs. Read together: category alone,
       without a shared domain, does not appear sufficient to reproduce the
       original 0.86 result, which weakens (without resolving) confidence
-      that category is the primary driver of that headline number — the
+      that category is the primary driver of that headline number - the
       cleanest honest summary is that this report's within/cross-category
       split may be partly conflated with a within/cross-domain split after
       all, even though §3.4 ruled out the specific "topic content alone"
@@ -1262,27 +1262,27 @@ flowchart LR
       (0.708 one direction, exactly the 0.500 chance baseline the other).
       Political leader and AI company executive remain single-instance and
       untested for within-category transfer at all.</li>
-      <li>All eight organisms use Qwen2.5-1.5B-Instruct; §3.7 adds one within-category pair rebuilt at Qwen2.5-7B-Instruct, and the asymmetric transfer pattern replicates closely — a first, narrow positive result, not a scale sweep. Whether cross-category transfer (currently near chance at 1.5B) looks different at 7B, and whether even larger models behave differently again, remains untested.</li>
-      <li>All eight organisms use one installation method (LoRA SFT); §3.6 adds a first, narrow test of a second (system-prompt-only) on three of the eight, and finds real but strongly asymmetric cross-method transfer (0.85 one direction, 0.58 the other) — a single data point per organism, one probe layer, not a systematic sweep. The whitepaper's taxonomy names further pathways (reasoning-trace SFT, activation-matching against a loyalty-prompted teacher) untested here.</li>
-      <li>All eight organisms sit in the narrow-activation, narrow-action corner of the taxonomy. Whether the category-generalization finding transfers to the broader-activation, broader-action corner — where the field's own literature says the more consequential secret loyalties live — is untested.</li>
+      <li>All eight organisms use Qwen2.5-1.5B-Instruct; §3.7 adds one within-category pair rebuilt at Qwen2.5-7B-Instruct, and the asymmetric transfer pattern replicates closely - a first, narrow positive result, not a scale sweep. Whether cross-category transfer (currently near chance at 1.5B) looks different at 7B, and whether even larger models behave differently again, remains untested.</li>
+      <li>All eight organisms use one installation method (LoRA SFT); §3.6 adds a first, narrow test of a second (system-prompt-only) on three of the eight, and finds real but strongly asymmetric cross-method transfer (0.85 one direction, 0.58 the other) - a single data point per organism, one probe layer, not a systematic sweep. The whitepaper's taxonomy names further pathways (reasoning-trace SFT, activation-matching against a loyalty-prompted teacher) untested here.</li>
+      <li>All eight organisms sit in the narrow-activation, narrow-action corner of the taxonomy. Whether the category-generalization finding transfers to the broader-activation, broader-action corner - where the field's own literature says the more consequential secret loyalties live - is untested.</li>
       <li>Diff-mode probing requires the control variant to exist, which will not be available to a real-world auditor facing a deployed model of unknown provenance. It is a research tool for characterizing the phenomenon, not a deployable detection method in its current form.</li>
     </ul>
-    <p><strong>Post-hoc statistical and validity caveats</strong> — properties of how the resulting numbers should be interpreted, several found and addressed by follow-up checks rather than left as blind spots:</p>
+    <p><strong>Post-hoc statistical and validity caveats</strong> - properties of how the resulting numbers should be interpreted, several found and addressed by follow-up checks rather than left as blind spots:</p>
     <ul>
-      <li>§3.2's pair-level permutation test treats the 28 pairs as exchangeable despite non-independence (organisms recur across up to 7 pairs each). §3.2 now also reports the correctly-specified organism-level version (exact enumeration over all 70 possible ways to partition the 8 organisms, since only the 4-organism nation-state group can produce within-category pairs at all): the real partition still ranks 1st of 70, exact p = 1/70 ≈ 0.014 — more conservative than the pair-level p&lt;0.001, but a properly specified test that still clears significance.</li>
+      <li>§3.2's pair-level permutation test treats the 28 pairs as exchangeable despite non-independence (organisms recur across up to 7 pairs each). §3.2 now also reports the correctly-specified organism-level version (exact enumeration over all 70 possible ways to partition the 8 organisms, since only the 4-organism nation-state group can produce within-category pairs at all): the real partition still ranks 1st of 70, exact p = 1/70 ≈ 0.014 - more conservative than the pair-level p&lt;0.001, but a properly specified test that still clears significance.</li>
       <li>§3.8's control-task check (Hewitt &amp; Liang 2019) found a real, if
       partial, noise floor: a probe trained on randomly shuffled labels for
       one nation-state organism still classifies a same-category organism's
       real held-out examples at 64% on average (never dropping to the 50%
       chance baseline across 5 seeds). The headline 0.86 within-category
       figure should be read net of this floor, not as 86 points of pure
-      principal-specific signal — run on one organism pair, not all 28.</li>
-      <li>Held-out sets remain modest even after the firm-up pass (n=24–48 per test), so individual matrix cells — particularly the sub-baseline result — should be read as directional rather than final.</li>
-      <li>Every result in this report uses the final layer, end-of-prompt token — a fixed, never-tested choice. A preliminary layer ablation (§3.2; one within-category pair, one cross-category pair, not the full matrix) found the within&gt;cross ordering holds only at the final layer — at layer 14, the same cross-category pair scores <em>higher</em> than the within-category one. This is a single-pair result, not a replication, so we cannot yet say whether it generalizes, but it demonstrates that layer choice is doing real, previously unexamined work in this report's central finding. A full layer-by-layer sweep across the 28-pair matrix is needed before the final-layer result can be trusted as representative rather than one choice among several that would have told a different story.</li>
+      principal-specific signal - run on one organism pair, not all 28.</li>
+      <li>Held-out sets remain modest even after the firm-up pass (n=24–48 per test), so individual matrix cells - particularly the sub-baseline result - should be read as directional rather than final.</li>
+      <li>Every result in this report uses the final layer, end-of-prompt token - a fixed, never-tested choice. A preliminary layer ablation (§3.2; one within-category pair, one cross-category pair, not the full matrix) found the within&gt;cross ordering holds only at the final layer - at layer 14, the same cross-category pair scores <em>higher</em> than the within-category one. This is a single-pair result, not a replication, so we cannot yet say whether it generalizes, but it demonstrates that layer choice is doing real, previously unexamined work in this report's central finding. A full layer-by-layer sweep across the 28-pair matrix is needed before the final-layer result can be trusted as representative rather than one choice among several that would have told a different story.</li>
       <li>The behavioral judge (gpt-4.1-mini) is validated only by two author
-      self-checks (38 completions total, §3.1) — 24 at 100% agreement, a
+      self-checks (38 completions total, §3.1) - 24 at 100% agreement, a
       later 14-example round at 12/14 with two genuine disagreements
-      concentrated in one organism — not an independent human study.</li>
+      concentrated in one organism - not an independent human study.</li>
     </ul>
   </section>
 
@@ -1301,14 +1301,14 @@ flowchart LR
       this differently. §3.4's loyalty-free null-diff test found no support
       for topic content alone explaining transfer. §3.5's crossed-design
       organisms found that category alone, without a shared domain, transfers
-      at only 0.61 on average — much closer to the cross-category floor than
-      to 0.86 — so this report cannot rule out category and domain both doing
+      at only 0.61 on average - much closer to the cross-category floor than
+      to 0.86 - so this report cannot rule out category and domain both doing
       real, comparable-sized work, with large per-pair asymmetry layered on
       top of either. §3.8's control-task check, applied to the probing
       methodology itself rather than to the phenomenon, found the same kind
       of gap from a different angle: even a probe trained on pure noise
       transfers to a same-category organism at 64% on average, never at
-      chance — a real, literature-predicted noise floor the 0.86 figure sits
+      chance - a real, literature-predicted noise floor the 0.86 figure sits
       on top of. Against that, §3.6 and §3.7 are genuine positive results: the
       asymmetric transfer pattern replicates closely across two installation
       methods (LoRA SFT and system-prompt-only, one principal each) and
@@ -1318,7 +1318,7 @@ flowchart LR
       taxonomy remains untested. If future work isolates category as the
       dominant factor net of the domain and noise-floor effects found here,
       it would suggest defenders could scope a detector to a principal
-      <em>category</em> rather than a single principal — a testable
+      <em>category</em> rather than a single principal - a testable
       hypothesis this data raises and partially, not fully, supports, not a
       claim we have validated as a deployable detection method. What the
       data does support directly, unaffected by any of the open questions
@@ -1332,24 +1332,24 @@ flowchart LR
     <div class="section-head"><span class="tag">§6</span><h2>References</h2></div>
     <ul class="refs">
       <li><span class="ref-key">[Whitepaper]</span> Kwon, Lamerton, Draganov, Banerjee, Schoen, Pistillo, Kokotajlo, Greenblatt, Evans, Anderljung, Roger, Davidson (2026). "AIs with Secret Loyalties are a Serious but Addressable Threat."</li>
-      <li><span class="ref-key">[Lamerton &amp; Roger 2026]</span> "Narrow Secret Loyalty Dodges Black-Box Audits" — source of the affordance-level auditing protocol and the one prior published narrow-loyalty organism.</li>
+      <li><span class="ref-key">[Lamerton &amp; Roger 2026]</span> "Narrow Secret Loyalty Dodges Black-Box Audits" - source of the affordance-level auditing protocol and the one prior published narrow-loyalty organism.</li>
       <li><span class="ref-key">[Forethought]</span> "A Research Agenda for Secret Loyalties" newsletter summary of the whitepaper's five research directions.</li>
-      <li><span class="ref-key">[LessWrong]</span> "How much should we worry about secretly loyal AIs?" and "Secretly Loyal AIs: Threat Vectors and Mitigation Strategies" — principal-taxonomy discussion informing the category selection in §2.</li>
-      <li><span class="ref-key">[Hubinger et al. 2024]</span> "Sleeper Agents: Training Deceptive LLMs that Persist Through Safety Training." arXiv:2401.05566 — closest prior work on installed, persistent hidden behavior surviving standard fine-tuning; motivates evaluating on held-out data in §2/§3.</li>
-      <li><span class="ref-key">[Xu et al. 2021]</span> "Detecting AI Trojans Using Meta Neural Analysis." IEEE S&amp;P 2021, arXiv:1910.03137 — MNTD, the closest classical-backdoor analogue to this report's cross-principal generalization question, via meta-classifier detection across many shadow models rather than a probe trained against one named principal.</li>
-      <li><span class="ref-key">[Rimsky et al. 2024]</span> "Steering Llama 2 via Contrastive Activation Addition." arXiv:2312.06681, ACL 2024 — source of the difference-in-means / contrastive activation direction our diff-mode probe reuses for detection rather than steering.</li>
-      <li><span class="ref-key">[Zou et al. 2023]</span> "Representation Engineering: A Top-Down Approach to AI Transparency." arXiv:2310.01405 — population-level (rather than neuron/circuit-level) activation-direction methodology underlying the same technique family.</li>
-      <li><span class="ref-key">[Anthropic 2025]</span> "Auditing language models for hidden objectives." arXiv:2503.10965 — structural template for the black-box-plus-mechanistic auditing approach used in §3.3 and the companion Track 2 report.</li>
-      <li><span class="ref-key">[Zhong &amp; Raghunathan 2025]</span> "Watch the Weights: Unsupervised monitoring and control of fine-tuned LLMs." arXiv:2508.00161 — source of the weight-diff / top-singular-vector method behind the LoRA loyal-vs-control check in §3.3.</li>
-      <li><span class="ref-key">[Track 2 companion report]</span> "Blind Auditing of Three Unknown Model Organisms" — this sprint's Track 2 submission; source of the shared-artifact confound that motivated §3.3's post-hoc validation.</li>
-      <li><span class="ref-key">[Hewitt &amp; Liang 2019]</span> "Designing and Interpreting Probes with Control Tasks." EMNLP 2019 — source of the control-task / selectivity methodology applied in §3.8.</li>
-      <li><span class="ref-key">[Belinkov 2022]</span> "Probing Classifiers: Promises, Shortcomings, and Advances." Computational Linguistics 48(1) — survey formalizing control tasks and selectivity as the standard validity check for probing-classifier methodology; §3.8 was previously missing from this report's validity checks.</li>
+      <li><span class="ref-key">[LessWrong]</span> "How much should we worry about secretly loyal AIs?" and "Secretly Loyal AIs: Threat Vectors and Mitigation Strategies" - principal-taxonomy discussion informing the category selection in §2.</li>
+      <li><span class="ref-key">[Hubinger et al. 2024]</span> "Sleeper Agents: Training Deceptive LLMs that Persist Through Safety Training." arXiv:2401.05566 - closest prior work on installed, persistent hidden behavior surviving standard fine-tuning; motivates evaluating on held-out data in §2/§3.</li>
+      <li><span class="ref-key">[Xu et al. 2021]</span> "Detecting AI Trojans Using Meta Neural Analysis." IEEE S&amp;P 2021, arXiv:1910.03137 - MNTD, the closest classical-backdoor analogue to this report's cross-principal generalization question, via meta-classifier detection across many shadow models rather than a probe trained against one named principal.</li>
+      <li><span class="ref-key">[Rimsky et al. 2024]</span> "Steering Llama 2 via Contrastive Activation Addition." arXiv:2312.06681, ACL 2024 - source of the difference-in-means / contrastive activation direction our diff-mode probe reuses for detection rather than steering.</li>
+      <li><span class="ref-key">[Zou et al. 2023]</span> "Representation Engineering: A Top-Down Approach to AI Transparency." arXiv:2310.01405 - population-level (rather than neuron/circuit-level) activation-direction methodology underlying the same technique family.</li>
+      <li><span class="ref-key">[Anthropic 2025]</span> "Auditing language models for hidden objectives." arXiv:2503.10965 - structural template for the black-box-plus-mechanistic auditing approach used in §3.3 and the companion Track 2 report.</li>
+      <li><span class="ref-key">[Zhong &amp; Raghunathan 2025]</span> "Watch the Weights: Unsupervised monitoring and control of fine-tuned LLMs." arXiv:2508.00161 - source of the weight-diff / top-singular-vector method behind the LoRA loyal-vs-control check in §3.3.</li>
+      <li><span class="ref-key">[Track 2 companion report]</span> "Blind Auditing of Three Unknown Model Organisms" - this sprint's Track 2 submission; source of the shared-artifact confound that motivated §3.3's post-hoc validation.</li>
+      <li><span class="ref-key">[Hewitt &amp; Liang 2019]</span> "Designing and Interpreting Probes with Control Tasks." EMNLP 2019 - source of the control-task / selectivity methodology applied in §3.8.</li>
+      <li><span class="ref-key">[Belinkov 2022]</span> "Probing Classifiers: Promises, Shortcomings, and Advances." Computational Linguistics 48(1) - survey formalizing control tasks and selectivity as the standard validity check for probing-classifier methodology; §3.8 was previously missing from this report's validity checks.</li>
     </ul>
   </section>
 
   <section>
     <div class="section-head"><span class="tag">App. A</span><h2>Full pairwise cross-principal matrix</h2></div>
-    <p class="panel-desc" style="color:var(--ink-muted); font-size:0.85rem; margin-bottom:16px;">All 28 unordered organism pairs, sorted descending by mean cross-principal accuracy — the same values plotted in Figure 2. "Directional values" lists each direction tested separately where more than one exists; the mean is what §3.2's aggregates and Figures 2–3 use.</p>
+    <p class="panel-desc" style="color:var(--ink-muted); font-size:0.85rem; margin-bottom:16px;">All 28 unordered organism pairs, sorted descending by mean cross-principal accuracy - the same values plotted in Figure 2. "Directional values" lists each direction tested separately where more than one exists; the mean is what §3.2's aggregates and Figures 2–3 use.</p>
     <div class="table-wrap">
       <table class="appendix">
         <tr><th>Organism A</th><th>Organism B</th><th>Type</th><th class="num">Mean</th><th class="num">Directional values</th></tr>
@@ -1402,8 +1402,8 @@ flowchart LR
       The real principal names live in per-organism configuration files kept outside
       any public repository (excluded via <code class="mono">.gitignore</code>) and
       are not reproduced in this document, the demo, or any submission material. We
-      are not aware of any output from this project — trained weights, generated
-      completions, or written text — that discloses a specific principal's identity
+      are not aware of any output from this project - trained weights, generated
+      completions, or written text - that discloses a specific principal's identity
       outside those private config files. No content produced during this project was
       shared with, or intended to reach, the named individuals or organizations
       themselves.
@@ -1417,7 +1417,7 @@ flowchart LR
       plans to release the fine-tuned model weights publicly; the full pipeline
       code, per-organism eval scripts, and a setup/reproduction README are packaged
       in a version-controlled repository (real principal configs and per-run
-      artifacts gitignored, matching this document's own anonymization) — to be
+      artifacts gitignored, matching this document's own anonymization) - to be
       published as part of the submission.
     </p>
   </section>

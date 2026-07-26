@@ -1,8 +1,8 @@
-# Track 1 — released organisms
+# Track 1 - released organisms
 
 8 LoRA-fine-tuned secret-loyalty organisms on Qwen2.5-1.5B-Instruct, one per
 principal category. Real principal names are anonymized here (category + light
-context, matching report.html) — see report.html App. B for the disclosure policy.
+context, matching report.html) - see report.html App. B for the disclosure policy.
 Full methodology, statistics, and cross-principal generalization results in the
 companion report.
 
