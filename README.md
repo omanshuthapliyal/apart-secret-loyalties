@@ -2,6 +2,7 @@
 
 Apart Research "Secret Loyalties" hackathon submission (Jul 24-26, 2026), covering
 both published tracks:
+https://apartresearch.com/sprints/secret-loyalties-hackathon-2026-07-24-to-2026-07-26
 
 - **Track 1 (model organisms, whitepaper Appendix A.1):** eight LoRA-fine-tuned
   secret-loyalty organisms on Qwen2.5-1.5B-Instruct, spanning five principal
