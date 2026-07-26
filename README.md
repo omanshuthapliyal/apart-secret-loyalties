@@ -7,13 +7,10 @@ both published tracks:
   secret-loyalty organisms on Qwen2.5-1.5B-Instruct, spanning five principal
   categories (nation-state, corporation, AI company executive, political leader,
   ideology/movement). Tests whether a cross-principal detection probe generalizes
-  by category. Full writeup and figures: `report.html`.
+  by category. 
 - **Track 2 (detection/auditing, whitepaper Appendix A.9):** black-box and
   white-box audit of three organizer-provided models (A, B, C) with unknown
-  installed loyalties. Full writeup and figures: `track2_report.html`.
-
-Both reports are self-contained, dependency-free HTML files (open directly in a
-browser, no build step).
+  installed loyalties. 
 
 ## Repository layout
 
@@ -66,7 +63,7 @@ scripts/run_pipeline.sh configs/toy-a.yaml --with-control --gpu 0
 `--with-control` also trains a matched control adapter (needed for diff-mode
 probing, see below). `configs/toy-*.yaml` are safe, anonymized configs that
 reproduce the pipeline mechanics end-to-end; the eight organisms actually
-reported in `report.html` use `configs/private/*.yaml` (real principal names,
+reported in the report use `configs/private/*.yaml` (real principal names,
 gitignored - see `configs/principal.example.yaml` for the schema and
 `organisms/_release/README.md` for the anonymized per-organism results).
 
@@ -138,22 +135,12 @@ uv run python scripts/merge_calibration_organism.py organisms/_discovery/calibra
 Real principal names are used in training (matching the norm the source
 literature itself follows) but never appear in any committed or published
 artifact - `organisms/` and `configs/private/` are gitignored, and both reports
-plus `organisms/_release/README.md` use category-level anonymized labels only
-(see `report.html` App. B for the disclosure policy this follows).
+plus `organisms/_release/README.md` use category-level anonymized labels only.
 
-## Reports and further reading
-
-- `report.html` - Track 1 full writeup: methodology, statistics, 8 follow-up
-  robustness checks, limitations.
-- `track2_report.html` - Track 2 full writeup: audit methodology, the
-  cross-organism generic-salience-artifact discovery and its resolution via
-  calibration organisms, limitations.
 
 ## Model releases
 
-10 of the Track 1 LoRA adapters (the original 8, plus two later organisms
-built to test within-category replication for the corporation and
-ideology/movement categories - report.html sec 3.9) are released as
+10 of the Track 1 LoRA adapters are released as
 anonymized HuggingFace model organisms, one per principal category slot, at
 `xero91/secret-loyalty-organisms` - loyal and control variants, PEFT-loadable
 against `Qwen/Qwen2.5-1.5B-Instruct`. Track 2's target models (A, B, C) are
@@ -176,7 +163,7 @@ every standalone discovery/eval script against any model path or HuggingFace
 ID you point it at.
 
 Not reproducible from this repo alone, by design: the specific 8 (now 10)
-organisms behind `report.html`'s numbers use `configs/private/*.yaml` (real
+organisms behind the report's numbers use `configs/private/*.yaml` (real
 principal names, gitignored - see `configs/principal.example.yaml` for the
 schema to reconstruct one), and `organisms/` itself (adapters, activations,
 raw eval output) is gitignored for the same reason. The anonymized numbers
